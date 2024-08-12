@@ -1,3 +1,6 @@
+//Mon Aug 12 2024 09:18:27 GMT+0000 (Coordinated Universal Time)
+//Base:https://github.com/echo094/decode-js
+//Modify:https://github.com/smallfawn/decode_action
 //Mon Aug 12 2024 09:16:35 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
@@ -114,7 +117,7 @@ class 蛋炒饭_0x557b0c {
         token: _0x941199
       },
       _0x107d65 = await _0x330c4d[_0xb6cc96(695, "h)8C")](蛋炒饭_0x1d6718, _0x330c4d[_0xb6cc96(1253, "DUI#")], _0xb6cc96(777, "QXVM") + this[_0xb6cc96(283, "6A$I")], _0x46caab);
-    _0x330c4d[_0xb6cc96(924, "Y*$h")](_0x107d65[_0xb6cc96(191, "wPFf")], 200) ? (console[_0xb6cc96(734, "31J@")]("【" + this.f + _0xb6cc96(1113, "qDu9") + _0x107d65[_0xb6cc96(641, "0b@(")][_0xb6cc96(716, "h)8C")] + "次"), this[_0xb6cc96(363, "DUI#")] = _0x941199, this[_0xb6cc96(1351, "A]q4")] = true) : this[_0xb6cc96(1529, "9TNG")] = false;
+    _0x330c4d[_0xb6cc96(924, "Y*$h")](_0x107d65[_0xb6cc96(191, "wPFf")], 200) ? (console[_0xb6cc96(734, "31J@")]("\u3010" + this.f + _0xb6cc96(1113, "qDu9") + _0x107d65[_0xb6cc96(641, "0b@(")][_0xb6cc96(716, "h)8C")] + "\u6B21"), this[_0xb6cc96(363, "DUI#")] = _0x941199, this[_0xb6cc96(1351, "A]q4")] = true) : this[_0xb6cc96(1529, "9TNG")] = false;
   }
   async [蛋炒饭_0x26e904(1043, "A]q4")]() {
     const _0x529b12 = 蛋炒饭_0x26e904,
@@ -236,7 +239,7 @@ class 蛋炒饭_0x557b0c {
         }
       } else {
         if (_0x8cad4[_0x5fd6c8(369, "3(wR")](_0x16f708, 1)) {
-          this[_0x5fd6c8(654, "h)8C")] = "数独";
+          this[_0x5fd6c8(654, "h)8C")] = "\u6570\u72EC";
         } else {
           if (_0x8cad4[_0x5fd6c8(1437, "O3t2")](_0x16f708, 2)) {
             this[_0x5fd6c8(313, "A]q4")] = _0x8cad4[_0x5fd6c8(788, "EoQa")];
@@ -269,7 +272,7 @@ class 蛋炒饭_0x557b0c {
           let _0xa0a107 = await _0x8cad4[_0x5fd6c8(275, "DUI#")](蛋炒饭_0x1d6718, _0x8cad4[_0x5fd6c8(1273, "DUI#")], _0x5fd6c8(997, "zvVt") + _0x5312d1 + _0x5fd6c8(450, "itYT") + _0x16f708 + _0x5fd6c8(1156, "wlDJ") + _0x5ead82 + _0x5fd6c8(386, "N3d)") + this[_0x5fd6c8(677, "O3t2")], _0x83fb08);
           if (_0x8cad4[_0x5fd6c8(1420, "5YF!")](_0xa0a107[_0x5fd6c8(738, "5PV2")], 200)) {
             if (_0x8cad4[_0x5fd6c8(1244, "9neg")](_0x8cad4[_0x5fd6c8(1531, "ylh7")], _0x8cad4[_0x5fd6c8(1188, "7aaW")])) {
-              console[_0x5fd6c8(776, "!R&f")]("【" + this.f + _0x5fd6c8(454, "ylh7") + this[_0x5fd6c8(377, "O)Sk")] + _0x5fd6c8(1546, "5YF!"));
+              console[_0x5fd6c8(776, "!R&f")]("\u3010" + this.f + _0x5fd6c8(454, "ylh7") + this[_0x5fd6c8(377, "O)Sk")] + _0x5fd6c8(1546, "5YF!"));
               let _0x1c63e6 = _0xa0a107[_0x5fd6c8(893, "N3d)")];
               await this[_0x5fd6c8(1158, "rxvj")](_0x1c63e6, _0x5312d1, _0x16f708);
             } else {
@@ -278,7 +281,7 @@ class 蛋炒饭_0x557b0c {
               return _0x8cad4[_0x5fd6c8(723, "rxvj")](B, _0x8cad4[_0x5fd6c8(1000, "l@l^")](_0x1a8a75, D, E), F);
             }
           } else {
-            console[_0x5fd6c8(1445, "4t%i")]("【" + this.f + _0x5fd6c8(1153, "31J@") + this[_0x5fd6c8(985, "6A$I")] + _0x5fd6c8(277, "itYT") + _0xa0a107[_0x5fd6c8(1406, "q&qm")]);
+            console[_0x5fd6c8(1445, "4t%i")]("\u3010" + this.f + _0x5fd6c8(1153, "31J@") + this[_0x5fd6c8(985, "6A$I")] + _0x5fd6c8(277, "itYT") + _0xa0a107[_0x5fd6c8(1406, "q&qm")]);
             break;
           }
         }
@@ -316,7 +319,7 @@ class 蛋炒饭_0x557b0c {
           return _0x31aac8 == _0x41549a;
         }
       };
-    console[_0x1fbd1f(1165, "fXwx")]("【" + this.f + _0x1fbd1f(588, "cnbn") + _0x135379 + _0x1fbd1f(945, "zvVt"));
+    console[_0x1fbd1f(1165, "fXwx")]("\u3010" + this.f + _0x1fbd1f(588, "cnbn") + _0x135379 + _0x1fbd1f(945, "zvVt"));
     let _0x534a3b = _0x125ecf[_0x1fbd1f(1180, "$r(&")](_0x125ecf[_0x1fbd1f(1301, "$r(&")](蛋炒饭_0x1ba462, 13), _0x125ecf[_0x1fbd1f(750, "Wpv!")](蛋炒饭_0x55490b, 6)),
       _0x264903 = _0x125ecf[_0x1fbd1f(401, "VRa[")](蛋炒饭_0x39e358, 8000, 15000),
       _0x1bbf45 = _0x125ecf[_0x1fbd1f(401, "VRa[")](蛋炒饭_0x39e358, 55000, 105000),
@@ -330,12 +333,12 @@ class 蛋炒饭_0x557b0c {
     let _0x4a8b3d = await _0x125ecf[_0x1fbd1f(1072, "M%#h")](蛋炒饭_0x1d6718, _0x125ecf[_0x1fbd1f(1075, "K7Gi")], _0x1fbd1f(1131, "A]q4"), _0x11b8b2, _0xdb52e2);
     if (_0x125ecf[_0x1fbd1f(890, "5PV2")](_0x4a8b3d[_0x1fbd1f(790, "l@l^")], 200)) {
       if (_0x125ecf[_0x1fbd1f(962, "5YF!")](_0x125ecf[_0x1fbd1f(587, "M%#h")], _0x125ecf[_0x1fbd1f(372, "%dg5")])) {
-        _0x4a8b3d[_0x1fbd1f(1362, "zvVt")][_0x1fbd1f(1289, "7aaW")] ? console[_0x1fbd1f(518, "PJvh")]("【" + this.f + _0x1fbd1f(757, "fXwx") + _0x135379 + _0x1fbd1f(298, "9neg") + _0x4a8b3d[_0x1fbd1f(1461, "DUI#")][_0x1fbd1f(1319, "jUry")]) : console[_0x1fbd1f(954, "l@l^")]("【" + this.f + _0x1fbd1f(1483, "4t%i") + _0x135379 + _0x1fbd1f(1554, "cXj^"));
+        _0x4a8b3d[_0x1fbd1f(1362, "zvVt")][_0x1fbd1f(1289, "7aaW")] ? console[_0x1fbd1f(518, "PJvh")]("\u3010" + this.f + _0x1fbd1f(757, "fXwx") + _0x135379 + _0x1fbd1f(298, "9neg") + _0x4a8b3d[_0x1fbd1f(1461, "DUI#")][_0x1fbd1f(1319, "jUry")]) : console[_0x1fbd1f(954, "l@l^")]("\u3010" + this.f + _0x1fbd1f(1483, "4t%i") + _0x135379 + _0x1fbd1f(1554, "cXj^"));
       } else {
         return _0x19590d[_0x1fbd1f(1549, "N3d)")](_0x125ecf)[_0x1fbd1f(1532, "ylh7")]();
       }
     } else {
-      _0x125ecf[_0x1fbd1f(448, "rxvj")](_0x4a8b3d[_0x1fbd1f(1413, "!R&f")], 1004) && (console[_0x1fbd1f(1163, "jUry")]("【" + this.f + _0x1fbd1f(218, "M%#h") + _0x135379 + _0x1fbd1f(554, "3(wR") + _0x4a8b3d[_0x1fbd1f(533, "9neg")]), await this[_0x1fbd1f(427, "h)8C")](), await this[_0x1fbd1f(991, "jUry")](_0x16cdbe, _0x135379));
+      _0x125ecf[_0x1fbd1f(448, "rxvj")](_0x4a8b3d[_0x1fbd1f(1413, "!R&f")], 1004) && (console[_0x1fbd1f(1163, "jUry")]("\u3010" + this.f + _0x1fbd1f(218, "M%#h") + _0x135379 + _0x1fbd1f(554, "3(wR") + _0x4a8b3d[_0x1fbd1f(533, "9neg")]), await this[_0x1fbd1f(427, "h)8C")](), await this[_0x1fbd1f(991, "jUry")](_0x16cdbe, _0x135379));
     }
   }
   async [蛋炒饭_0x26e904(775, "A]q4")]() {
@@ -354,7 +357,7 @@ class 蛋炒饭_0x557b0c {
       token: this[_0x21c16c(965, "jUry")]
     };
     let _0x2d4de3 = await _0x5d9c4b[_0x21c16c(1608, "5YF!")](蛋炒饭_0x1d6718, _0x5d9c4b[_0x21c16c(339, "3(wR")], _0x21c16c(154, "5PV2") + this[_0x21c16c(1204, "7aaW")], _0x693cc7);
-    _0x5d9c4b[_0x21c16c(1251, "C3q3")](_0x2d4de3[_0x21c16c(1501, "nZ20")], 200) && console[_0x21c16c(714, "nZ20")]("【" + this.f + _0x21c16c(549, "6A$I") + _0x2d4de3[_0x21c16c(1237, "T!CW")][_0x21c16c(380, "zvVt")][_0x21c16c(1550, "PJvh")] + _0x21c16c(434, "*C(w") + _0x2d4de3[_0x21c16c(1263, "cnbn")][_0x21c16c(1434, "*C(w")][_0x21c16c(1143, "3(wR")]);
+    _0x5d9c4b[_0x21c16c(1251, "C3q3")](_0x2d4de3[_0x21c16c(1501, "nZ20")], 200) && console[_0x21c16c(714, "nZ20")]("\u3010" + this.f + _0x21c16c(549, "6A$I") + _0x2d4de3[_0x21c16c(1237, "T!CW")][_0x21c16c(380, "zvVt")][_0x21c16c(1550, "PJvh")] + _0x21c16c(434, "*C(w") + _0x2d4de3[_0x21c16c(1263, "cnbn")][_0x21c16c(1434, "*C(w")][_0x21c16c(1143, "3(wR")]);
   }
   async [蛋炒饭_0x26e904(1404, "O)Sk")](_0x329e7e) {
     const _0x24620e = 蛋炒饭_0x26e904,
@@ -538,7 +541,7 @@ class 蛋炒饭_0x557b0c {
       token: this[_0x24620e(363, "DUI#")]
     };
     let _0x3830d4 = await _0x46526a[_0x24620e(756, "O&(m")](蛋炒饭_0x1d6718, _0x46526a[_0x24620e(552, "7aaW")], _0x24620e(550, "7aaW") + this[_0x24620e(1239, "9TNG")], _0x28298e);
-    if (_0x46526a[_0x24620e(410, "XLCZ")](_0x329e7e, "数独")) {
+    if (_0x46526a[_0x24620e(410, "XLCZ")](_0x329e7e, "\u6570\u72EC")) {
       if (_0x46526a[_0x24620e(276, "O)Sk")](_0x46526a[_0x24620e(1427, "0b@(")], _0x46526a[_0x24620e(329, "cnbn")])) {
         let _0x451350 = _0x3830d4[_0x24620e(1218, "4t%i")][_0x24620e(1010, "wlDJ")];
         if (_0x46526a[_0x24620e(198, "Y*$h")](_0x451350, 0)) {
@@ -629,7 +632,7 @@ class 蛋炒饭_0x557b0c {
         } else {
           if (_0x46526a[_0x24620e(1061, "DUI#")](_0x2ca79e, -1)) {
             if (_0x46526a[_0x24620e(961, "7aaW")](_0x46526a[_0x24620e(649, "XLCZ")], _0x46526a[_0x24620e(1220, "Y*$h")])) {
-              _0x28298e[_0x24620e(921, "wPFf")]("【" + this.f + _0x24620e(981, "Y*$h") + _0x3830d4 + _0x24620e(772, "l@l^"));
+              _0x28298e[_0x24620e(921, "wPFf")]("\u3010" + this.f + _0x24620e(981, "Y*$h") + _0x3830d4 + _0x24620e(772, "l@l^"));
             } else {
               let _0x2669e2 = _0x46526a[_0x24620e(1345, "N3d)")](_0x3830d4[_0x24620e(503, "V1NK")][_0x24620e(563, "VRa[")], 1);
               return _0x2669e2;
@@ -710,7 +713,7 @@ class 蛋炒饭_0x557b0c {
         let _0x5040f7 = await _0x56ea7c[_0xdff833(254, "XLCZ")](蛋炒饭_0x1d6718, _0x56ea7c[_0xdff833(1511, "0b@(")], _0xdff833(345, "cXj^") + _0x4a3487 + _0xdff833(207, "jUry") + this[_0xdff833(1397, "4t%i")], _0x1c7c56);
         if (_0x56ea7c[_0xdff833(1596, "jUry")](_0x5040f7[_0xdff833(1444, "9TNG")], 200)) {
           if (_0x56ea7c[_0xdff833(308, "!R&f")](_0x56ea7c[_0xdff833(1226, "VRa[")], _0x56ea7c[_0xdff833(300, "MZAU")])) {
-            console[_0xdff833(319, "N3d)")]("【" + this.f + _0xdff833(853, "QXVM"));
+            console[_0xdff833(319, "N3d)")]("\u3010" + this.f + _0xdff833(853, "QXVM"));
           } else {
             let _0x5a34f8 = _0x1c7c56[_0xdff833(437, "nZ20")][_0xdff833(187, "O&(m")];
             if (_0x56ea7c[_0xdff833(250, "5PV2")](_0x5a34f8, 0)) {
@@ -1652,9 +1655,9 @@ async function 蛋炒饭_0x458463(_0x293968) {
     }
     _0x259d88 = 蛋炒饭_0x4e7958[_0x3e9246(529, "l@l^")];
   } else {
-    console[_0x3e9246(1445, "4t%i")]("\n【" + NAME + _0x3e9246(994, "M%#h") + VALY);
+    console[_0x3e9246(1445, "4t%i")]("\n\u3010" + NAME + _0x3e9246(994, "M%#h") + VALY);
   }
-  console[_0x3e9246(318, "qDu9")](_0x3e9246(190, "%dg5") + _0x259d88 + _0x3e9246(1236, "O3t2") + _0x293968[_0x3e9246(1317, "5PV2")] + "个");
+  console[_0x3e9246(318, "qDu9")](_0x3e9246(190, "%dg5") + _0x259d88 + _0x3e9246(1236, "O3t2") + _0x293968[_0x3e9246(1317, "5PV2")] + "\u4E2A");
   return 蛋炒饭_0x4e7958;
 }
 async function 蛋炒饭_0x4fa2ff() {
