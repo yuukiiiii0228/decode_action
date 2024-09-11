@@ -1,148 +1,193 @@
-//Sun Sep 08 2024 15:21:03 GMT+0000 (Coordinated Universal Time)
+//Wed Sep 11 2024 07:32:21 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
 const {
-  getEnvsByName,
-  DisableCk,
-  EnableCk,
-  updateEnv,
-  updateEnv11,
-  getEnvByUserId
-} = require("./ql");
-const {
-  wait,
-  checkCk,
+  getToken,
+  sign,
+  tryCatchPromise,
   validateCarmeWithType,
-  invalidCookieNotify,
+  getCookies,
+  checkCk,
   getUserInfo,
-  runOne,
-  getCookieMap
-} = require("./common.js");
-const _0x11f78e = require("moment");
-function _0x543ec4(_0x3fdeea, _0x4dabab) {
-  return Math.floor(Math.random() * (_0x4dabab - _0x3fdeea + 1) + _0x3fdeea);
-}
-function _0x389941(_0x1daaab) {
-  let _0x59299c = "";
-  for (let [_0x7cf76, _0x5050e8] of _0x1daaab) {
-    _0x59299c += encodeURIComponent(_0x7cf76) + "=" + encodeURIComponent(_0x5050e8) + ";";
-  }
-  return _0x59299c;
-}
-async function _0x179175(_0x2afd75, _0x2c035c, _0x3898fc) {
-  let _0x1723ee = await runOne(_0x2c035c, _0x3898fc);
-  if (_0x1723ee && _0x1723ee.data) {
-    let _0x56dfb3 = _0x1723ee.data;
-    if (_0x56dfb3.code === 3000) {
-      let _0x152e9a = JSON.parse(_0x56dfb3.returnValue.data);
-      const _0x120021 = _0x152e9a.expires;
-      const _0x3e21d8 = _0x11f78e(_0x120021 * 1000).format("YYYY-MM-DD HH:mm:ss");
-      let _0xcf2e0a = getCookieMap(_0x2c035c);
-      let _0x1e14a1 = JSON.parse(_0x56dfb3.returnValue.extMap.eleExt);
-      for (let _0x325327 = 0; _0x325327 < _0x1e14a1.length; _0x325327++) {
-        let _0x296965 = _0x1e14a1[_0x325327];
-        if (_0x296965.name === "SID") {
-          _0xcf2e0a.SID = _0x296965.value;
-          break;
+  checkCarmeCount,
+  wait
+} = require("./common");
+const GAME_TYEP = 13;
+const request = require("request");
+const moment = require("moment");
+const md5 = require("md5");
+const kami = process.env.ELE_CARME;
+async function gameRequest(_0x108364, _0x2cb520) {
+  const _0x14ca42 = {
+    authority: "shopping.ele.me",
+    accept: "application/json",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded",
+    cookie: _0x108364,
+    "x-miniapp-id-taobao": "3000000084905483",
+    "x-miniapp-version": "0.0.116",
+    "x-mini-appkey": "34304642",
+    "x-req-appkey": "34304642",
+    appid: "3000000084905483"
+  };
+  const _0xeda03f = new Date().getTime();
+  const _0x45614e = 34190632;
+  var _0x25963c = "data=" + encodeURIComponent(JSON.stringify(_0x2cb520));
+  const _0x1fece0 = getToken(_0x108364),
+    _0x22503b = _0x1fece0.split("_")[0];
+  const _0x2a5ef3 = await sign(_0x22503b + "&" + _0xeda03f + "&" + _0x45614e + "&" + JSON.stringify(_0x2cb520), kami);
+  const _0x92c123 = {
+    url: "https://shopping.ele.me/h5/mtop.miniapp.cloud.application.request/1.0/?jsv=2.6.1&appKey=34190632&t=" + _0xeda03f + "&sign=" + _0x2a5ef3 + "&api=mtop.miniapp.cloud.application.request&v=1.0&type=originaljson&ttid=1608030065155%40eleme_android_11.0.38",
+    method: "POST",
+    headers: _0x14ca42,
+    body: _0x25963c
+  };
+  return tryCatchPromise(_0x4d4d6d => {
+    request(_0x92c123, async (_0x4e0c22, _0x3dcb93, _0x11d6d9) => {
+      if (!_0x4e0c22 && _0x3dcb93.statusCode === 200) {
+        try {
+          const _0x260da4 = JSON.parse(_0x11d6d9);
+          _0x4d4d6d(_0x260da4.data.data);
+        } catch (_0x190c1c) {
+          console.log(_0x11d6d9);
+          _0x4d4d6d(null);
         }
-      }
-      let _0x5a92f2 = await runOne(_0x2c035c, _0xcf2e0a.get("SID"));
-      if (!_0x5a92f2) {
-        return;
-      }
-      _0xcf2e0a.cookie2 = _0x56dfb3.returnValue.sid;
-      let _0xf79b29 = _0x389941(_0xcf2e0a);
-      if (_0x2afd75.id) {
-        await updateEnv11(_0xf79b29, _0x2afd75.id, _0x2afd75.remarks);
       } else {
-        await updateEnv(_0xf79b29, _0x2afd75._id, _0x2afd75.remarks);
+        _0x4d4d6d(null);
       }
-      let _0x88e06c = _0xcf2e0a.get("USERID");
-      let _0x2704d2 = await getEnvByUserId(_0x88e06c);
-      if (_0x2704d2) {
-        console.log("检测到 elmqqck，将进行同步刷新");
-        if (_0x2704d2.id) {
-          await updateEnv11(_0xf79b29, _0x2704d2.id, _0x2704d2.remarks, "elmqqck");
-        } else {
-          await updateEnv(_0xf79b29, _0x2704d2._id, _0x2704d2.remarks, "elmqqck");
-        }
-      }
-      let _0x4bf6e8 = "刷新成功，ck 有效期为：" + _0x3e21d8;
-      console.log(_0x4bf6e8);
-      return _0x4bf6e8;
-    } else {
-      if (_0x56dfb3.message) {
-        console.log(_0x56dfb3.message);
-      } else {
-        console.log(_0x1723ee.ret[0]);
-      }
-      return null;
+    });
+  });
+}
+async function getOpenId(_0x517db7) {
+  const _0xbb8f61 = new Date().getTime();
+  const _0x510cf2 = {
+    body: "{\"xftest\":\"hhh\",\"id\":\"1234\"}",
+    headers: "{\"Content-Type\":\"application/json;charset=UTF-8\"}",
+    instance: "INNER",
+    method: "POST",
+    options: "{\"cloudAppId\":\"45504\",\"timeout\":200,\"env\":\"online\",\"options\":{\"path\":\"pages/index/index\"}}",
+    path: "/getopenid",
+    protocols: "{\"Content-Type\":\"application/json\",\"mc-timestamp\":\"" + _0xbb8f61 + "\",\"mc-env\":\"online\"}",
+    queryString: "{}",
+    sdkVersion: "1.5.4"
+  };
+  return await gameRequest(_0x517db7, _0x510cf2);
+}
+function addjb(_0x22cd6d, _0x5c6186) {
+  const _0x2baad0 = {
+    accept: "application/json",
+    "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+    "content-type": "application/json"
+  };
+  let _0x1afe03 = 20;
+  let _0x1be390 = taobaoRequest({
+    method: "alibaba.alsc.growth.interactive.mini.game.integral.grant",
+    mini_game_grant_integral_request: {
+      amount: _0x1afe03,
+      act_id: "20221207144029906162546384",
+      biz_scene: "COMPOSE_2048",
+      collection_ids: ["20221207144029911927117215"],
+      request_id: md5("dcc2920acdae1fdea78cef9c187af558" + _0x1afe03 + moment().format("yyyy-MM-DD hh:mm:ss")).toUpperCase(),
+      property_id: "1404",
+      open_id: _0x5c6186
     }
-  }
+  });
+  var _0x231acb = encodeURIComponent(_0x1be390.mini_game_grant_integral_request);
+  const _0x474154 = _0x1be390.sign;
+  const _0x55a70c = {
+    url: "https://eco.taobao.com/router/rest?app_key=34315415&format=json&method=alibaba.alsc.growth.interactive.mini.game.integral.grant&mini_game_grant_integral_request=" + _0x231acb + "&sign=" + _0x474154 + "&sign_method=md5&timestamp=" + _0x1be390.timestamp + "&v=2.0",
+    method: "GET",
+    headers: _0x2baad0
+  };
+  return tryCatchPromise(_0x344fdb => {
+    request(_0x55a70c, async (_0xc6cd8b, _0x39a2d8, _0x315255) => {
+      if (!_0xc6cd8b && _0x39a2d8.statusCode == 200) {
+        const _0x23052d = JSON.parse(_0x315255);
+        if (_0x23052d.alibaba_alsc_growth_interactive_mini_game_integral_grant_response.data) {
+          console.log("玩 2048 获得", _0x1afe03, "乐园币", "当前乐园币：" + _0x23052d.alibaba_alsc_growth_interactive_mini_game_integral_grant_response.data.account_value);
+          _0x344fdb(null);
+        } else {
+          let _0x1b274d = _0x23052d.alibaba_alsc_growth_interactive_mini_game_integral_grant_response.biz_error_msg;
+          _0x344fdb(_0x1b274d);
+          console.log(_0x1b274d);
+        }
+      } else {
+        _0x344fdb(_0xc6cd8b);
+      }
+    });
+  });
 }
-(async function _0x1f3fe2() {
-  const _0xbb1015 = process.env.ELE_CARME;
-  await validateCarmeWithType(_0xbb1015, 1);
-  const _0x29805f = await getEnvsByName("elmck");
-  for (let _0x4b02a3 = 0; _0x4b02a3 < _0x29805f.length; _0x4b02a3++) {
-    let _0x55e0ac = _0x29805f[_0x4b02a3].value;
-    if (!_0x55e0ac) {
+function sortASCII(_0x4a5215, _0x510c13) {
+  var _0x120e2b = [];
+  Object.keys(_0x4a5215).forEach(function (_0x2f6e52) {
+    return _0x120e2b.push(_0x2f6e52);
+  });
+  var _0x28d2fa = _0x510c13 ? _0x120e2b.sort() : _0x120e2b.sort().reverse(),
+    _0x741edb = {};
+  for (var _0x457db9 in _0x28d2fa) _0x741edb[_0x28d2fa[_0x457db9]] = _0x4a5215[_0x28d2fa[_0x457db9]];
+  return _0x741edb;
+}
+function taobaoRequest(_0x178a27) {
+  var _0x487159 = "dcc2920acdae1fdea78cef9c187af558",
+    _0x5bf7ee = {
+      app_key: 34315415,
+      timestamp: moment().format("yyyy-MM-DD hh:mm:ss"),
+      v: "2.0",
+      sign_method: "md5",
+      format: "json"
+    };
+  for (var _0x41f90f in _0x178a27) Object.prototype.hasOwnProperty.call(_0x178a27, _0x41f90f) && ("object" == typeof _0x178a27[_0x41f90f] ? _0x5bf7ee[_0x41f90f] = JSON.stringify(_0x178a27[_0x41f90f]) : _0x5bf7ee[_0x41f90f] = _0x178a27[_0x41f90f]);
+  _0x5bf7ee = sortASCII(_0x5bf7ee, !0);
+  var _0x3753c2 = "";
+  for (var _0x41f90f in _0x5bf7ee) Object.prototype.hasOwnProperty.call(_0x5bf7ee, _0x41f90f) && (_0x3753c2 += _0x41f90f, "object" == typeof _0x5bf7ee[_0x41f90f] ? _0x3753c2 += JSON.stringify(_0x5bf7ee[_0x41f90f]) : _0x3753c2 += _0x5bf7ee[_0x41f90f]);
+  var _0x57d8ff = md5(_0x487159 + _0x3753c2 + _0x487159);
+  _0x5bf7ee.sign = _0x57d8ff.toUpperCase();
+  return _0x5bf7ee;
+}
+async function start() {
+  await validateCarmeWithType(kami, 1);
+  const _0x270d53 = getCookies();
+  for (let _0x318f4b = 0; _0x318f4b < _0x270d53.length; _0x318f4b++) {
+    const _0x508a28 = _0x270d53[_0x318f4b];
+    if (!_0x508a28) {
       console.log(" ❌无效用户信息, 请重新获取ck");
     } else {
       try {
-        var _0x108a11 = 0;
-        if (_0x29805f[_0x4b02a3]._id) {
-          _0x108a11 = _0x29805f[_0x4b02a3]._id;
+        let _0x2d2586 = await checkCk(_0x508a28, _0x318f4b);
+        if (!_0x2d2586) {
+          continue;
         }
-        if (_0x29805f[_0x4b02a3].id) {
-          _0x108a11 = _0x29805f[_0x4b02a3].id;
+        let _0x687c66 = await getUserInfo(_0x2d2586);
+        if (!_0x687c66.username) {
+          console.log("第", _0x318f4b + 1, "账号失效！请重新登录！！！😭");
+          continue;
         }
-        _0x55e0ac = _0x55e0ac.replace(/\s/g, "");
-        let _0x36f4c6 = await checkCk(_0x55e0ac, _0x4b02a3);
-        if (!_0x36f4c6) {
-          let _0x2b2e4a = await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac);
-          if (_0x2b2e4a && _0x2b2e4a.indexOf("刷新成功") !== -1) {
-            await EnableCk(_0x108a11);
-            console.log("第", _0x4b02a3 + 1, "账号正常😁\n");
-          } else {
-            const _0x4fe156 = await DisableCk(_0x108a11);
-            if (_0x4fe156.code === 200) {
-              console.log("第", _0x4b02a3 + 1, "账号失效！已🈲用");
-            } else {
-              console.log("第", _0x4b02a3 + 1, "账号失效！请重新登录！！！😭");
-            }
-            await invalidCookieNotify(_0x55e0ac, _0x29805f[_0x4b02a3].remarks);
+        const _0xf3fd69 = _0x687c66.user_id;
+        await checkCarmeCount(kami, _0xf3fd69, GAME_TYEP);
+        console.log("******开始【饿了么账号", _0x318f4b + 1, "】", _0x687c66.username, "*********");
+        let _0x17b993 = await getOpenId(_0x2d2586);
+        if (_0x17b993) {
+          let _0x5cf174 = await addjb(_0x2d2586, _0x17b993);
+          while (!_0x5cf174) {
+            console.log("延时 2 秒");
+            await wait(2);
+            _0x5cf174 = await addjb(_0x2d2586, _0x17b993);
+          }
+          if (_0x318f4b !== _0x270d53.length - 1) {
+            console.log("延时 5 秒，继续下一个账号");
+            await wait(5);
           }
         } else {
-          let _0x305e95 = await getUserInfo(_0x55e0ac);
-          if (!_0x305e95.username) {
-            let _0x21bffb = await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac);
-            if (_0x21bffb && _0x21bffb.indexOf("刷新成功") !== -1) {
-              await EnableCk(_0x108a11);
-              console.log("第", _0x4b02a3 + 1, "账号正常😁\n");
-            } else {
-              const _0x54a0b8 = await DisableCk(_0x108a11);
-              if (_0x54a0b8.code === 200) {
-                console.log("第", _0x4b02a3 + 1, "账号失效！已🈲用");
-              } else {
-                console.log("第", _0x4b02a3 + 1, "账号失效！请重新登录！！！😭");
-              }
-            }
-            await invalidCookieNotify(_0x55e0ac, _0x29805f[_0x4b02a3].remarks);
-          } else {
-            await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac, getCookieMap(_0x55e0ac).get("SID"));
-            await EnableCk(_0x108a11);
-            console.log("第", _0x4b02a3 + 1, "账号正常🎉🎉\n");
-          }
+          console.log("获取 openId 出错");
         }
-      } catch (_0xaa7585) {
-        console.log(_0xaa7585);
+      } catch (_0x431bb8) {
+        console.log(_0x431bb8);
       }
     }
-    await wait(_0x543ec4(2, 3));
   }
   process.exit(0);
-})();
+}
+start();
 function Env(t, e) {
   "undefined" != typeof process && JSON.stringify(process.env).indexOf("GITHUB") > -1 && process.exit(0);
   class s {
