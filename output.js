@@ -1,1061 +1,4433 @@
-//Wed Nov 20 2024 14:40:12 GMT+0000 (Coordinated Universal Time)
+//Sat Dec 21 2024 10:23:15 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
-const $ = new Env("趣动"),
-  version = "V1.0.3",
-  appName = "qdngapp";
-let qdngapp = $.getjson(appName, []);
-const fs = $.isNode() ? require("fs") : "",
-  WebSocket = $.isNode() ? require("ws") : "",
-  file = "david_cookies.js";
-$.isNode() && !fs.existsSync(file) && ($.log("🔔 外挂ck文件不存在，开始创建模版>>>"), fs.writeFileSync("./david_cookies.js", "//独立CK文件，主要用来处理多账号大数据量CK,注意JRTTAPP外边不用加引号，依葫芦画瓢。\n//今日头条(三个账号)\nlet JRTTAPP = [{},{},{}]\n//番茄小说(一个账号)\nlet FQXSAPP = [{}]\n//抖音极速版(两个账号)\nlet DYJSBAPP = [{},{}]\n    \nlet APPS = {\n    JRTT: JRTTAPP,\n    FQXS: FQXSAPP,\n    DYJSB: DYJSBAPP\n}\n\nmodule.exports = APPS", u => {}));
-const http = $.isNode() ? require("http") : "",
-  notify = $.isNode() ? require("./sendNotify") : "",
-  COOKIES = $.isNode() ? require("./david_cookies") : "";
-let userId = $.getdata("tguserid") || 1,
-  activeCode = $.getdata("qdngactivecode") || 0,
-  qdnguserck = $.getval("qdnguserck") || 1,
-  apiHost = $.getval("apiHost") || "http://106.15.104.124:8080";
-$.getval("apiHosts") && (apiHost = $.getval("apiHosts"));
-let flushCash = $.getval("cleanCache") || false;
-const debug = 0;
-let tz = $.getval("tz") || "1",
-  helpUtils = undefined,
-  CryptoJS = undefined,
-  saveFile = false,
-  qdng_ck_file = "qdng_cookies.json";
-var hour = "",
-  minute = "";
-let sendlogs = "",
-  qdnglogs = [],
-  isNeedAds = [],
-  wss = [],
-  channels_status = [],
-  reconectCounts = [],
-  requestObjects = [],
-  requestSigns = [],
-  httpResult = "",
-  userAuth = "",
-  scriptAuth = "",
-  newest_version = "",
-  runAuth = "",
-  systemNotify = "",
-  vipAuth = "",
-  isCharge = "",
-  multiAccount = 1,
-  buyCount = 1,
-  runTotalCounts = 1,
-  runedCounts = 1,
-  userRank = "",
-  invicode = "",
-  numbers = 3,
-  vipDate = "";
-$.isNode() ? (process.env.QDNGAPP ? qdngapp = JSON.parse(process.env.QDNGAPP) : qdngapp = COOKIES.QDNG, userId = process.env.TGUSERID, activeCode = process.env.QDNGACTIVECODE, process.env.APIHOST && (apiHost = process.env.APIHOST), process.env.APIHOSTS && (apiHost = process.env.APIHOSTS), process.env.CLEANCACHE && (flushCash = JSON.parse(process.env.CLEANCACHE)), hour = new Date(new Date().getTime()).getHours(), minute = new Date(new Date().getTime()).getMinutes(), $.log("🔔 当前环境: Node, 当前时间：" + hour + "点")) : (hour = new Date().getHours(), minute = new Date().getMinutes(), $.log("🔔 当前环境: 手机代理, 当前时间：" + hour + "点"));
-!(async () => {
-  if (typeof $request !== "undefined") {
-    await getCk();
-  } else {
-    if (!qdngapp) {
-      $.log("📢 很抱歉，😭 没有找到账号信息！你确定配置账号信息了吗？");
-      return;
+//7/9/2024, 8:58:24 AM
+//Project:https://github.com/dream385/decode
+const $ = new Env("\u5C0F\u8695\u9738\u738B\u9910");
+const notify = $.isNode() ? require("./sendNotify") : "";
+(() => {
+  var b = {
+      955: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.BlockCipher,
+            a5 = a2.algo,
+            a6 = [],
+            a7 = [],
+            a8 = [],
+            a9 = [],
+            aa = [],
+            ab = [],
+            ac = [],
+            ad = [],
+            ae = [],
+            af = [];
+          !function () {
+            for (var ak = [], al = 0; al < 256; al++) {
+              ak[al] = al < 128 ? al << 1 : al << 1 ^ 283;
+            }
+            var am = 0,
+              an = 0;
+            for (al = 0; al < 256; al++) {
+              var ao = an ^ an << 1 ^ an << 2 ^ an << 3 ^ an << 4;
+              ao = ao >>> 8 ^ 255 & ao ^ 99;
+              a6[am] = ao;
+              a7[ao] = am;
+              var ap = ak[am],
+                aq = ak[ap],
+                ar = ak[aq],
+                as = 257 * ak[ao] ^ 16843008 * ao;
+              a8[am] = as << 24 | as >>> 8;
+              a9[am] = as << 16 | as >>> 16;
+              aa[am] = as << 8 | as >>> 24;
+              ab[am] = as;
+              as = 16843009 * ar ^ 65537 * aq ^ 257 * ap ^ 16843008 * am;
+              ac[ao] = as << 24 | as >>> 8;
+              ad[ao] = as << 16 | as >>> 16;
+              ae[ao] = as << 8 | as >>> 24;
+              af[ao] = as;
+              am ? (am = ap ^ ak[ak[ak[ar ^ ap]]], an ^= ak[ak[an]]) : am = an = 1;
+            }
+          }();
+          a5.AES = a4.extend({
+            _doReset: function () {
+              if (!this._nRounds || this._keyPriorReset !== this._key) {
+                for (this._keySchedule = [], this._nRounds = am + 6, this._keyPriorReset = this._key, ak = this._keyPriorReset = this._key, al = ak.words, am = ak.sigBytes / 4, an = this._nRounds = am + 6, ao = 4 * (an + 1), ap = this._keySchedule = [], aq = 0, void 0; aq < ao; aq++) {
+                  var ak, al, am, an, ao, ap, aq;
+                  aq < am ? ap[aq] = al[aq] : (at = ap[aq - 1], aq % am ? am > 6 && aq % am == 4 && (at = a6[at >>> 24] << 24 | a6[at >>> 16 & 255] << 16 | a6[at >>> 8 & 255] << 8 | a6[255 & at]) : (at = at << 8 | at >>> 24, at = a6[at >>> 24] << 24 | a6[at >>> 16 & 255] << 16 | a6[at >>> 8 & 255] << 8 | a6[255 & at], at ^= ag[aq / am | 0] << 24), ap[aq] = ap[aq - am] ^ at);
+                }
+                for (this._invKeySchedule = [], ar = this._invKeySchedule = [], as = 0, void 0; as < ao; as++) {
+                  var ar, as;
+                  if (aq = ao - as, as % 4) {
+                    var at = ap[aq];
+                  } else {
+                    at = ap[aq - 4];
+                  }
+                  ar[as] = as < 4 || aq <= 4 ? at : ac[a6[at >>> 24]] ^ ad[a6[at >>> 16 & 255]] ^ ae[a6[at >>> 8 & 255]] ^ af[a6[255 & at]];
+                }
+              }
+            },
+            encryptBlock: function (aj, ak) {
+              this._doCryptBlock(aj, ak, this._keySchedule, a8, a9, aa, ab, a6);
+            },
+            decryptBlock: function (aj, ak) {
+              var al = aj[ak + 1];
+              aj[ak + 1] = aj[ak + 3];
+              aj[ak + 3] = al;
+              this._doCryptBlock(aj, ak, this._invKeySchedule, ac, ad, ae, af, a7);
+              al = aj[ak + 1];
+              aj[ak + 1] = aj[ak + 3];
+              aj[ak + 3] = al;
+            },
+            _doCryptBlock: function (aj, ak, al, am, an, ao, ap, aq) {
+              for (var at = this._nRounds, au = aj[ak] ^ al[0], av = aj[ak + 1] ^ al[1], aw = aj[ak + 2] ^ al[2], ax = aj[ak + 3] ^ al[3], ay = 4, az = 1; az < at; az++) {
+                var aA = am[au >>> 24] ^ an[av >>> 16 & 255] ^ ao[aw >>> 8 & 255] ^ ap[255 & ax] ^ al[ay++],
+                  aB = am[av >>> 24] ^ an[aw >>> 16 & 255] ^ ao[ax >>> 8 & 255] ^ ap[255 & au] ^ al[ay++],
+                  aC = am[aw >>> 24] ^ an[ax >>> 16 & 255] ^ ao[au >>> 8 & 255] ^ ap[255 & av] ^ al[ay++],
+                  aD = am[ax >>> 24] ^ an[au >>> 16 & 255] ^ ao[av >>> 8 & 255] ^ ap[255 & aw] ^ al[ay++];
+                au = aA;
+                av = aB;
+                aw = aC;
+                ax = aD;
+              }
+              aA = (aq[au >>> 24] << 24 | aq[av >>> 16 & 255] << 16 | aq[aw >>> 8 & 255] << 8 | aq[255 & ax]) ^ al[ay++];
+              aB = (aq[av >>> 24] << 24 | aq[aw >>> 16 & 255] << 16 | aq[ax >>> 8 & 255] << 8 | aq[255 & au]) ^ al[ay++];
+              aC = (aq[aw >>> 24] << 24 | aq[ax >>> 16 & 255] << 16 | aq[au >>> 8 & 255] << 8 | aq[255 & av]) ^ al[ay++];
+              aD = (aq[ax >>> 24] << 24 | aq[au >>> 16 & 255] << 16 | aq[av >>> 8 & 255] << 8 | aq[255 & aw]) ^ al[ay++];
+              aj[ak] = aA;
+              aj[ak + 1] = aB;
+              aj[ak + 2] = aC;
+              aj[ak + 3] = aD;
+            },
+            keySize: 8
+          });
+          var ag = [0, 1, 2, 4, 8, 16, 32, 64, 128, 27, 54],
+            ah = a5.AES;
+          a2.AES = a4._createHelper(ah);
+        }(), a0.AES);
+      },
+      128: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.BlockCipher,
+            a5 = a2.algo;
+          const a6 = 16,
+            a7 = [608135816, 2242054355, 320440878, 57701188, 2752067618, 698298832, 137296536, 3964562569, 1160258022, 953160567, 3193202383, 887688300, 3232508343, 3380367581, 1065670069, 3041331479, 2450970073, 2306472731],
+            a8 = [[3509652390, 2564797868, 805139163, 3491422135, 3101798381, 1780907670, 3128725573, 4046225305, 614570311, 3012652279, 134345442, 2240740374, 1667834072, 1901547113, 2757295779, 4103290238, 227898511, 1921955416, 1904987480, 2182433518, 2069144605, 3260701109, 2620446009, 720527379, 3318853667, 677414384, 3393288472, 3101374703, 2390351024, 1614419982, 1822297739, 2954791486, 3608508353, 3174124327, 2024746970, 1432378464, 3864339955, 2857741204, 1464375394, 1676153920, 1439316330, 715854006, 3033291828, 289532110, 2706671279, 2087905683, 3018724369, 1668267050, 732546397, 1947742710, 3462151702, 2609353502, 2950085171, 1814351708, 2050118529, 680887927, 999245976, 1800124847, 3300911131, 1713906067, 1641548236, 4213287313, 1216130144, 1575780402, 4018429277, 3917837745, 3693486850, 3949271944, 596196993, 3549867205, 258830323, 2213823033, 772490370, 2760122372, 1774776394, 2652871518, 566650946, 4142492826, 1728879713, 2882767088, 1783734482, 3629395816, 2517608232, 2874225571, 1861159788, 326777828, 3124490320, 2130389656, 2716951837, 967770486, 1724537150, 2185432712, 2364442137, 1164943284, 2105845187, 998989502, 3765401048, 2244026483, 1075463327, 1455516326, 1322494562, 910128902, 469688178, 1117454909, 936433444, 3490320968, 3675253459, 1240580251, 122909385, 2157517691, 634681816, 4142456567, 3825094682, 3061402683, 2540495037, 79693498, 3249098678, 1084186820, 1583128258, 426386531, 1761308591, 1047286709, 322548459, 995290223, 1845252383, 2603652396, 3431023940, 2942221577, 3202600964, 3727903485, 1712269319, 422464435, 3234572375, 1170764815, 3523960633, 3117677531, 1434042557, 442511882, 3600875718, 1076654713, 1738483198, 4213154764, 2393238008, 3677496056, 1014306527, 4251020053, 793779912, 2902807211, 842905082, 4246964064, 1395751752, 1040244610, 2656851899, 3396308128, 445077038, 3742853595, 3577915638, 679411651, 2892444358, 2354009459, 1767581616, 3150600392, 3791627101, 3102740896, 284835224, 4246832056, 1258075500, 768725851, 2589189241, 3069724005, 3532540348, 1274779536, 3789419226, 2764799539, 1660621633, 3471099624, 4011903706, 913787905, 3497959166, 737222580, 2514213453, 2928710040, 3937242737, 1804850592, 3499020752, 2949064160, 2386320175, 2390070455, 2415321851, 4061277028, 2290661394, 2416832540, 1336762016, 1754252060, 3520065937, 3014181293, 791618072, 3188594551, 3933548030, 2332172193, 3852520463, 3043980520, 413987798, 3465142937, 3030929376, 4245938359, 2093235073, 3534596313, 375366246, 2157278981, 2479649556, 555357303, 3870105701, 2008414854, 3344188149, 4221384143, 3956125452, 2067696032, 3594591187, 2921233993, 2428461, 544322398, 577241275, 1471733935, 610547355, 4027169054, 1432588573, 1507829418, 2025931657, 3646575487, 545086370, 48609733, 2200306550, 1653985193, 298326376, 1316178497, 3007786442, 2064951626, 458293330, 2589141269, 3591329599, 3164325604, 727753846, 2179363840, 146436021, 1461446943, 4069977195, 705550613, 3059967265, 3887724982, 4281599278, 3313849956, 1404054877, 2845806497, 146425753, 1854211946], [1266315497, 3048417604, 3681880366, 3289982499, 2909710000, 1235738493, 2632868024, 2414719590, 3970600049, 1771706367, 1449415276, 3266420449, 422970021, 1963543593, 2690192192, 3826793022, 1062508698, 1531092325, 1804592342, 2583117782, 2714934279, 4024971509, 1294809318, 4028980673, 1289560198, 2221992742, 1669523910, 35572830, 157838143, 1052438473, 1016535060, 1802137761, 1753167236, 1386275462, 3080475397, 2857371447, 1040679964, 2145300060, 2390574316, 1461121720, 2956646967, 4031777805, 4028374788, 33600511, 2920084762, 1018524850, 629373528, 3691585981, 3515945977, 2091462646, 2486323059, 586499841, 988145025, 935516892, 3367335476, 2599673255, 2839830854, 265290510, 3972581182, 2759138881, 3795373465, 1005194799, 847297441, 406762289, 1314163512, 1332590856, 1866599683, 4127851711, 750260880, 613907577, 1450815602, 3165620655, 3734664991, 3650291728, 3012275730, 3704569646, 1427272223, 778793252, 1343938022, 2676280711, 2052605720, 1946737175, 3164576444, 3914038668, 3967478842, 3682934266, 1661551462, 3294938066, 4011595847, 840292616, 3712170807, 616741398, 312560963, 711312465, 1351876610, 322626781, 1910503582, 271666773, 2175563734, 1594956187, 70604529, 3617834859, 1007753275, 1495573769, 4069517037, 2549218298, 2663038764, 504708206, 2263041392, 3941167025, 2249088522, 1514023603, 1998579484, 1312622330, 694541497, 2582060303, 2151582166, 1382467621, 776784248, 2618340202, 3323268794, 2497899128, 2784771155, 503983604, 4076293799, 907881277, 423175695, 432175456, 1378068232, 4145222326, 3954048622, 3938656102, 3820766613, 2793130115, 2977904593, 26017576, 3274890735, 3194772133, 1700274565, 1756076034, 4006520079, 3677328699, 720338349, 1533947780, 354530856, 688349552, 3973924725, 1637815568, 332179504, 3949051286, 53804574, 2852348879, 3044236432, 1282449977, 3583942155, 3416972820, 4006381244, 1617046695, 2628476075, 3002303598, 1686838959, 431878346, 2686675385, 1700445008, 1080580658, 1009431731, 832498133, 3223435511, 2605976345, 2271191193, 2516031870, 1648197032, 4164389018, 2548247927, 300782431, 375919233, 238389289, 3353747414, 2531188641, 2019080857, 1475708069, 455242339, 2609103871, 448939670, 3451063019, 1395535956, 2413381860, 1841049896, 1491858159, 885456874, 4264095073, 4001119347, 1565136089, 3898914787, 1108368660, 540939232, 1173283510, 2745871338, 3681308437, 4207628240, 3343053890, 4016749493, 1699691293, 1103962373, 3625875870, 2256883143, 3830138730, 1031889488, 3479347698, 1535977030, 4236805024, 3251091107, 2132092099, 1774941330, 1199868427, 1452454533, 157007616, 2904115357, 342012276, 595725824, 1480756522, 206960106, 497939518, 591360097, 863170706, 2375253569, 3596610801, 1814182875, 2094937945, 3421402208, 1082520231, 3463918190, 2785509508, 435703966, 3908032597, 1641649973, 2842273706, 3305899714, 1510255612, 2148256476, 2655287854, 3276092548, 4258621189, 236887753, 3681803219, 274041037, 1734335097, 3815195456, 3317970021, 1899903192, 1026095262, 4050517792, 356393447, 2410691914, 3873677099, 3682840055], [3913112168, 2491498743, 4132185628, 2489919796, 1091903735, 1979897079, 3170134830, 3567386728, 3557303409, 857797738, 1136121015, 1342202287, 507115054, 2535736646, 337727348, 3213592640, 1301675037, 2528481711, 1895095763, 1721773893, 3216771564, 62756741, 2142006736, 835421444, 2531993523, 1442658625, 3659876326, 2882144922, 676362277, 1392781812, 170690266, 3921047035, 1759253602, 3611846912, 1745797284, 664899054, 1329594018, 3901205900, 3045908486, 2062866102, 2865634940, 3543621612, 3464012697, 1080764994, 553557557, 3656615353, 3996768171, 991055499, 499776247, 1265440854, 648242737, 3940784050, 980351604, 3713745714, 1749149687, 3396870395, 4211799374, 3640570775, 1161844396, 3125318951, 1431517754, 545492359, 4268468663, 3499529547, 1437099964, 2702547544, 3433638243, 2581715763, 2787789398, 1060185593, 1593081372, 2418618748, 4260947970, 69676912, 2159744348, 86519011, 2512459080, 3838209314, 1220612927, 3339683548, 133810670, 1090789135, 1078426020, 1569222167, 845107691, 3583754449, 4072456591, 1091646820, 628848692, 1613405280, 3757631651, 526609435, 236106946, 48312990, 2942717905, 3402727701, 1797494240, 859738849, 992217954, 4005476642, 2243076622, 3870952857, 3732016268, 765654824, 3490871365, 2511836413, 1685915746, 3888969200, 1414112111, 2273134842, 3281911079, 4080962846, 172450625, 2569994100, 980381355, 4109958455, 2819808352, 2716589560, 2568741196, 3681446669, 3329971472, 1835478071, 660984891, 3704678404, 4045999559, 3422617507, 3040415634, 1762651403, 1719377915, 3470491036, 2693910283, 3642056355, 3138596744, 1364962596, 2073328063, 1983633131, 926494387, 3423689081, 2150032023, 4096667949, 1749200295, 3328846651, 309677260, 2016342300, 1779581495, 3079819751, 111262694, 1274766160, 443224088, 298511866, 1025883608, 3806446537, 1145181785, 168956806, 3641502830, 3584813610, 1689216846, 3666258015, 3200248200, 1692713982, 2646376535, 4042768518, 1618508792, 1610833997, 3523052358, 4130873264, 2001055236, 3610705100, 2202168115, 4028541809, 2961195399, 1006657119, 2006996926, 3186142756, 1430667929, 3210227297, 1314452623, 4074634658, 4101304120, 2273951170, 1399257539, 3367210612, 3027628629, 1190975929, 2062231137, 2333990788, 2221543033, 2438960610, 1181637006, 548689776, 2362791313, 3372408396, 3104550113, 3145860560, 296247880, 1970579870, 3078560182, 3769228297, 1714227617, 3291629107, 3898220290, 166772364, 1251581989, 493813264, 448347421, 195405023, 2709975567, 677966185, 3703036547, 1463355134, 2715995803, 1338867538, 1343315457, 2802222074, 2684532164, 233230375, 2599980071, 2000651841, 3277868038, 1638401717, 4028070440, 3237316320, 6314154, 819756386, 300326615, 590932579, 1405279636, 3267499572, 3150704214, 2428286686, 3959192993, 3461946742, 1862657033, 1266418056, 963775037, 2089974820, 2263052895, 1917689273, 448879540, 3550394620, 3981727096, 150775221, 3627908307, 1303187396, 508620638, 2975983352, 2726630617, 1817252668, 1876281319, 1457606340, 908771278, 3720792119, 3617206836, 2455994898, 1729034894, 1080033504], [976866871, 3556439503, 2881648439, 1522871579, 1555064734, 1336096578, 3548522304, 2579274686, 3574697629, 3205460757, 3593280638, 3338716283, 3079412587, 564236357, 2993598910, 1781952180, 1464380207, 3163844217, 3332601554, 1699332808, 1393555694, 1183702653, 3581086237, 1288719814, 691649499, 2847557200, 2895455976, 3193889540, 2717570544, 1781354906, 1676643554, 2592534050, 3230253752, 1126444790, 2770207658, 2633158820, 2210423226, 2615765581, 2414155088, 3127139286, 673620729, 2805611233, 1269405062, 4015350505, 3341807571, 4149409754, 1057255273, 2012875353, 2162469141, 2276492801, 2601117357, 993977747, 3918593370, 2654263191, 753973209, 36408145, 2530585658, 25011837, 3520020182, 2088578344, 530523599, 2918365339, 1524020338, 1518925132, 3760827505, 3759777254, 1202760957, 3985898139, 3906192525, 674977740, 4174734889, 2031300136, 2019492241, 3983892565, 4153806404, 3822280332, 352677332, 2297720250, 60907813, 90501309, 3286998549, 1016092578, 2535922412, 2839152426, 457141659, 509813237, 4120667899, 652014361, 1966332200, 2975202805, 55981186, 2327461051, 676427537, 3255491064, 2882294119, 3433927263, 1307055953, 942726286, 933058658, 2468411793, 3933900994, 4215176142, 1361170020, 2001714738, 2830558078, 3274259782, 1222529897, 1679025792, 2729314320, 3714953764, 1770335741, 151462246, 3013232138, 1682292957, 1483529935, 471910574, 1539241949, 458788160, 3436315007, 1807016891, 3718408830, 978976581, 1043663428, 3165965781, 1927990952, 4200891579, 2372276910, 3208408903, 3533431907, 1412390302, 2931980059, 4132332400, 1947078029, 3881505623, 4168226417, 2941484381, 1077988104, 1320477388, 886195818, 18198404, 3786409000, 2509781533, 112762804, 3463356488, 1866414978, 891333506, 18488651, 661792760, 1628790961, 3885187036, 3141171499, 876946877, 2693282273, 1372485963, 791857591, 2686433993, 3759982718, 3167212022, 3472953795, 2716379847, 445679433, 3561995674, 3504004811, 3574258232, 54117162, 3331405415, 2381918588, 3769707343, 4154350007, 1140177722, 4074052095, 668550556, 3214352940, 367459370, 261225585, 2610173221, 4209349473, 3468074219, 3265815641, 314222801, 3066103646, 3808782860, 282218597, 3406013506, 3773591054, 379116347, 1285071038, 846784868, 2669647154, 3771962079, 3550491691, 2305946142, 453669953, 1268987020, 3317592352, 3279303384, 3744833421, 2610507566, 3859509063, 266596637, 3847019092, 517658769, 3462560207, 3443424879, 370717030, 4247526661, 2224018117, 4143653529, 4112773975, 2788324899, 2477274417, 1456262402, 2901442914, 1517677493, 1846949527, 2295493580, 3734397586, 2176403920, 1280348187, 1908823572, 3871786941, 846861322, 1172426758, 3287448474, 3383383037, 1655181056, 3139813346, 901632758, 1897031941, 2986607138, 3066810236, 3447102507, 1393639104, 373351379, 950779232, 625454576, 3124240540, 4148612726, 2007998917, 544563296, 2244738638, 2330496472, 2058025392, 1291430526, 424198748, 50039436, 29584100, 3605783033, 2429876329, 2791104160, 1057563949, 3255363231, 3075367218, 3463963227, 1469046755, 985887462]];
+          var a9 = {
+            pbox: [],
+            sbox: []
+          };
+          function ab(ag, ah) {
+            let ak = ah >> 24 & 255,
+              al = ah >> 16 & 255,
+              am = ah >> 8 & 255,
+              an = 255 & ah,
+              ao = ag.sbox[0][ak] + ag.sbox[1][al];
+            ao ^= ag.sbox[2][am];
+            ao += ag.sbox[3][an];
+            return ao;
+          }
+          function ac(ag, ah, ai) {
+            let aj,
+              ak = ah,
+              al = ai;
+            for (let am = 0; am < a6; ++am) {
+              ak ^= ag.pbox[am];
+              al = ab(ag, ak) ^ al;
+              aj = ak;
+              ak = al;
+              al = aj;
+            }
+            aj = ak;
+            ak = al;
+            al = aj;
+            al ^= ag.pbox[a6];
+            ak ^= ag.pbox[a6 + 1];
+            return {
+              left: ak,
+              right: al
+            };
+          }
+          function ad(ag, ah, ai) {
+            let aj,
+              ak = ah,
+              al = ai;
+            for (let am = a6 + 1; am > 1; --am) {
+              ak ^= ag.pbox[am];
+              al = ab(ag, ak) ^ al;
+              aj = ak;
+              ak = al;
+              al = aj;
+            }
+            aj = ak;
+            ak = al;
+            al = aj;
+            al ^= ag.pbox[1];
+            ak ^= ag.pbox[0];
+            return {
+              left: ak,
+              right: al
+            };
+          }
+          function ae(ag, ah, ai) {
+            for (let an = 0; an < 4; an++) {
+              ag.sbox[an] = [];
+              for (let ap = 0; ap < 256; ap++) {
+                ag.sbox[an][ap] = a8[an][ap];
+              }
+            }
+            let aj = 0;
+            for (let aq = 0; aq < a6 + 2; aq++) {
+              ag.pbox[aq] = a7[aq] ^ ah[aj];
+              aj++;
+              aj >= ai && (aj = 0);
+            }
+            let ak = 0,
+              al = 0,
+              am = 0;
+            for (let ar = 0; ar < a6 + 2; ar += 2) {
+              am = ac(ag, ak, al);
+              ak = am.left;
+              al = am.right;
+              ag.pbox[ar] = ak;
+              ag.pbox[ar + 1] = al;
+            }
+            for (let as = 0; as < 4; as++) {
+              for (let at = 0; at < 256; at += 2) {
+                am = ac(ag, ak, al);
+                ak = am.left;
+                al = am.right;
+                ag.sbox[as][at] = ak;
+                ag.sbox[as][at + 1] = al;
+              }
+            }
+            return !0;
+          }
+          a5.Blowfish = a4.extend({
+            _doReset: function () {
+              if (this._keyPriorReset !== this._key) {
+                this._keyPriorReset = this._key;
+                var ah = this._keyPriorReset,
+                  ai = ah.words,
+                  aj = ah.sigBytes / 4;
+                ae(a9, ai, aj);
+              }
+            },
+            encryptBlock: function (ag, ah) {
+              var aj = ac(a9, ag[ah], ag[ah + 1]);
+              ag[ah] = aj.left;
+              ag[ah + 1] = aj.right;
+            },
+            decryptBlock: function (ag, ah) {
+              var ai = ad(a9, ag[ah], ag[ah + 1]);
+              ag[ah] = ai.left;
+              ag[ah + 1] = ai.right;
+            },
+            blockSize: 2,
+            keySize: 4,
+            ivSize: 2
+          });
+          var af = a5.Blowfish;
+          a2.Blowfish = a4._createHelper(af);
+        }(), a0.Blowfish);
+      },
+      165: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(506), void (a0.lib.Cipher || function (a2) {
+          a5.Cipher = a8.extend({
+            cfg: a6.extend(),
+            createEncryptor: function (aq, ar) {
+              return this.create(this._ENC_XFORM_MODE, aq, ar);
+            },
+            createDecryptor: function (aq, ar) {
+              return this.create(this._DEC_XFORM_MODE, aq, ar);
+            },
+            init: function (aq, ar, as) {
+              this.cfg = this.cfg.extend(as);
+              this._xformMode = aq;
+              this._key = ar;
+              this.reset();
+            },
+            reset: function () {
+              a8.reset.call(this);
+              this._doReset();
+            },
+            process: function (aq) {
+              this._append(aq);
+              return this._process();
+            },
+            finalize: function (aq) {
+              aq && this._append(aq);
+              var ar = this._doFinalize();
+              return ar;
+            },
+            keySize: 4,
+            ivSize: 4,
+            _ENC_XFORM_MODE: 1,
+            _DEC_XFORM_MODE: 2,
+            _createHelper: function () {
+              function ar(as) {
+                return "string" == typeof as ? ap : am;
+              }
+              return function (as) {
+                return {
+                  encrypt: function (au, av, aw) {
+                    return ar(av).encrypt(as, au, av, aw);
+                  },
+                  decrypt: function (au, av, aw) {
+                    return ar(av).decrypt(as, au, av, aw);
+                  }
+                };
+              };
+            }()
+          });
+          a5.BlockCipherMode = a6.extend({
+            createEncryptor: function (aq, ar) {
+              return this.Encryptor.create(aq, ar);
+            },
+            createDecryptor: function (aq, ar) {
+              return this.Decryptor.create(aq, ar);
+            },
+            init: function (aq, ar) {
+              this._cipher = aq;
+              this._iv = ar;
+            }
+          });
+          ae.CBC = function () {
+            var ar = af.extend();
+            function as(at, au, av) {
+              var aw,
+                ax = this._iv;
+              ax ? (aw = ax, this._iv = a2) : aw = this._prevBlock;
+              for (var ay = 0; ay < av; ay++) {
+                at[au + ay] ^= aw[ay];
+              }
+            }
+            ar.Encryptor = ar.extend({
+              processBlock: function (at, au) {
+                var av = this._cipher,
+                  aw = av.blockSize;
+                as.call(this, at, au, aw);
+                av.encryptBlock(at, au);
+                this._prevBlock = at.slice(au, au + aw);
+              }
+            });
+            ar.Decryptor = ar.extend({
+              processBlock: function (at, au) {
+                var av = this._cipher,
+                  aw = av.blockSize,
+                  ax = at.slice(au, au + aw);
+                av.decryptBlock(at, au);
+                as.call(this, at, au, aw);
+                this._prevBlock = ax;
+              }
+            });
+            return ar;
+          }();
+          a4.pad = {};
+          ah.Pkcs7 = {
+            pad: function (aq, ar) {
+              for (var at = 4 * ar, au = at - aq.sigBytes % at, av = au << 24 | au << 16 | au << 8 | au, aw = [], ax = 0; ax < au; ax += 4) {
+                aw.push(av);
+              }
+              var ay = a7.create(aw, au);
+              aq.concat(ay);
+            },
+            unpad: function (aq) {
+              var ar = 255 & aq.words[aq.sigBytes - 1 >>> 2];
+              aq.sigBytes -= ar;
+            }
+          };
+          a4.format = {};
+          ak.OpenSSL = {
+            stringify: function (aq) {
+              var as,
+                at = aq.ciphertext,
+                au = aq.salt;
+              as = au ? a7.create([1398893684, 1701076831]).concat(au).concat(at) : at;
+              return as.toString(aa);
+            },
+            parse: function (aq) {
+              var ar,
+                as = aa.parse(aq),
+                at = as.words;
+              1398893684 == at[0] && 1701076831 == at[1] && (ar = a7.create(at.slice(2, 4)), at.splice(0, 4), as.sigBytes -= 16);
+              return aj.create({
+                ciphertext: as,
+                salt: ar
+              });
+            }
+          };
+          a5.SerializableCipher = a6.extend({
+            cfg: a6.extend({
+              format: al
+            }),
+            encrypt: function (aq, ar, as, at) {
+              at = this.cfg.extend(at);
+              var au = aq.createEncryptor(as, at),
+                av = au.finalize(ar),
+                aw = au.cfg,
+                ax = {
+                  ciphertext: av,
+                  key: as,
+                  iv: aw.iv,
+                  algorithm: aq,
+                  mode: aw.mode,
+                  padding: aw.padding,
+                  blockSize: aq.blockSize,
+                  formatter: at.format
+                };
+              return aj.create(ax);
+            },
+            decrypt: function (aq, ar, as, at) {
+              at = this.cfg.extend(at);
+              ar = this._parse(ar, at.format);
+              var au = aq.createDecryptor(as, at).finalize(ar.ciphertext);
+              return au;
+            },
+            _parse: function (aq, ar) {
+              return "string" == typeof aq ? ar.parse(aq, this) : aq;
+            }
+          });
+          a4.kdf = {};
+          an.OpenSSL = {
+            execute: function (aq, ar, as, at, au) {
+              if (at || (at = a7.random(8)), au) {
+                av = ac.create({
+                  keySize: ar + as,
+                  hasher: au
+                }).compute(aq, at);
+              } else {
+                var av = ac.create({
+                  keySize: ar + as
+                }).compute(aq, at);
+              }
+              var aw = a7.create(av.words.slice(ar), 4 * as);
+              av.sigBytes = 4 * ar;
+              return aj.create({
+                key: av,
+                iv: aw,
+                salt: at
+              });
+            }
+          };
+          a5.PasswordBasedCipher = am.extend({
+            cfg: am.cfg.extend({
+              kdf: ao
+            }),
+            encrypt: function (aq, ar, as, at) {
+              at = this.cfg.extend(at);
+              var ay = at.kdf.execute(as, aq.keySize, aq.ivSize, at.salt, at.hasher);
+              at.iv = ay.iv;
+              var ax = am.encrypt.call(this, aq, ar, ay.key, at);
+              ax.mixIn(ay);
+              return ax;
+            },
+            decrypt: function (aq, ar, as, at) {
+              at = this.cfg.extend(at);
+              ar = this._parse(ar, at.format);
+              var ax = at.kdf.execute(as, aq.keySize, aq.ivSize, ar.salt, at.hasher);
+              at.iv = ax.iv;
+              var aw = am.decrypt.call(this, aq, ar, ax.key, at);
+              return aw;
+            }
+          });
+          var a4 = a0,
+            a5 = a4.lib,
+            a6 = a5.Base,
+            a7 = a5.WordArray,
+            a8 = a5.BufferedBlockAlgorithm,
+            a9 = a4.enc,
+            aa = (a9.Utf8, a9.Base64),
+            ab = a4.algo,
+            ac = ab.EvpKDF,
+            ad = a5.Cipher,
+            ae = (a5.StreamCipher = ad.extend({
+              _doFinalize: function () {
+                var ar = this._process(!0);
+                return ar;
+              },
+              blockSize: 1
+            }), a4.mode = {}),
+            af = a5.BlockCipherMode,
+            ag = ae.CBC,
+            ah = a4.pad,
+            ai = ah.Pkcs7,
+            aj = (a5.BlockCipher = ad.extend({
+              cfg: ad.cfg.extend({
+                mode: ag,
+                padding: ai
+              }),
+              reset: function () {
+                var ar;
+                ad.reset.call(this);
+                var as = this.cfg,
+                  at = as.iv,
+                  au = as.mode;
+                this._xformMode == this._ENC_XFORM_MODE ? ar = au.createEncryptor : (ar = au.createDecryptor, this._minBufferSize = 1);
+                this._mode && this._mode.__creator == ar ? this._mode.init(this, at && at.words) : (this._mode = ar.call(au, this, at && at.words), this._mode.__creator = ar);
+              },
+              _doProcessBlock: function (aq, ar) {
+                this._mode.processBlock(aq, ar);
+              },
+              _doFinalize: function () {
+                var aq,
+                  ar = this.cfg.padding;
+                this._xformMode == this._ENC_XFORM_MODE ? (ar.pad(this._data, this.blockSize), aq = this._process(!0)) : (aq = this._process(!0), ar.unpad(aq));
+                return aq;
+              },
+              blockSize: 4
+            }), a5.CipherParams = a6.extend({
+              init: function (aq) {
+                this.mixIn(aq);
+              },
+              toString: function (aq) {
+                return (aq || this.formatter).stringify(this);
+              }
+            })),
+            ak = a4.format,
+            al = ak.OpenSSL,
+            am = a5.SerializableCipher,
+            an = a4.kdf,
+            ao = an.OpenSSL,
+            ap = a5.PasswordBasedCipher;
+        }()));
+      },
+      21: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = a0 || function (a1, a2) {
+          var a4;
+          if ("undefined" != typeof window && window.crypto && (a4 = window.crypto), "undefined" != typeof self && self.crypto && (a4 = self.crypto), "undefined" != typeof globalThis && globalThis.crypto && (a4 = globalThis.crypto), !a4 && "undefined" != typeof window && window.msCrypto && (a4 = window.msCrypto), !a4 && void 0 !== Y.g && Y.g.crypto && (a4 = Y.g.crypto), !a4) {
+            try {
+              a4 = Y(477);
+            } catch (ai) {}
+          }
+          a7.lib = {};
+          a8.Base = {
+            extend: function (aj) {
+              var al = a6(this);
+              aj && al.mixIn(aj);
+              al.hasOwnProperty("init") && this.init !== al.init || (al.init = function () {
+                al.$super.init.apply(this, arguments);
+              });
+              al.init.prototype = al;
+              al.$super = this;
+              return al;
+            },
+            create: function () {
+              var aj = this.extend();
+              aj.init.apply(aj, arguments);
+              return aj;
+            },
+            init: function () {},
+            mixIn: function (aj) {
+              for (var am in aj) aj.hasOwnProperty(am) && (this[am] = aj[am]);
+              aj.hasOwnProperty("toString") && (this.toString = aj.toString);
+            },
+            clone: function () {
+              return this.init.prototype.extend(this);
+            }
+          };
+          a8.WordArray = a9.extend({
+            init: function (aj, ak) {
+              aj = this.words = aj || [];
+              this.sigBytes = ak != a2 ? ak : 4 * aj.length;
+            },
+            toString: function (aj) {
+              return (aj || ac).stringify(this);
+            },
+            concat: function (aj) {
+              var ak = this.words,
+                al = aj.words,
+                am = this.sigBytes,
+                an = aj.sigBytes;
+              if (this.clamp(), am % 4) {
+                for (var ao = 0; ao < an; ao++) {
+                  var ap = al[ao >>> 2] >>> 24 - ao % 4 * 8 & 255;
+                  ak[am + ao >>> 2] |= ap << 24 - (am + ao) % 4 * 8;
+                }
+              } else {
+                for (var aq = 0; aq < an; aq += 4) {
+                  ak[am + aq >>> 2] = al[aq >>> 2];
+                }
+              }
+              this.sigBytes += an;
+              return this;
+            },
+            clamp: function () {
+              var ak = this.words,
+                al = this.sigBytes;
+              ak[al >>> 2] &= 4294967295 << 32 - al % 4 * 8;
+              ak.length = a1.ceil(al / 4);
+            },
+            clone: function () {
+              var ak = a9.clone.call(this);
+              ak.words = this.words.slice(0);
+              return ak;
+            },
+            random: function (aj) {
+              for (var ak = [], al = 0; al < aj; al += 4) {
+                ak.push(a5());
+              }
+              return new aa.init(ak, aj);
+            }
+          });
+          a7.enc = {};
+          ab.Hex = {
+            stringify: function (aj) {
+              for (var al = aj.words, am = aj.sigBytes, an = [], ao = 0; ao < am; ao++) {
+                var ap = al[ao >>> 2] >>> 24 - ao % 4 * 8 & 255;
+                an.push((ap >>> 4).toString(16));
+                an.push((15 & ap).toString(16));
+              }
+              return an.join("");
+            },
+            parse: function (aj) {
+              for (var ak = aj.length, al = [], am = 0; am < ak; am += 2) {
+                al[am >>> 3] |= parseInt(aj.substr(am, 2), 16) << 24 - am % 8 * 4;
+              }
+              return new aa.init(al, ak / 2);
+            }
+          };
+          ab.Latin1 = {
+            stringify: function (aj) {
+              for (var al = aj.words, am = aj.sigBytes, an = [], ao = 0; ao < am; ao++) {
+                var ap = al[ao >>> 2] >>> 24 - ao % 4 * 8 & 255;
+                an.push(String.fromCharCode(ap));
+              }
+              return an.join("");
+            },
+            parse: function (aj) {
+              for (var ak = aj.length, al = [], am = 0; am < ak; am++) {
+                al[am >>> 2] |= (255 & aj.charCodeAt(am)) << 24 - am % 4 * 8;
+              }
+              return new aa.init(al, ak);
+            }
+          };
+          ab.Utf8 = {
+            stringify: function (aj) {
+              try {
+                return decodeURIComponent(escape(ad.stringify(aj)));
+              } catch (am) {
+                throw new Error("Malformed UTF-8 data");
+              }
+            },
+            parse: function (aj) {
+              return ad.parse(unescape(encodeURIComponent(aj)));
+            }
+          };
+          a8.BufferedBlockAlgorithm = a9.extend({
+            reset: function () {
+              this._data = new aa.init();
+              this._nDataBytes = 0;
+            },
+            _append: function (aj) {
+              "string" == typeof aj && (aj = ae.parse(aj));
+              this._data.concat(aj);
+              this._nDataBytes += aj.sigBytes;
+            },
+            _process: function (aj) {
+              var ak,
+                al = this._data,
+                am = al.words,
+                an = al.sigBytes,
+                ao = this.blockSize,
+                ap = 4 * ao,
+                aq = an / ap;
+              aq = aj ? a1.ceil(aq) : a1.max((0 | aq) - this._minBufferSize, 0);
+              var ar = aq * ao,
+                as = a1.min(4 * ar, an);
+              if (ar) {
+                for (var at = 0; at < ar; at += ao) {
+                  this._doProcessBlock(am, at);
+                }
+                ak = am.splice(0, ar);
+                al.sigBytes -= as;
+              }
+              return new aa.init(ak, as);
+            },
+            clone: function () {
+              var aj = a9.clone.call(this);
+              aj._data = this._data.clone();
+              return aj;
+            },
+            _minBufferSize: 0
+          });
+          var a5 = function () {
+              if (a4) {
+                if ("function" == typeof a4.getRandomValues) {
+                  try {
+                    return a4.getRandomValues(new Uint32Array(1))[0];
+                  } catch (al) {}
+                }
+                if ("function" == typeof a4.randomBytes) {
+                  try {
+                    return a4.randomBytes(4).readInt32LE();
+                  } catch (an) {}
+                }
+              }
+              throw new Error("Native crypto module could not be used to get secure random number.");
+            },
+            a6 = Object.create || function () {
+              function al() {}
+              return function (am) {
+                var an;
+                al.prototype = am;
+                an = new al();
+                al.prototype = null;
+                return an;
+              };
+            }(),
+            a7 = {},
+            a8 = a7.lib,
+            a9 = a8.Base,
+            aa = a8.WordArray,
+            ab = a7.enc,
+            ac = ab.Hex,
+            ad = ab.Latin1,
+            ae = ab.Utf8,
+            af = a8.BufferedBlockAlgorithm,
+            ag = (a8.Hasher = af.extend({
+              cfg: a9.extend(),
+              init: function (aj) {
+                this.cfg = this.cfg.extend(aj);
+                this.reset();
+              },
+              reset: function () {
+                af.reset.call(this);
+                this._doReset();
+              },
+              update: function (aj) {
+                this._append(aj);
+                this._process();
+                return this;
+              },
+              finalize: function (aj) {
+                aj && this._append(aj);
+                var al = this._doFinalize();
+                return al;
+              },
+              blockSize: 16,
+              _createHelper: function (aj) {
+                return function (al, am) {
+                  return new aj.init(am).finalize(al);
+                };
+              },
+              _createHmacHelper: function (aj) {
+                return function (al, am) {
+                  return new ag.HMAC.init(aj, am).finalize(al);
+                };
+              }
+            }), a7.algo = {});
+          return a7;
+        }(Math), a0);
+      },
+      754: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.WordArray,
+            a5 = a2.enc;
+          function a6(a7, a8, a9) {
+            for (var aa = [], ab = 0, ac = 0; ac < a8; ac++) {
+              if (ac % 4) {
+                var ad = a9[a7.charCodeAt(ac - 1)] << ac % 4 * 2,
+                  ae = a9[a7.charCodeAt(ac)] >>> 6 - ac % 4 * 2,
+                  af = ad | ae;
+                aa[ab >>> 2] |= af << 24 - ab % 4 * 8;
+                ab++;
+              }
+            }
+            return a4.create(aa, ab);
+          }
+          a5.Base64 = {
+            stringify: function (a7) {
+              var aj = a7.words,
+                ak = a7.sigBytes,
+                al = this._map;
+              a7.clamp();
+              for (var ab = [], ac = 0; ac < ak; ac += 3) {
+                for (var ad = aj[ac >>> 2] >>> 24 - ac % 4 * 8 & 255, ae = aj[ac + 1 >>> 2] >>> 24 - (ac + 1) % 4 * 8 & 255, af = aj[ac + 2 >>> 2] >>> 24 - (ac + 2) % 4 * 8 & 255, ag = ad << 16 | ae << 8 | af, ah = 0; ah < 4 && ac + 0.75 * ah < ak; ah++) {
+                  ab.push(al.charAt(ag >>> 6 * (3 - ah) & 63));
+                }
+              }
+              var ai = al.charAt(64);
+              if (ai) {
+                for (; ab.length % 4;) {
+                  ab.push(ai);
+                }
+              }
+              return ab.join("");
+            },
+            parse: function (a7) {
+              var a9 = a7.length,
+                aa = this._map,
+                ab = this._reverseMap;
+              if (!ab) {
+                ab = this._reverseMap = [];
+                for (var ac = 0; ac < aa.length; ac++) {
+                  ab[aa.charCodeAt(ac)] = ac;
+                }
+              }
+              var ad = aa.charAt(64);
+              if (ad) {
+                var ae = a7.indexOf(ad);
+                -1 !== ae && (a9 = ae);
+              }
+              return a6(a7, a9, ab);
+            },
+            _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+          };
+        }(), a0.enc.Base64);
+      },
+      725: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.WordArray,
+            a5 = a2.enc;
+          function a7(a8, a9, aa) {
+            for (var ac = [], ad = 0, ae = 0; ae < a9; ae++) {
+              if (ae % 4) {
+                var af = aa[a8.charCodeAt(ae - 1)] << ae % 4 * 2,
+                  ag = aa[a8.charCodeAt(ae)] >>> 6 - ae % 4 * 2,
+                  ah = af | ag;
+                ac[ad >>> 2] |= ah << 24 - ad % 4 * 8;
+                ad++;
+              }
+            }
+            return a4.create(ac, ad);
+          }
+          a5.Base64url = {
+            stringify: function (a8, a9) {
+              void 0 === a9 && (a9 = !0);
+              var ak = a8.words,
+                al = a8.sigBytes,
+                am = a9 ? this._safe_map : this._map;
+              a8.clamp();
+              for (var ac = [], ad = 0; ad < al; ad += 3) {
+                for (var ae = ak[ad >>> 2] >>> 24 - ad % 4 * 8 & 255, af = ak[ad + 1 >>> 2] >>> 24 - (ad + 1) % 4 * 8 & 255, ag = ak[ad + 2 >>> 2] >>> 24 - (ad + 2) % 4 * 8 & 255, ah = ae << 16 | af << 8 | ag, ai = 0; ai < 4 && ad + 0.75 * ai < al; ai++) {
+                  ac.push(am.charAt(ah >>> 6 * (3 - ai) & 63));
+                }
+              }
+              var aj = am.charAt(64);
+              if (aj) {
+                for (; ac.length % 4;) {
+                  ac.push(aj);
+                }
+              }
+              return ac.join("");
+            },
+            parse: function (a8, a9) {
+              void 0 === a9 && (a9 = !0);
+              var ab = a8.length,
+                ac = a9 ? this._safe_map : this._map,
+                ad = this._reverseMap;
+              if (!ad) {
+                ad = this._reverseMap = [];
+                for (var ae = 0; ae < ac.length; ae++) {
+                  ad[ac.charCodeAt(ae)] = ae;
+                }
+              }
+              var af = ac.charAt(64);
+              if (af) {
+                var ag = a8.indexOf(af);
+                -1 !== ag && (ab = ag);
+              }
+              return a7(a8, ab, ad);
+            },
+            _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+            _safe_map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+          };
+        }(), a0.enc.Base64url);
+      },
+      503: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.WordArray,
+            a5 = a2.enc;
+          function a7(a8) {
+            return a8 << 8 & 4278255360 | a8 >>> 8 & 16711935;
+          }
+          a5.Utf16 = a5.Utf16BE = {
+            stringify: function (a8) {
+              for (var a9 = a8.words, aa = a8.sigBytes, ab = [], ac = 0; ac < aa; ac += 2) {
+                var ad = a9[ac >>> 2] >>> 16 - ac % 4 * 8 & 65535;
+                ab.push(String.fromCharCode(ad));
+              }
+              return ab.join("");
+            },
+            parse: function (a8) {
+              for (var aa = a8.length, ab = [], ac = 0; ac < aa; ac++) {
+                ab[ac >>> 1] |= a8.charCodeAt(ac) << 16 - ac % 2 * 16;
+              }
+              return a4.create(ab, 2 * aa);
+            }
+          };
+          a5.Utf16LE = {
+            stringify: function (a8) {
+              for (var aa = a8.words, ab = a8.sigBytes, ac = [], ad = 0; ad < ab; ad += 2) {
+                var ae = a7(aa[ad >>> 2] >>> 16 - ad % 4 * 8 & 65535);
+                ac.push(String.fromCharCode(ae));
+              }
+              return ac.join("");
+            },
+            parse: function (a8) {
+              for (var a9 = a8.length, aa = [], ab = 0; ab < a9; ab++) {
+                aa[ab >>> 1] |= a7(a8.charCodeAt(ab) << 16 - ab % 2 * 16);
+              }
+              return a4.create(aa, 2 * a9);
+            }
+          };
+        }(), a0.enc.Utf16);
+      },
+      506: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6, a7;
+        W.exports = (a7 = Y(21), Y(471), Y(25), a0 = a7, a1 = a0.lib, a2 = a1.Base, a3 = a1.WordArray, a4 = a0.algo, a5 = a4.MD5, a6 = a4.EvpKDF = a2.extend({
+          cfg: a2.extend({
+            keySize: 4,
+            hasher: a5,
+            iterations: 1
+          }),
+          init: function (a8) {
+            this.cfg = this.cfg.extend(a8);
+          },
+          compute: function (a8, a9) {
+            for (var ab, ac = this.cfg, ad = ac.hasher.create(), ae = a3.create(), af = ae.words, ag = ac.keySize, ah = ac.iterations; af.length < ag;) {
+              ab && ad.update(ab);
+              ab = ad.update(a8).finalize(a9);
+              ad.reset();
+              for (var ai = 1; ai < ah; ai++) {
+                ab = ad.finalize(ab);
+                ad.reset();
+              }
+              ae.concat(ab);
+            }
+            ae.sigBytes = 4 * ag;
+            return ae;
+          }
+        }), a0.EvpKDF = function (a8, a9, aa) {
+          return a6.create(aa).compute(a8, a9);
+        }, a7.EvpKDF);
+      },
+      406: function (W, X, Y) {
+        var Z, a0, a1, a2, a3, a4, a5;
+        W.exports = (a5 = Y(21), Y(165), Z = a5, a0 = Z.lib, a1 = a0.CipherParams, a2 = Z.enc, a3 = a2.Hex, a4 = Z.format, a4.Hex = {
+          stringify: function (a7) {
+            return a7.ciphertext.toString(a3);
+          },
+          parse: function (a7) {
+            var a9 = a3.parse(a7),
+              aa = {
+                ciphertext: a9
+              };
+            return a1.create(aa);
+          }
+        }, a5.format.Hex);
+      },
+      25: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6;
+        W.exports = (a0 = Y(21), a1 = a0, a2 = a1.lib, a3 = a2.Base, a4 = a1.enc, a5 = a4.Utf8, a6 = a1.algo, void (a6.HMAC = a3.extend({
+          init: function (a7, a8) {
+            a7 = this._hasher = new a7.init();
+            "string" == typeof a8 && (a8 = a5.parse(a8));
+            var a9 = a7.blockSize,
+              aa = 4 * a9;
+            a8.sigBytes > aa && (a8 = a7.finalize(a8));
+            a8.clamp();
+            for (this._iKey = a8.clone(), this._oKey = a8.clone(), ab = this._oKey = a8.clone(), ac = this._iKey = a8.clone(), ad = ab.words, ae = ac.words, af = 0, void 0; af < a9; af++) {
+              var ab, ac, ad, ae, af;
+              ad[af] ^= 1549556828;
+              ae[af] ^= 909522486;
+            }
+            ab.sigBytes = ac.sigBytes = aa;
+            this.reset();
+          },
+          reset: function () {
+            var a7 = this._hasher;
+            a7.reset();
+            a7.update(this._iKey);
+          },
+          update: function (a7) {
+            this._hasher.update(a7);
+            return this;
+          },
+          finalize: function (a7) {
+            var a8 = this._hasher,
+              a9 = a8.finalize(a7);
+            a8.reset();
+            var aa = a8.finalize(this._oKey.clone().concat(a9));
+            return aa;
+          }
+        })));
+      },
+      396: function (W, X, Y) {
+        var Z;
+        W.exports = (Z = Y(21), Y(240), Y(440), Y(503), Y(754), Y(725), Y(636), Y(471), Y(9), Y(308), Y(380), Y(557), Y(953), Y(56), Y(25), Y(19), Y(506), Y(165), Y(169), Y(939), Y(372), Y(797), Y(454), Y(73), Y(905), Y(482), Y(155), Y(124), Y(406), Y(955), Y(628), Y(193), Y(298), Y(696), Y(128), Z);
+      },
+      440: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function () {
+          if ("function" == typeof ArrayBuffer) {
+            a4.init = function (a8) {
+              if (a8 instanceof ArrayBuffer && (a8 = new Uint8Array(a8)), (a8 instanceof Int8Array || "undefined" != typeof Uint8ClampedArray && a8 instanceof Uint8ClampedArray || a8 instanceof Int16Array || a8 instanceof Uint16Array || a8 instanceof Int32Array || a8 instanceof Uint32Array || a8 instanceof Float32Array || a8 instanceof Float64Array) && (a8 = new Uint8Array(a8.buffer, a8.byteOffset, a8.byteLength)), a8 instanceof Uint8Array) {
+                for (var aa = a8.byteLength, ab = [], ac = 0; ac < aa; ac++) {
+                  ab[ac >>> 2] |= a8[ac] << 24 - ac % 4 * 8;
+                }
+                a5.call(this, ab, aa);
+              } else {
+                a5.apply(this, arguments);
+              }
+            };
+            var a2 = a0,
+              a3 = a2.lib,
+              a4 = a3.WordArray,
+              a5 = a4.init,
+              a6 = a4.init;
+            a6.prototype = a4;
+          }
+        }(), a0.lib.WordArray);
+      },
+      636: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function (a1) {
+          var a3 = a0,
+            a4 = a3.lib,
+            a5 = a4.WordArray,
+            a6 = a4.Hasher,
+            a7 = a3.algo,
+            a8 = [];
+          !function () {
+            for (var ae = 0; ae < 64; ae++) {
+              a8[ae] = 4294967296 * a1.abs(a1.sin(ae + 1)) | 0;
+            }
+          }();
+          a7.MD5 = a6.extend({
+            _doReset: function () {
+              this._hash = new a5.init([1732584193, 4023233417, 2562383102, 271733878]);
+            },
+            _doProcessBlock: function (ae, af) {
+              for (var ag = 0; ag < 16; ag++) {
+                var ah = af + ag,
+                  ai = ae[ah];
+                ae[ah] = 16711935 & (ai << 8 | ai >>> 24) | 4278255360 & (ai << 24 | ai >>> 8);
+              }
+              var aj = this._hash.words,
+                ak = ae[af + 0],
+                al = ae[af + 1],
+                am = ae[af + 2],
+                an = ae[af + 3],
+                ao = ae[af + 4],
+                ap = ae[af + 5],
+                aq = ae[af + 6],
+                ar = ae[af + 7],
+                as = ae[af + 8],
+                at = ae[af + 9],
+                au = ae[af + 10],
+                av = ae[af + 11],
+                aw = ae[af + 12],
+                ax = ae[af + 13],
+                ay = ae[af + 14],
+                az = ae[af + 15],
+                aA = aj[0],
+                aB = aj[1],
+                aC = aj[2],
+                aD = aj[3];
+              aA = aa(aA, aB, aC, aD, ak, 7, a8[0]);
+              aD = aa(aD, aA, aB, aC, al, 12, a8[1]);
+              aC = aa(aC, aD, aA, aB, am, 17, a8[2]);
+              aB = aa(aB, aC, aD, aA, an, 22, a8[3]);
+              aA = aa(aA, aB, aC, aD, ao, 7, a8[4]);
+              aD = aa(aD, aA, aB, aC, ap, 12, a8[5]);
+              aC = aa(aC, aD, aA, aB, aq, 17, a8[6]);
+              aB = aa(aB, aC, aD, aA, ar, 22, a8[7]);
+              aA = aa(aA, aB, aC, aD, as, 7, a8[8]);
+              aD = aa(aD, aA, aB, aC, at, 12, a8[9]);
+              aC = aa(aC, aD, aA, aB, au, 17, a8[10]);
+              aB = aa(aB, aC, aD, aA, av, 22, a8[11]);
+              aA = aa(aA, aB, aC, aD, aw, 7, a8[12]);
+              aD = aa(aD, aA, aB, aC, ax, 12, a8[13]);
+              aC = aa(aC, aD, aA, aB, ay, 17, a8[14]);
+              aB = aa(aB, aC, aD, aA, az, 22, a8[15]);
+              aA = ab(aA, aB, aC, aD, al, 5, a8[16]);
+              aD = ab(aD, aA, aB, aC, aq, 9, a8[17]);
+              aC = ab(aC, aD, aA, aB, av, 14, a8[18]);
+              aB = ab(aB, aC, aD, aA, ak, 20, a8[19]);
+              aA = ab(aA, aB, aC, aD, ap, 5, a8[20]);
+              aD = ab(aD, aA, aB, aC, au, 9, a8[21]);
+              aC = ab(aC, aD, aA, aB, az, 14, a8[22]);
+              aB = ab(aB, aC, aD, aA, ao, 20, a8[23]);
+              aA = ab(aA, aB, aC, aD, at, 5, a8[24]);
+              aD = ab(aD, aA, aB, aC, ay, 9, a8[25]);
+              aC = ab(aC, aD, aA, aB, an, 14, a8[26]);
+              aB = ab(aB, aC, aD, aA, as, 20, a8[27]);
+              aA = ab(aA, aB, aC, aD, ax, 5, a8[28]);
+              aD = ab(aD, aA, aB, aC, am, 9, a8[29]);
+              aC = ab(aC, aD, aA, aB, ar, 14, a8[30]);
+              aB = ab(aB, aC, aD, aA, aw, 20, a8[31]);
+              aA = ac(aA, aB, aC, aD, ap, 4, a8[32]);
+              aD = ac(aD, aA, aB, aC, as, 11, a8[33]);
+              aC = ac(aC, aD, aA, aB, av, 16, a8[34]);
+              aB = ac(aB, aC, aD, aA, ay, 23, a8[35]);
+              aA = ac(aA, aB, aC, aD, al, 4, a8[36]);
+              aD = ac(aD, aA, aB, aC, ao, 11, a8[37]);
+              aC = ac(aC, aD, aA, aB, ar, 16, a8[38]);
+              aB = ac(aB, aC, aD, aA, au, 23, a8[39]);
+              aA = ac(aA, aB, aC, aD, ax, 4, a8[40]);
+              aD = ac(aD, aA, aB, aC, ak, 11, a8[41]);
+              aC = ac(aC, aD, aA, aB, an, 16, a8[42]);
+              aB = ac(aB, aC, aD, aA, aq, 23, a8[43]);
+              aA = ac(aA, aB, aC, aD, at, 4, a8[44]);
+              aD = ac(aD, aA, aB, aC, aw, 11, a8[45]);
+              aC = ac(aC, aD, aA, aB, az, 16, a8[46]);
+              aB = ac(aB, aC, aD, aA, am, 23, a8[47]);
+              aA = ad(aA, aB, aC, aD, ak, 6, a8[48]);
+              aD = ad(aD, aA, aB, aC, ar, 10, a8[49]);
+              aC = ad(aC, aD, aA, aB, ay, 15, a8[50]);
+              aB = ad(aB, aC, aD, aA, ap, 21, a8[51]);
+              aA = ad(aA, aB, aC, aD, aw, 6, a8[52]);
+              aD = ad(aD, aA, aB, aC, an, 10, a8[53]);
+              aC = ad(aC, aD, aA, aB, au, 15, a8[54]);
+              aB = ad(aB, aC, aD, aA, al, 21, a8[55]);
+              aA = ad(aA, aB, aC, aD, as, 6, a8[56]);
+              aD = ad(aD, aA, aB, aC, az, 10, a8[57]);
+              aC = ad(aC, aD, aA, aB, aq, 15, a8[58]);
+              aB = ad(aB, aC, aD, aA, ax, 21, a8[59]);
+              aA = ad(aA, aB, aC, aD, ao, 6, a8[60]);
+              aD = ad(aD, aA, aB, aC, av, 10, a8[61]);
+              aC = ad(aC, aD, aA, aB, am, 15, a8[62]);
+              aB = ad(aB, aC, aD, aA, at, 21, a8[63]);
+              aj[0] = aj[0] + aA | 0;
+              aj[1] = aj[1] + aB | 0;
+              aj[2] = aj[2] + aC | 0;
+              aj[3] = aj[3] + aD | 0;
+            },
+            _doFinalize: function () {
+              var ae = this._data,
+                af = ae.words,
+                ag = 8 * this._nDataBytes,
+                ah = 8 * ae.sigBytes;
+              af[ah >>> 5] |= 128 << 24 - ah % 32;
+              var ai = a1.floor(ag / 4294967296),
+                aj = ag;
+              af[15 + (ah + 64 >>> 9 << 4)] = 16711935 & (ai << 8 | ai >>> 24) | 4278255360 & (ai << 24 | ai >>> 8);
+              af[14 + (ah + 64 >>> 9 << 4)] = 16711935 & (aj << 8 | aj >>> 24) | 4278255360 & (aj << 24 | aj >>> 8);
+              ae.sigBytes = 4 * (af.length + 1);
+              this._process();
+              for (var ak = this._hash, al = ak.words, am = 0; am < 4; am++) {
+                var an = al[am];
+                al[am] = 16711935 & (an << 8 | an >>> 24) | 4278255360 & (an << 24 | an >>> 8);
+              }
+              return ak;
+            },
+            clone: function () {
+              var ae = a6.clone.call(this);
+              ae._hash = this._hash.clone();
+              return ae;
+            }
+          });
+          var a9 = a7.MD5;
+          function aa(ae, af, ag, ah, ai, aj, ak) {
+            var al = ae + (af & ag | ~af & ah) + ai + ak;
+            return (al << aj | al >>> 32 - aj) + af;
+          }
+          function ab(ae, af, ag, ah, ai, aj, ak) {
+            var am = ae + (af & ah | ag & ~ah) + ai + ak;
+            return (am << aj | am >>> 32 - aj) + af;
+          }
+          function ac(ae, af, ag, ah, ai, aj, ak) {
+            var al = ae + (af ^ ag ^ ah) + ai + ak;
+            return (al << aj | al >>> 32 - aj) + af;
+          }
+          function ad(ae, af, ag, ah, ai, aj, ak) {
+            var al = ae + (ag ^ (af | ~ah)) + ai + ak;
+            return (al << aj | al >>> 32 - aj) + af;
+          }
+          a3.MD5 = a6._createHelper(a9);
+          a3.HmacMD5 = a6._createHmacHelper(a9);
+        }(Math), a0.MD5);
+      },
+      169: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(165), a0.mode.CFB = function () {
+          var a2 = a0.lib.BlockCipherMode.extend();
+          function a3(a4, a5, a6, a7) {
+            var a8,
+              a9 = this._iv;
+            a9 ? (a8 = a9.slice(0), this._iv = void 0) : a8 = this._prevBlock;
+            a7.encryptBlock(a8, 0);
+            for (var aa = 0; aa < a6; aa++) {
+              a4[a5 + aa] ^= a8[aa];
+            }
+          }
+          a2.Encryptor = a2.extend({
+            processBlock: function (a4, a5) {
+              var a6 = this._cipher,
+                a7 = a6.blockSize;
+              a3.call(this, a4, a5, a7, a6);
+              this._prevBlock = a4.slice(a5, a5 + a7);
+            }
+          });
+          a2.Decryptor = a2.extend({
+            processBlock: function (a4, a5) {
+              var a6 = this._cipher,
+                a7 = a6.blockSize,
+                a8 = a4.slice(a5, a5 + a7);
+              a3.call(this, a4, a5, a7, a6);
+              this._prevBlock = a8;
+            }
+          });
+          return a2;
+        }(), a0.mode.CFB);
+      },
+      372: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(165), a0.mode.CTRGladman = function () {
+          var a2 = a0.lib.BlockCipherMode.extend();
+          function a3(a6) {
+            if (255 & ~(a6 >> 24)) {
+              a6 += 16777216;
+            } else {
+              var a8 = a6 >> 16 & 255,
+                a9 = a6 >> 8 & 255,
+                aa = 255 & a6;
+              255 === a8 ? (a8 = 0, 255 === a9 ? (a9 = 0, 255 === aa ? aa = 0 : ++aa) : ++a9) : ++a8;
+              a6 = 0;
+              a6 += a8 << 16;
+              a6 += a9 << 8;
+              a6 += aa;
+            }
+            return a6;
+          }
+          function a4(a6) {
+            0 === (a6[0] = a3(a6[0])) && (a6[1] = a3(a6[1]));
+            return a6;
+          }
+          a2.Encryptor = a2.extend({
+            processBlock: function (a6, a7) {
+              var aa = this._cipher,
+                ab = aa.blockSize,
+                ac = this._iv,
+                ad = this._counter;
+              ac && (ad = this._counter = ac.slice(0), this._iv = void 0);
+              a4(ad);
+              var af = ad.slice(0);
+              aa.encryptBlock(af, 0);
+              for (var ae = 0; ae < ab; ae++) {
+                a6[a7 + ae] ^= af[ae];
+              }
+            }
+          });
+          var a5 = a2.Encryptor;
+          a2.Decryptor = a5;
+          return a2;
+        }(), a0.mode.CTRGladman);
+      },
+      939: function (W, X, Y) {
+        var a0, a1, a2;
+        W.exports = (a2 = Y(21), Y(165), a2.mode.CTR = (a0 = a2.lib.BlockCipherMode.extend(), a1 = a0.Encryptor = a0.extend({
+          processBlock: function (a3, a4) {
+            var a5 = this._cipher,
+              a6 = a5.blockSize,
+              a7 = this._iv,
+              a8 = this._counter;
+            a7 && (a8 = this._counter = a7.slice(0), this._iv = void 0);
+            var a9 = a8.slice(0);
+            a5.encryptBlock(a9, 0);
+            a8[a6 - 1] = a8[a6 - 1] + 1 | 0;
+            for (var aa = 0; aa < a6; aa++) {
+              a3[a4 + aa] ^= a9[aa];
+            }
+          }
+        }), a0.Decryptor = a1, a0), a2.mode.CTR);
+      },
+      454: function (W, X, Y) {
+        var a0, a1;
+        W.exports = (a1 = Y(21), Y(165), a1.mode.ECB = (a0 = a1.lib.BlockCipherMode.extend(), a0.Encryptor = a0.extend({
+          processBlock: function (a3, a4) {
+            this._cipher.encryptBlock(a3, a4);
+          }
+        }), a0.Decryptor = a0.extend({
+          processBlock: function (a3, a4) {
+            this._cipher.decryptBlock(a3, a4);
+          }
+        }), a0), a1.mode.ECB);
+      },
+      797: function (W, X, Y) {
+        var a0, a1, a2;
+        W.exports = (a2 = Y(21), Y(165), a2.mode.OFB = (a0 = a2.lib.BlockCipherMode.extend(), a1 = a0.Encryptor = a0.extend({
+          processBlock: function (a4, a5) {
+            var a7 = this._cipher,
+              a8 = a7.blockSize,
+              a9 = this._iv,
+              aa = this._keystream;
+            a9 && (aa = this._keystream = a9.slice(0), this._iv = void 0);
+            a7.encryptBlock(aa, 0);
+            for (var ab = 0; ab < a8; ab++) {
+              a4[a5 + ab] ^= aa[ab];
+            }
+          }
+        }), a0.Decryptor = a1, a0), a2.mode.OFB);
+      },
+      73: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(165), a0.pad.AnsiX923 = {
+          pad: function (a1, a2) {
+            var a4 = a1.sigBytes,
+              a5 = 4 * a2,
+              a6 = a5 - a4 % a5,
+              a7 = a4 + a6 - 1;
+            a1.clamp();
+            a1.words[a7 >>> 2] |= a6 << 24 - a7 % 4 * 8;
+            a1.sigBytes += a6;
+          },
+          unpad: function (a1) {
+            var a3 = 255 & a1.words[a1.sigBytes - 1 >>> 2];
+            a1.sigBytes -= a3;
+          }
+        }, a0.pad.Ansix923);
+      },
+      905: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(165), a0.pad.Iso10126 = {
+          pad: function (a2, a3) {
+            var a5 = 4 * a3,
+              a6 = a5 - a2.sigBytes % a5;
+            a2.concat(a0.lib.WordArray.random(a6 - 1)).concat(a0.lib.WordArray.create([a6 << 24], 1));
+          },
+          unpad: function (a2) {
+            var a4 = 255 & a2.words[a2.sigBytes - 1 >>> 2];
+            a2.sigBytes -= a4;
+          }
+        }, a0.pad.Iso10126);
+      },
+      482: function (W, X, Y) {
+        var Z;
+        W.exports = (Z = Y(21), Y(165), Z.pad.Iso97971 = {
+          pad: function (a1, a2) {
+            a1.concat(Z.lib.WordArray.create([2147483648], 1));
+            Z.pad.ZeroPadding.pad(a1, a2);
+          },
+          unpad: function (a1) {
+            Z.pad.ZeroPadding.unpad(a1);
+            a1.sigBytes--;
+          }
+        }, Z.pad.Iso97971);
+      },
+      124: function (W, X, Y) {
+        var Z,
+          a0 = {
+            pad: function () {},
+            unpad: function () {}
+          };
+        W.exports = (Z = Y(21), Y(165), Z.pad.NoPadding = a0, Z.pad.NoPadding);
+      },
+      155: function (W, X, Y) {
+        var Z;
+        W.exports = (Z = Y(21), Y(165), Z.pad.ZeroPadding = {
+          pad: function (a0, a1) {
+            var a2 = 4 * a1;
+            a0.clamp();
+            a0.sigBytes += a2 - (a0.sigBytes % a2 || a2);
+          },
+          unpad: function (a0) {
+            var a1 = a0.words,
+              a2 = a0.sigBytes - 1;
+            for (a2 = a0.sigBytes - 1; a2 >= 0; a2--) {
+              if (a1[a2 >>> 2] >>> 24 - a2 % 4 * 8 & 255) {
+                a0.sigBytes = a2 + 1;
+                break;
+              }
+            }
+          }
+        }, Z.pad.ZeroPadding);
+      },
+      19: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6, a7, a8;
+        W.exports = (a8 = Y(21), Y(9), Y(25), a0 = a8, a1 = a0.lib, a2 = a1.Base, a3 = a1.WordArray, a4 = a0.algo, a5 = a4.SHA256, a6 = a4.HMAC, a7 = a4.PBKDF2 = a2.extend({
+          cfg: a2.extend({
+            keySize: 4,
+            hasher: a5,
+            iterations: 250000
+          }),
+          init: function (a9) {
+            this.cfg = this.cfg.extend(a9);
+          },
+          compute: function (a9, aa) {
+            for (var ab = this.cfg, ac = a6.create(ab.hasher, a9), ad = a3.create(), ae = a3.create([1]), af = ad.words, ag = ae.words, ah = ab.keySize, ai = ab.iterations; af.length < ah;) {
+              var aj = ac.update(aa).finalize(ae);
+              ac.reset();
+              for (var ak = aj.words, al = ak.length, am = aj, an = 1; an < ai; an++) {
+                am = ac.finalize(am);
+                ac.reset();
+                for (var ao = am.words, ap = 0; ap < al; ap++) {
+                  ak[ap] ^= ao[ap];
+                }
+              }
+              ad.concat(aj);
+              ag[0]++;
+            }
+            ad.sigBytes = 4 * ah;
+            return ad;
+          }
+        }), a0.PBKDF2 = function (a9, aa, ab) {
+          return a7.create(ab).compute(a9, aa);
+        }, a8.PBKDF2);
+      },
+      696: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          a5.RabbitLegacy = a4.extend({
+            _doReset: function () {
+              this._X = [ac[0], ac[3] << 16 | ac[2] >>> 16, ac[1], ac[0] << 16 | ac[3] >>> 16, ac[2], ac[1] << 16 | ac[0] >>> 16, ac[3], ac[2] << 16 | ac[1] >>> 16];
+              this._C = [ac[2] << 16 | ac[2] >>> 16, 4294901760 & ac[0] | 65535 & ac[1], ac[3] << 16 | ac[3] >>> 16, 4294901760 & ac[1] | 65535 & ac[2], ac[0] << 16 | ac[0] >>> 16, 4294901760 & ac[2] | 65535 & ac[3], ac[1] << 16 | ac[1] >>> 16, 4294901760 & ac[3] | 65535 & ac[0]];
+              var ac = this._key.words,
+                ad = this.cfg.iv,
+                ae = this._X,
+                af = this._C;
+              this._b = 0;
+              for (var ag = 0; ag < 4; ag++) {
+                aa.call(this);
+              }
+              for (ag = 0; ag < 8; ag++) {
+                af[ag] ^= ae[ag + 4 & 7];
+              }
+              if (ad) {
+                var ah = ad.words,
+                  ai = ah[0],
+                  aj = ah[1],
+                  ak = 16711935 & (ai << 8 | ai >>> 24) | 4278255360 & (ai << 24 | ai >>> 8),
+                  al = 16711935 & (aj << 8 | aj >>> 24) | 4278255360 & (aj << 24 | aj >>> 8),
+                  am = ak >>> 16 | 4294901760 & al,
+                  an = al << 16 | 65535 & ak;
+                for (af[0] ^= ak, af[1] ^= am, af[2] ^= al, af[3] ^= an, af[4] ^= ak, af[5] ^= am, af[6] ^= al, af[7] ^= an, ag = 0; ag < 4; ag++) {
+                  aa.call(this);
+                }
+              }
+            },
+            _doProcessBlock: function (ab, ac) {
+              var ae = this._X;
+              aa.call(this);
+              a6[0] = ae[0] ^ ae[5] >>> 16 ^ ae[3] << 16;
+              a6[1] = ae[2] ^ ae[7] >>> 16 ^ ae[5] << 16;
+              a6[2] = ae[4] ^ ae[1] >>> 16 ^ ae[7] << 16;
+              a6[3] = ae[6] ^ ae[3] >>> 16 ^ ae[1] << 16;
+              for (var af = 0; af < 4; af++) {
+                a6[af] = 16711935 & (a6[af] << 8 | a6[af] >>> 24) | 4278255360 & (a6[af] << 24 | a6[af] >>> 8);
+                ab[ac + af] ^= a6[af];
+              }
+            },
+            blockSize: 4,
+            ivSize: 2
+          });
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.StreamCipher,
+            a5 = a2.algo,
+            a6 = [],
+            a7 = [],
+            a8 = [],
+            a9 = a5.RabbitLegacy;
+          function aa() {
+            for (var ab = this._X, ac = this._C, ad = 0; ad < 8; ad++) {
+              a7[ad] = ac[ad];
+            }
+            for (ac[0] = ac[0] + 1295307597 + this._b | 0, ac[1] = ac[1] + 3545052371 + (ac[0] >>> 0 < a7[0] >>> 0 ? 1 : 0) | 0, ac[2] = ac[2] + 886263092 + (ac[1] >>> 0 < a7[1] >>> 0 ? 1 : 0) | 0, ac[3] = ac[3] + 1295307597 + (ac[2] >>> 0 < a7[2] >>> 0 ? 1 : 0) | 0, ac[4] = ac[4] + 3545052371 + (ac[3] >>> 0 < a7[3] >>> 0 ? 1 : 0) | 0, ac[5] = ac[5] + 886263092 + (ac[4] >>> 0 < a7[4] >>> 0 ? 1 : 0) | 0, ac[6] = ac[6] + 1295307597 + (ac[5] >>> 0 < a7[5] >>> 0 ? 1 : 0) | 0, ac[7] = ac[7] + 3545052371 + (ac[6] >>> 0 < a7[6] >>> 0 ? 1 : 0) | 0, this._b = ac[7] >>> 0 < a7[7] >>> 0 ? 1 : 0, ad = 0; ad < 8; ad++) {
+              var ae = ab[ad] + ac[ad],
+                af = 65535 & ae,
+                ag = ae >>> 16,
+                ah = ((af * af >>> 17) + af * ag >>> 15) + ag * ag,
+                ai = ((4294901760 & ae) * ae | 0) + ((65535 & ae) * ae | 0);
+              a8[ad] = ah ^ ai;
+            }
+            ab[0] = a8[0] + (a8[7] << 16 | a8[7] >>> 16) + (a8[6] << 16 | a8[6] >>> 16) | 0;
+            ab[1] = a8[1] + (a8[0] << 8 | a8[0] >>> 24) + a8[7] | 0;
+            ab[2] = a8[2] + (a8[1] << 16 | a8[1] >>> 16) + (a8[0] << 16 | a8[0] >>> 16) | 0;
+            ab[3] = a8[3] + (a8[2] << 8 | a8[2] >>> 24) + a8[1] | 0;
+            ab[4] = a8[4] + (a8[3] << 16 | a8[3] >>> 16) + (a8[2] << 16 | a8[2] >>> 16) | 0;
+            ab[5] = a8[5] + (a8[4] << 8 | a8[4] >>> 24) + a8[3] | 0;
+            ab[6] = a8[6] + (a8[5] << 16 | a8[5] >>> 16) + (a8[4] << 16 | a8[4] >>> 16) | 0;
+            ab[7] = a8[7] + (a8[6] << 8 | a8[6] >>> 24) + a8[5] | 0;
+          }
+          a2.RabbitLegacy = a4._createHelper(a9);
+        }(), a0.RabbitLegacy);
+      },
+      298: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          a5.Rabbit = a4.extend({
+            _doReset: function () {
+              for (var ac = this._key.words, ad = this.cfg.iv, ae = 0; ae < 4; ae++) {
+                ac[ae] = 16711935 & (ac[ae] << 8 | ac[ae] >>> 24) | 4278255360 & (ac[ae] << 24 | ac[ae] >>> 8);
+              }
+              this._X = [ac[0], ac[3] << 16 | ac[2] >>> 16, ac[1], ac[0] << 16 | ac[3] >>> 16, ac[2], ac[1] << 16 | ac[0] >>> 16, ac[3], ac[2] << 16 | ac[1] >>> 16];
+              this._C = [ac[2] << 16 | ac[2] >>> 16, 4294901760 & ac[0] | 65535 & ac[1], ac[3] << 16 | ac[3] >>> 16, 4294901760 & ac[1] | 65535 & ac[2], ac[0] << 16 | ac[0] >>> 16, 4294901760 & ac[2] | 65535 & ac[3], ac[1] << 16 | ac[1] >>> 16, 4294901760 & ac[3] | 65535 & ac[0]];
+              var af = this._X,
+                ag = this._C;
+              for (this._b = 0, ae = 0; ae < 4; ae++) {
+                aa.call(this);
+              }
+              for (ae = 0; ae < 8; ae++) {
+                ag[ae] ^= af[ae + 4 & 7];
+              }
+              if (ad) {
+                var ah = ad.words,
+                  ai = ah[0],
+                  aj = ah[1],
+                  ak = 16711935 & (ai << 8 | ai >>> 24) | 4278255360 & (ai << 24 | ai >>> 8),
+                  al = 16711935 & (aj << 8 | aj >>> 24) | 4278255360 & (aj << 24 | aj >>> 8),
+                  am = ak >>> 16 | 4294901760 & al,
+                  an = al << 16 | 65535 & ak;
+                for (ag[0] ^= ak, ag[1] ^= am, ag[2] ^= al, ag[3] ^= an, ag[4] ^= ak, ag[5] ^= am, ag[6] ^= al, ag[7] ^= an, ae = 0; ae < 4; ae++) {
+                  aa.call(this);
+                }
+              }
+            },
+            _doProcessBlock: function (ab, ac) {
+              var ad = this._X;
+              aa.call(this);
+              a6[0] = ad[0] ^ ad[5] >>> 16 ^ ad[3] << 16;
+              a6[1] = ad[2] ^ ad[7] >>> 16 ^ ad[5] << 16;
+              a6[2] = ad[4] ^ ad[1] >>> 16 ^ ad[7] << 16;
+              a6[3] = ad[6] ^ ad[3] >>> 16 ^ ad[1] << 16;
+              for (var ae = 0; ae < 4; ae++) {
+                a6[ae] = 16711935 & (a6[ae] << 8 | a6[ae] >>> 24) | 4278255360 & (a6[ae] << 24 | a6[ae] >>> 8);
+                ab[ac + ae] ^= a6[ae];
+              }
+            },
+            blockSize: 4,
+            ivSize: 2
+          });
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.StreamCipher,
+            a5 = a2.algo,
+            a6 = [],
+            a7 = [],
+            a8 = [],
+            a9 = a5.Rabbit;
+          function aa() {
+            for (var ab = this._X, ac = this._C, ad = 0; ad < 8; ad++) {
+              a7[ad] = ac[ad];
+            }
+            for (ac[0] = ac[0] + 1295307597 + this._b | 0, ac[1] = ac[1] + 3545052371 + (ac[0] >>> 0 < a7[0] >>> 0 ? 1 : 0) | 0, ac[2] = ac[2] + 886263092 + (ac[1] >>> 0 < a7[1] >>> 0 ? 1 : 0) | 0, ac[3] = ac[3] + 1295307597 + (ac[2] >>> 0 < a7[2] >>> 0 ? 1 : 0) | 0, ac[4] = ac[4] + 3545052371 + (ac[3] >>> 0 < a7[3] >>> 0 ? 1 : 0) | 0, ac[5] = ac[5] + 886263092 + (ac[4] >>> 0 < a7[4] >>> 0 ? 1 : 0) | 0, ac[6] = ac[6] + 1295307597 + (ac[5] >>> 0 < a7[5] >>> 0 ? 1 : 0) | 0, ac[7] = ac[7] + 3545052371 + (ac[6] >>> 0 < a7[6] >>> 0 ? 1 : 0) | 0, this._b = ac[7] >>> 0 < a7[7] >>> 0 ? 1 : 0, ad = 0; ad < 8; ad++) {
+              var ae = ab[ad] + ac[ad],
+                af = 65535 & ae,
+                ag = ae >>> 16,
+                ah = ((af * af >>> 17) + af * ag >>> 15) + ag * ag,
+                ai = ((4294901760 & ae) * ae | 0) + ((65535 & ae) * ae | 0);
+              a8[ad] = ah ^ ai;
+            }
+            ab[0] = a8[0] + (a8[7] << 16 | a8[7] >>> 16) + (a8[6] << 16 | a8[6] >>> 16) | 0;
+            ab[1] = a8[1] + (a8[0] << 8 | a8[0] >>> 24) + a8[7] | 0;
+            ab[2] = a8[2] + (a8[1] << 16 | a8[1] >>> 16) + (a8[0] << 16 | a8[0] >>> 16) | 0;
+            ab[3] = a8[3] + (a8[2] << 8 | a8[2] >>> 24) + a8[1] | 0;
+            ab[4] = a8[4] + (a8[3] << 16 | a8[3] >>> 16) + (a8[2] << 16 | a8[2] >>> 16) | 0;
+            ab[5] = a8[5] + (a8[4] << 8 | a8[4] >>> 24) + a8[3] | 0;
+            ab[6] = a8[6] + (a8[5] << 16 | a8[5] >>> 16) + (a8[4] << 16 | a8[4] >>> 16) | 0;
+            ab[7] = a8[7] + (a8[6] << 8 | a8[6] >>> 24) + a8[5] | 0;
+          }
+          a2.Rabbit = a4._createHelper(a9);
+        }(), a0.Rabbit);
+      },
+      193: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          a5.RC4 = a4.extend({
+            _doReset: function () {
+              for (this._S = [], aa = this._key, ab = aa.words, ac = aa.sigBytes, ad = this._S = [], ae = 0, void 0; ae < 256; ae++) {
+                var aa, ab, ac, ad, ae;
+                ad[ae] = ae;
+              }
+              ae = 0;
+              for (var af = 0; ae < 256; ae++) {
+                var ag = ae % ac,
+                  ah = ab[ag >>> 2] >>> 24 - ag % 4 * 8 & 255;
+                af = (af + ad[ae] + ah) % 256;
+                var ai = ad[ae];
+                ad[ae] = ad[af];
+                ad[af] = ai;
+              }
+              this._i = this._j = 0;
+            },
+            _doProcessBlock: function (aa, ab) {
+              aa[ab] ^= a7.call(this);
+            },
+            keySize: 8,
+            ivSize: 0
+          });
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.StreamCipher,
+            a5 = a2.algo,
+            a6 = a5.RC4;
+          function a7() {
+            for (var aa = this._S, ab = this._i, ac = this._j, ad = 0, ae = 0; ae < 4; ae++) {
+              ab = (ab + 1) % 256;
+              ac = (ac + aa[ab]) % 256;
+              var af = aa[ab];
+              aa[ab] = aa[ac];
+              aa[ac] = af;
+              ad |= aa[(aa[ab] + aa[ac]) % 256] << 24 - 8 * ae;
+            }
+            this._i = ab;
+            this._j = ac;
+            return ad;
+          }
+          a2.RC4 = a4._createHelper(a6);
+          var a8 = {
+            drop: 192
+          };
+          a5.RC4Drop = a6.extend({
+            cfg: a6.cfg.extend(a8),
+            _doReset: function () {
+              a6._doReset.call(this);
+              for (var aa = this.cfg.drop; aa > 0; aa--) {
+                a7.call(this);
+              }
+            }
+          });
+          var a9 = a5.RC4Drop;
+          a2.RC4Drop = a4._createHelper(a9);
+        }(), a0.RC4);
+      },
+      56: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function (a1) {
+          a7.RIPEMD160 = a6.extend({
+            _doReset: function () {
+              this._hash = a5.create([1732584193, 4023233417, 2562383102, 271733878, 3285377520]);
+            },
+            _doProcessBlock: function (al, am) {
+              for (var an = 0; an < 16; an++) {
+                var ao = am + an,
+                  ap = al[ao];
+                al[ao] = 16711935 & (ap << 8 | ap >>> 24) | 4278255360 & (ap << 24 | ap >>> 8);
+              }
+              var aq,
+                ar,
+                as,
+                at,
+                au,
+                av,
+                aw,
+                ax,
+                ay,
+                az,
+                aA,
+                aB = this._hash.words,
+                aC = ac.words,
+                aD = ad.words,
+                aE = a8.words,
+                aF = a9.words,
+                aG = aa.words,
+                aH = ab.words;
+              for (av = aq = aB[0], aw = ar = aB[1], ax = as = aB[2], ay = at = aB[3], az = au = aB[4], an = 0; an < 80; an += 1) {
+                aA = aq + al[am + aE[an]] | 0;
+                aA += an < 16 ? af(ar, as, at) + aC[0] : an < 32 ? ag(ar, as, at) + aC[1] : an < 48 ? ah(ar, as, at) + aC[2] : an < 64 ? ai(ar, as, at) + aC[3] : aj(ar, as, at) + aC[4];
+                aA |= 0;
+                aA = ak(aA, aG[an]);
+                aA = aA + au | 0;
+                aq = au;
+                au = at;
+                at = ak(as, 10);
+                as = ar;
+                ar = aA;
+                aA = av + al[am + aF[an]] | 0;
+                aA += an < 16 ? aj(aw, ax, ay) + aD[0] : an < 32 ? ai(aw, ax, ay) + aD[1] : an < 48 ? ah(aw, ax, ay) + aD[2] : an < 64 ? ag(aw, ax, ay) + aD[3] : af(aw, ax, ay) + aD[4];
+                aA |= 0;
+                aA = ak(aA, aH[an]);
+                aA = aA + az | 0;
+                av = az;
+                az = ay;
+                ay = ak(ax, 10);
+                ax = aw;
+                aw = aA;
+              }
+              aA = aB[1] + as + ay | 0;
+              aB[1] = aB[2] + at + az | 0;
+              aB[2] = aB[3] + au + av | 0;
+              aB[3] = aB[4] + aq + aw | 0;
+              aB[4] = aB[0] + ar + ax | 0;
+              aB[0] = aA;
+            },
+            _doFinalize: function () {
+              var am = this._data,
+                an = am.words,
+                ao = 8 * this._nDataBytes,
+                ap = 8 * am.sigBytes;
+              an[ap >>> 5] |= 128 << 24 - ap % 32;
+              an[14 + (ap + 64 >>> 9 << 4)] = 16711935 & (ao << 8 | ao >>> 24) | 4278255360 & (ao << 24 | ao >>> 8);
+              am.sigBytes = 4 * (an.length + 1);
+              this._process();
+              for (var aq = this._hash, ar = aq.words, as = 0; as < 5; as++) {
+                var at = ar[as];
+                ar[as] = 16711935 & (at << 8 | at >>> 24) | 4278255360 & (at << 24 | at >>> 8);
+              }
+              return aq;
+            },
+            clone: function () {
+              var al = a6.clone.call(this);
+              al._hash = this._hash.clone();
+              return al;
+            }
+          });
+          var a3 = a0,
+            a4 = a3.lib,
+            a5 = a4.WordArray,
+            a6 = a4.Hasher,
+            a7 = a3.algo,
+            a8 = a5.create([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 7, 4, 13, 1, 10, 6, 15, 3, 12, 0, 9, 5, 2, 14, 11, 8, 3, 10, 14, 4, 9, 15, 8, 1, 2, 7, 0, 6, 13, 11, 5, 12, 1, 9, 11, 10, 0, 8, 12, 4, 13, 3, 7, 15, 14, 5, 6, 2, 4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13]),
+            a9 = a5.create([5, 14, 7, 0, 9, 2, 11, 4, 13, 6, 15, 8, 1, 10, 3, 12, 6, 11, 3, 7, 0, 13, 5, 10, 14, 15, 8, 12, 4, 9, 1, 2, 15, 5, 1, 3, 7, 14, 6, 9, 11, 8, 12, 2, 10, 0, 4, 13, 8, 6, 4, 1, 3, 11, 15, 0, 5, 12, 2, 13, 9, 7, 10, 14, 12, 15, 10, 4, 1, 5, 8, 7, 6, 2, 13, 14, 0, 3, 9, 11]),
+            aa = a5.create([11, 14, 15, 12, 5, 8, 7, 9, 11, 13, 14, 15, 6, 7, 9, 8, 7, 6, 8, 13, 11, 9, 7, 15, 7, 12, 15, 9, 11, 7, 13, 12, 11, 13, 6, 7, 14, 9, 13, 15, 14, 8, 13, 6, 5, 12, 7, 5, 11, 12, 14, 15, 14, 15, 9, 8, 9, 14, 5, 6, 8, 6, 5, 12, 9, 15, 5, 11, 6, 8, 13, 12, 5, 12, 13, 14, 11, 8, 5, 6]),
+            ab = a5.create([8, 9, 9, 11, 13, 15, 15, 5, 7, 7, 8, 11, 14, 14, 12, 6, 9, 13, 15, 7, 12, 8, 9, 11, 7, 7, 12, 7, 6, 15, 13, 11, 9, 7, 15, 11, 8, 6, 6, 14, 12, 13, 5, 14, 13, 13, 7, 5, 15, 5, 8, 11, 14, 14, 6, 14, 6, 9, 12, 9, 12, 5, 15, 8, 8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11]),
+            ac = a5.create([0, 1518500249, 1859775393, 2400959708, 2840853838]),
+            ad = a5.create([1352829926, 1548603684, 1836072691, 2053994217, 0]),
+            ae = a7.RIPEMD160;
+          function af(al, am, an) {
+            return al ^ am ^ an;
+          }
+          function ag(al, am, an) {
+            return al & am | ~al & an;
+          }
+          function ah(al, am, an) {
+            return (al | ~am) ^ an;
+          }
+          function ai(al, am, an) {
+            return al & an | am & ~an;
+          }
+          function aj(al, am, an) {
+            return al ^ (am | ~an);
+          }
+          function ak(al, am) {
+            return al << am | al >>> 32 - am;
+          }
+          a3.RIPEMD160 = a6._createHelper(ae);
+          a3.HmacRIPEMD160 = a6._createHmacHelper(ae);
+        }(Math), a0.RIPEMD160);
+      },
+      471: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6, a7;
+        W.exports = (a7 = Y(21), a0 = a7, a1 = a0.lib, a2 = a1.WordArray, a3 = a1.Hasher, a4 = a0.algo, a5 = [], a6 = a4.SHA1 = a3.extend({
+          _doReset: function () {
+            this._hash = new a2.init([1732584193, 4023233417, 2562383102, 271733878, 3285377520]);
+          },
+          _doProcessBlock: function (a8, a9) {
+            for (var ab = this._hash.words, ac = ab[0], ad = ab[1], ae = ab[2], af = ab[3], ag = ab[4], ah = 0; ah < 80; ah++) {
+              if (ah < 16) {
+                a5[ah] = 0 | a8[a9 + ah];
+              } else {
+                var ai = a5[ah - 3] ^ a5[ah - 8] ^ a5[ah - 14] ^ a5[ah - 16];
+                a5[ah] = ai << 1 | ai >>> 31;
+              }
+              var aj = (ac << 5 | ac >>> 27) + ag + a5[ah];
+              aj += ah < 20 ? 1518500249 + (ad & ae | ~ad & af) : ah < 40 ? 1859775393 + (ad ^ ae ^ af) : ah < 60 ? (ad & ae | ad & af | ae & af) - 1894007588 : (ad ^ ae ^ af) - 899497514;
+              ag = af;
+              af = ae;
+              ae = ad << 30 | ad >>> 2;
+              ad = ac;
+              ac = aj;
+            }
+            ab[0] = ab[0] + ac | 0;
+            ab[1] = ab[1] + ad | 0;
+            ab[2] = ab[2] + ae | 0;
+            ab[3] = ab[3] + af | 0;
+            ab[4] = ab[4] + ag | 0;
+          },
+          _doFinalize: function () {
+            var a8 = this._data,
+              a9 = a8.words,
+              aa = 8 * this._nDataBytes,
+              ab = 8 * a8.sigBytes;
+            a9[ab >>> 5] |= 128 << 24 - ab % 32;
+            a9[14 + (ab + 64 >>> 9 << 4)] = Math.floor(aa / 4294967296);
+            a9[15 + (ab + 64 >>> 9 << 4)] = aa;
+            a8.sigBytes = 4 * a9.length;
+            this._process();
+            return this._hash;
+          },
+          clone: function () {
+            var a9 = a3.clone.call(this);
+            a9._hash = this._hash.clone();
+            return a9;
+          }
+        }), a0.SHA1 = a3._createHelper(a6), a0.HmacSHA1 = a3._createHmacHelper(a6), a7.SHA1);
+      },
+      308: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6;
+        W.exports = (a6 = Y(21), Y(9), a0 = a6, a1 = a0.lib, a2 = a1.WordArray, a3 = a0.algo, a4 = a3.SHA256, a5 = a3.SHA224 = a4.extend({
+          _doReset: function () {
+            this._hash = new a2.init([3238371032, 914150663, 812702999, 4144912697, 4290775857, 1750603025, 1694076839, 3204075428]);
+          },
+          _doFinalize: function () {
+            var a7 = a4._doFinalize.call(this);
+            a7.sigBytes -= 4;
+            return a7;
+          }
+        }), a0.SHA224 = a4._createHelper(a5), a0.HmacSHA224 = a4._createHmacHelper(a5), a6.SHA224);
+      },
+      9: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function (a1) {
+          var a3 = a0,
+            a4 = a3.lib,
+            a5 = a4.WordArray,
+            a6 = a4.Hasher,
+            a7 = a3.algo,
+            a8 = [],
+            a9 = [];
+          !function () {
+            function ad(ah) {
+              for (var ai = a1.sqrt(ah), aj = 2; aj <= ai; aj++) {
+                if (!(ah % aj)) {
+                  return !1;
+                }
+              }
+              return !0;
+            }
+            function ae(ah) {
+              return 4294967296 * (ah - (0 | ah)) | 0;
+            }
+            for (var af = 2, ag = 0; ag < 64;) {
+              ad(af) && (ag < 8 && (a8[ag] = ae(a1.pow(af, 0.5))), a9[ag] = ae(a1.pow(af, 0.3333333333333333)), ag++);
+              af++;
+            }
+          }();
+          a7.SHA256 = a6.extend({
+            _doReset: function () {
+              this._hash = new a5.init(a8.slice(0));
+            },
+            _doProcessBlock: function (ac, ad) {
+              for (var af = this._hash.words, ag = af[0], ah = af[1], ai = af[2], aj = af[3], ak = af[4], al = af[5], am = af[6], an = af[7], ao = 0; ao < 64; ao++) {
+                if (ao < 16) {
+                  aa[ao] = 0 | ac[ad + ao];
+                } else {
+                  var ap = aa[ao - 15],
+                    aq = (ap << 25 | ap >>> 7) ^ (ap << 14 | ap >>> 18) ^ ap >>> 3,
+                    ar = aa[ao - 2],
+                    as = (ar << 15 | ar >>> 17) ^ (ar << 13 | ar >>> 19) ^ ar >>> 10;
+                  aa[ao] = aq + aa[ao - 7] + as + aa[ao - 16];
+                }
+                var at = ak & al ^ ~ak & am,
+                  au = ag & ah ^ ag & ai ^ ah & ai,
+                  av = (ag << 30 | ag >>> 2) ^ (ag << 19 | ag >>> 13) ^ (ag << 10 | ag >>> 22),
+                  aw = (ak << 26 | ak >>> 6) ^ (ak << 21 | ak >>> 11) ^ (ak << 7 | ak >>> 25),
+                  ax = an + aw + at + a9[ao] + aa[ao],
+                  ay = av + au;
+                an = am;
+                am = al;
+                al = ak;
+                ak = aj + ax | 0;
+                aj = ai;
+                ai = ah;
+                ah = ag;
+                ag = ax + ay | 0;
+              }
+              af[0] = af[0] + ag | 0;
+              af[1] = af[1] + ah | 0;
+              af[2] = af[2] + ai | 0;
+              af[3] = af[3] + aj | 0;
+              af[4] = af[4] + ak | 0;
+              af[5] = af[5] + al | 0;
+              af[6] = af[6] + am | 0;
+              af[7] = af[7] + an | 0;
+            },
+            _doFinalize: function () {
+              var ac = this._data,
+                ad = ac.words,
+                ae = 8 * this._nDataBytes,
+                af = 8 * ac.sigBytes;
+              ad[af >>> 5] |= 128 << 24 - af % 32;
+              ad[14 + (af + 64 >>> 9 << 4)] = a1.floor(ae / 4294967296);
+              ad[15 + (af + 64 >>> 9 << 4)] = ae;
+              ac.sigBytes = 4 * ad.length;
+              this._process();
+              return this._hash;
+            },
+            clone: function () {
+              var ad = a6.clone.call(this);
+              ad._hash = this._hash.clone();
+              return ad;
+            }
+          });
+          var aa = [],
+            ab = a7.SHA256;
+          a3.SHA256 = a6._createHelper(ab);
+          a3.HmacSHA256 = a6._createHmacHelper(ab);
+        }(Math), a0.SHA256);
+      },
+      953: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(240), function (a1) {
+          var a3 = a0,
+            a4 = a3.lib,
+            a5 = a4.WordArray,
+            a6 = a4.Hasher,
+            a7 = a3.x64,
+            a8 = a7.Word,
+            a9 = a3.algo,
+            aa = [],
+            ab = [],
+            ac = [];
+          !function () {
+            for (var ag = 1, ah = 0, ai = 0; ai < 24; ai++) {
+              aa[ag + 5 * ah] = (ai + 1) * (ai + 2) / 2 % 64;
+              var aj = ah % 5,
+                ak = (2 * ag + 3 * ah) % 5;
+              ag = aj;
+              ah = ak;
+            }
+            for (ag = 0; ag < 5; ag++) {
+              for (ah = 0; ah < 5; ah++) {
+                ab[ag + 5 * ah] = ah + (2 * ag + 3 * ah) % 5 * 5;
+              }
+            }
+            for (var al = 1, am = 0; am < 24; am++) {
+              for (var an = 0, ao = 0, ap = 0; ap < 7; ap++) {
+                if (1 & al) {
+                  var aq = (1 << ap) - 1;
+                  aq < 32 ? ao ^= 1 << aq : an ^= 1 << aq - 32;
+                }
+                128 & al ? al = al << 1 ^ 113 : al <<= 1;
+              }
+              ac[am] = a8.create(an, ao);
+            }
+          }();
+          var ad = [];
+          !function () {
+            for (var ah = 0; ah < 25; ah++) {
+              ad[ah] = a8.create();
+            }
+          }();
+          var ae = {};
+          ae.outputLength = 512;
+          a9.SHA3 = a6.extend({
+            cfg: a6.cfg.extend(ae),
+            _doReset: function () {
+              for (this._state = [], ag = this._state = [], ah = 0, void 0; ah < 25; ah++) {
+                var ag, ah;
+                ag[ah] = new a8.init();
+              }
+              this.blockSize = (1600 - 2 * this.cfg.outputLength) / 32;
+            },
+            _doProcessBlock: function (ag, ah) {
+              for (var ak = this._state, al = this.blockSize / 2, am = 0; am < al; am++) {
+                var an = ag[ah + 2 * am],
+                  ao = ag[ah + 2 * am + 1];
+                an = 16711935 & (an << 8 | an >>> 24) | 4278255360 & (an << 24 | an >>> 8);
+                ao = 16711935 & (ao << 8 | ao >>> 24) | 4278255360 & (ao << 24 | ao >>> 8);
+                var ap = ak[am];
+                ap.high ^= ao;
+                ap.low ^= an;
+              }
+              for (var aq = 0; aq < 24; aq++) {
+                for (var ar = 0; ar < 5; ar++) {
+                  for (var as = 0, at = 0, au = 0; au < 5; au++) {
+                    ap = ak[ar + 5 * au];
+                    as ^= ap.high;
+                    at ^= ap.low;
+                  }
+                  var av = ad[ar];
+                  av.high = as;
+                  av.low = at;
+                }
+                for (ar = 0; ar < 5; ar++) {
+                  var aw = ad[(ar + 4) % 5],
+                    ax = ad[(ar + 1) % 5],
+                    ay = ax.high,
+                    az = ax.low;
+                  for (as = aw.high ^ (ay << 1 | az >>> 31), at = aw.low ^ (az << 1 | ay >>> 31), au = 0; au < 5; au++) {
+                    ap = ak[ar + 5 * au];
+                    ap.high ^= as;
+                    ap.low ^= at;
+                  }
+                }
+                for (var aA = 1; aA < 25; aA++) {
+                  ap = ak[aA];
+                  var aB = ap.high,
+                    aC = ap.low,
+                    aD = aa[aA];
+                  aD < 32 ? (as = aB << aD | aC >>> 32 - aD, at = aC << aD | aB >>> 32 - aD) : (as = aC << aD - 32 | aB >>> 64 - aD, at = aB << aD - 32 | aC >>> 64 - aD);
+                  var aE = ad[ab[aA]];
+                  aE.high = as;
+                  aE.low = at;
+                }
+                var aF = ad[0],
+                  aG = ak[0];
+                for (aF.high = aG.high, aF.low = aG.low, ar = 0; ar < 5; ar++) {
+                  for (au = 0; au < 5; au++) {
+                    aA = ar + 5 * au;
+                    ap = ak[aA];
+                    var aH = ad[aA],
+                      aI = ad[(ar + 1) % 5 + 5 * au],
+                      aJ = ad[(ar + 2) % 5 + 5 * au];
+                    ap.high = aH.high ^ ~aI.high & aJ.high;
+                    ap.low = aH.low ^ ~aI.low & aJ.low;
+                  }
+                }
+                ap = ak[0];
+                var aK = ac[aq];
+                ap.high ^= aK.high;
+                ap.low ^= aK.low;
+              }
+            },
+            _doFinalize: function () {
+              var ag = this._data,
+                ah = ag.words,
+                ai = (this._nDataBytes, 8 * ag.sigBytes),
+                aj = 32 * this.blockSize;
+              ah[ai >>> 5] |= 1 << 24 - ai % 32;
+              ah[(a1.ceil((ai + 1) / aj) * aj >>> 5) - 1] |= 128;
+              ag.sigBytes = 4 * ah.length;
+              this._process();
+              for (var ak = this._state, al = this.cfg.outputLength / 8, am = al / 8, an = [], ao = 0; ao < am; ao++) {
+                var ap = ak[ao],
+                  aq = ap.high,
+                  ar = ap.low;
+                aq = 16711935 & (aq << 8 | aq >>> 24) | 4278255360 & (aq << 24 | aq >>> 8);
+                ar = 16711935 & (ar << 8 | ar >>> 24) | 4278255360 & (ar << 24 | ar >>> 8);
+                an.push(ar);
+                an.push(aq);
+              }
+              return new a5.init(an, al);
+            },
+            clone: function () {
+              for (ai._state = this._state.slice(0), ai = a6.clone.call(this), aj = ai._state = this._state.slice(0), ak = 0, void 0; ak < 25; ak++) {
+                var ai, aj, ak;
+                aj[ak] = aj[ak].clone();
+              }
+              return ai;
+            }
+          });
+          var af = a9.SHA3;
+          a3.SHA3 = a6._createHelper(af);
+          a3.HmacSHA3 = a6._createHmacHelper(af);
+        }(Math), a0.SHA3);
+      },
+      557: function (W, X, Y) {
+        var a0, a1, a2, a3, a4, a5, a6, a7;
+        W.exports = (a7 = Y(21), Y(240), Y(380), a0 = a7, a1 = a0.x64, a2 = a1.Word, a3 = a1.WordArray, a4 = a0.algo, a5 = a4.SHA512, a6 = a4.SHA384 = a5.extend({
+          _doReset: function () {
+            this._hash = new a3.init([new a2.init(3418070365, 3238371032), new a2.init(1654270250, 914150663), new a2.init(2438529370, 812702999), new a2.init(355462360, 4144912697), new a2.init(1731405415, 4290775857), new a2.init(2394180231, 1750603025), new a2.init(3675008525, 1694076839), new a2.init(1203062813, 3204075428)]);
+          },
+          _doFinalize: function () {
+            var a9 = a5._doFinalize.call(this);
+            a9.sigBytes -= 16;
+            return a9;
+          }
+        }), a0.SHA384 = a5._createHelper(a6), a0.HmacSHA384 = a5._createHmacHelper(a6), a7.SHA384);
+      },
+      380: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(240), function () {
+          var a2 = a0,
+            a3 = a2.lib,
+            a4 = a3.Hasher,
+            a5 = a2.x64,
+            a6 = a5.Word,
+            a7 = a5.WordArray,
+            a8 = a2.algo;
+          function ad() {
+            return a6.create.apply(a6, arguments);
+          }
+          var a9 = [ad(1116352408, 3609767458), ad(1899447441, 602891725), ad(3049323471, 3964484399), ad(3921009573, 2173295548), ad(961987163, 4081628472), ad(1508970993, 3053834265), ad(2453635748, 2937671579), ad(2870763221, 3664609560), ad(3624381080, 2734883394), ad(310598401, 1164996542), ad(607225278, 1323610764), ad(1426881987, 3590304994), ad(1925078388, 4068182383), ad(2162078206, 991336113), ad(2614888103, 633803317), ad(3248222580, 3479774868), ad(3835390401, 2666613458), ad(4022224774, 944711139), ad(264347078, 2341262773), ad(604807628, 2007800933), ad(770255983, 1495990901), ad(1249150122, 1856431235), ad(1555081692, 3175218132), ad(1996064986, 2198950837), ad(2554220882, 3999719339), ad(2821834349, 766784016), ad(2952996808, 2566594879), ad(3210313671, 3203337956), ad(3336571891, 1034457026), ad(3584528711, 2466948901), ad(113926993, 3758326383), ad(338241895, 168717936), ad(666307205, 1188179964), ad(773529912, 1546045734), ad(1294757372, 1522805485), ad(1396182291, 2643833823), ad(1695183700, 2343527390), ad(1986661051, 1014477480), ad(2177026350, 1206759142), ad(2456956037, 344077627), ad(2730485921, 1290863460), ad(2820302411, 3158454273), ad(3259730800, 3505952657), ad(3345764771, 106217008), ad(3516065817, 3606008344), ad(3600352804, 1432725776), ad(4094571909, 1467031594), ad(275423344, 851169720), ad(430227734, 3100823752), ad(506948616, 1363258195), ad(659060556, 3750685593), ad(883997877, 3785050280), ad(958139571, 3318307427), ad(1322822218, 3812723403), ad(1537002063, 2003034995), ad(1747873779, 3602036899), ad(1955562222, 1575990012), ad(2024104815, 1125592928), ad(2227730452, 2716904306), ad(2361852424, 442776044), ad(2428436474, 593698344), ad(2756734187, 3733110249), ad(3204031479, 2999351573), ad(3329325298, 3815920427), ad(3391569614, 3928383900), ad(3515267271, 566280711), ad(3940187606, 3454069534), ad(4118630271, 4000239992), ad(116418474, 1914138554), ad(174292421, 2731055270), ad(289380356, 3203993006), ad(460393269, 320620315), ad(685471733, 587496836), ad(852142971, 1086792851), ad(1017036298, 365543100), ad(1126000580, 2618297676), ad(1288033470, 3409855158), ad(1501505948, 4234509866), ad(1607167915, 987167468), ad(1816402316, 1246189591)],
+            aa = [];
+          !function () {
+            for (var ae = 0; ae < 80; ae++) {
+              aa[ae] = ad();
+            }
+          }();
+          a8.SHA512 = a4.extend({
+            _doReset: function () {
+              this._hash = new a7.init([new a6.init(1779033703, 4089235720), new a6.init(3144134277, 2227873595), new a6.init(1013904242, 4271175723), new a6.init(2773480762, 1595750129), new a6.init(1359893119, 2917565137), new a6.init(2600822924, 725511199), new a6.init(528734635, 4215389547), new a6.init(1541459225, 327033209)]);
+            },
+            _doProcessBlock: function (af, ag) {
+              for (var ai = this._hash.words, aj = ai[0], ak = ai[1], al = ai[2], am = ai[3], an = ai[4], ao = ai[5], ap = ai[6], aq = ai[7], ar = aj.high, as = aj.low, at = ak.high, au = ak.low, av = al.high, aw = al.low, ax = am.high, ay = am.low, az = an.high, aA = an.low, aB = ao.high, aC = ao.low, aD = ap.high, aE = ap.low, aF = aq.high, aG = aq.low, aH = ar, aI = as, aJ = at, aK = au, aL = av, aM = aw, aN = ax, aO = ay, aP = az, aQ = aA, aR = aB, aS = aC, aT = aD, aU = aE, aV = aF, aW = aG, aX = 0; aX < 80; aX++) {
+                var aY,
+                  aZ,
+                  b0 = aa[aX];
+                if (aX < 16) {
+                  aZ = b0.high = 0 | af[ag + 2 * aX];
+                  aY = b0.low = 0 | af[ag + 2 * aX + 1];
+                } else {
+                  var b1 = aa[aX - 15],
+                    b2 = b1.high,
+                    b3 = b1.low,
+                    b4 = (b2 >>> 1 | b3 << 31) ^ (b2 >>> 8 | b3 << 24) ^ b2 >>> 7,
+                    b5 = (b3 >>> 1 | b2 << 31) ^ (b3 >>> 8 | b2 << 24) ^ (b3 >>> 7 | b2 << 25),
+                    b6 = aa[aX - 2],
+                    b7 = b6.high,
+                    b8 = b6.low,
+                    b9 = (b7 >>> 19 | b8 << 13) ^ (b7 << 3 | b8 >>> 29) ^ b7 >>> 6,
+                    ba = (b8 >>> 19 | b7 << 13) ^ (b8 << 3 | b7 >>> 29) ^ (b8 >>> 6 | b7 << 26),
+                    bb = aa[aX - 7],
+                    bc = bb.high,
+                    bd = bb.low,
+                    bf = aa[aX - 16],
+                    bg = bf.high,
+                    bh = bf.low;
+                  aY = b5 + bd;
+                  aZ = b4 + bc + (aY >>> 0 < b5 >>> 0 ? 1 : 0);
+                  aY += ba;
+                  aZ = aZ + b9 + (aY >>> 0 < ba >>> 0 ? 1 : 0);
+                  aY += bh;
+                  aZ = aZ + bg + (aY >>> 0 < bh >>> 0 ? 1 : 0);
+                  b0.high = aZ;
+                  b0.low = aY;
+                }
+                var bi = aP & aR ^ ~aP & aT,
+                  bj = aQ & aS ^ ~aQ & aU,
+                  bk = aH & aJ ^ aH & aL ^ aJ & aL,
+                  bl = aI & aK ^ aI & aM ^ aK & aM,
+                  bm = (aH >>> 28 | aI << 4) ^ (aH << 30 | aI >>> 2) ^ (aH << 25 | aI >>> 7),
+                  bn = (aI >>> 28 | aH << 4) ^ (aI << 30 | aH >>> 2) ^ (aI << 25 | aH >>> 7),
+                  bo = (aP >>> 14 | aQ << 18) ^ (aP >>> 18 | aQ << 14) ^ (aP << 23 | aQ >>> 9),
+                  bp = (aQ >>> 14 | aP << 18) ^ (aQ >>> 18 | aP << 14) ^ (aQ << 23 | aP >>> 9),
+                  bq = a9[aX],
+                  br = bq.high,
+                  bs = bq.low,
+                  bt = aW + bp,
+                  bu = aV + bo + (bt >>> 0 < aW >>> 0 ? 1 : 0),
+                  bv = (bt += bj, bu = bu + bi + (bt >>> 0 < bj >>> 0 ? 1 : 0), bt += bs, bu = bu + br + (bt >>> 0 < bs >>> 0 ? 1 : 0), bt += aY, bu = bu + aZ + (bt >>> 0 < aY >>> 0 ? 1 : 0), bn + bl),
+                  bw = bm + bk + (bv >>> 0 < bn >>> 0 ? 1 : 0);
+                aV = aT;
+                aW = aU;
+                aT = aR;
+                aU = aS;
+                aR = aP;
+                aS = aQ;
+                aQ = aO + bt | 0;
+                aP = aN + bu + (aQ >>> 0 < aO >>> 0 ? 1 : 0) | 0;
+                aN = aL;
+                aO = aM;
+                aL = aJ;
+                aM = aK;
+                aJ = aH;
+                aK = aI;
+                aI = bt + bv | 0;
+                aH = bu + bw + (aI >>> 0 < bt >>> 0 ? 1 : 0) | 0;
+              }
+              as = aj.low = as + aI;
+              aj.high = ar + aH + (as >>> 0 < aI >>> 0 ? 1 : 0);
+              au = ak.low = au + aK;
+              ak.high = at + aJ + (au >>> 0 < aK >>> 0 ? 1 : 0);
+              aw = al.low = aw + aM;
+              al.high = av + aL + (aw >>> 0 < aM >>> 0 ? 1 : 0);
+              ay = am.low = ay + aO;
+              am.high = ax + aN + (ay >>> 0 < aO >>> 0 ? 1 : 0);
+              aA = an.low = aA + aQ;
+              an.high = az + aP + (aA >>> 0 < aQ >>> 0 ? 1 : 0);
+              aC = ao.low = aC + aS;
+              ao.high = aB + aR + (aC >>> 0 < aS >>> 0 ? 1 : 0);
+              aE = ap.low = aE + aU;
+              ap.high = aD + aT + (aE >>> 0 < aU >>> 0 ? 1 : 0);
+              aG = aq.low = aG + aW;
+              aq.high = aF + aV + (aG >>> 0 < aW >>> 0 ? 1 : 0);
+            },
+            _doFinalize: function () {
+              var ae = this._data,
+                af = ae.words,
+                ag = 8 * this._nDataBytes,
+                ah = 8 * ae.sigBytes;
+              af[ah >>> 5] |= 128 << 24 - ah % 32;
+              af[30 + (ah + 128 >>> 10 << 5)] = Math.floor(ag / 4294967296);
+              af[31 + (ah + 128 >>> 10 << 5)] = ag;
+              ae.sigBytes = 4 * af.length;
+              this._process();
+              var ai = this._hash.toX32();
+              return ai;
+            },
+            clone: function () {
+              var ae = a4.clone.call(this);
+              ae._hash = this._hash.clone();
+              return ae;
+            },
+            blockSize: 32
+          });
+          var ab = a8.SHA512;
+          a2.SHA512 = a4._createHelper(ab);
+          a2.HmacSHA512 = a4._createHmacHelper(ab);
+        }(), a0.SHA512);
+      },
+      628: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), Y(754), Y(636), Y(506), Y(165), function () {
+          var a2 = {
+            "0": 8421888,
+            "268435456": 32768,
+            "536870912": 8421378,
+            "805306368": 2,
+            "1073741824": 512,
+            "1342177280": 8421890,
+            "1610612736": 8389122,
+            "1879048192": 8388608,
+            "2147483648": 514,
+            "2415919104": 8389120,
+            "2684354560": 33280,
+            "2952790016": 8421376,
+            "3221225472": 32770,
+            "3489660928": 8388610,
+            "3758096384": 0,
+            "4026531840": 33282,
+            "134217728": 0,
+            "402653184": 8421890,
+            "671088640": 33282,
+            "939524096": 32768,
+            "1207959552": 8421888,
+            "1476395008": 512,
+            "1744830464": 8421378,
+            "2013265920": 2,
+            "2281701376": 8389120,
+            "2550136832": 33280,
+            "2818572288": 8421376,
+            "3087007744": 8389122,
+            "3355443200": 8388610,
+            "3623878656": 32770,
+            "3892314112": 514,
+            "4160749568": 8388608,
+            "1": 32768,
+            "268435457": 2,
+            "536870913": 8421888,
+            "805306369": 8388608,
+            "1073741825": 8421378,
+            "1342177281": 33280,
+            "1610612737": 512,
+            "1879048193": 8389122,
+            "2147483649": 8421890,
+            "2415919105": 8421376,
+            "2684354561": 8388610,
+            "2952790017": 33282,
+            "3221225473": 514,
+            "3489660929": 8389120,
+            "3758096385": 32770,
+            "4026531841": 0,
+            "134217729": 8421890,
+            "402653185": 8421376,
+            "671088641": 8388608,
+            "939524097": 512,
+            "1207959553": 32768,
+            "1476395009": 8388610,
+            "1744830465": 2,
+            "2013265921": 33282,
+            "2281701377": 32770,
+            "2550136833": 8389122,
+            "2818572289": 514,
+            "3087007745": 8421888,
+            "3355443201": 8389120,
+            "3623878657": 0,
+            "3892314113": 33280,
+            "4160749569": 8421378
+          };
+          var a3 = {
+            "0": 1074282512,
+            "16777216": 16384,
+            "33554432": 524288,
+            "50331648": 1074266128,
+            "67108864": 1073741840,
+            "83886080": 1074282496,
+            "100663296": 1073758208,
+            "117440512": 16,
+            "134217728": 540672,
+            "150994944": 1073758224,
+            "167772160": 1073741824,
+            "184549376": 540688,
+            "201326592": 524304,
+            "218103808": 0,
+            "234881024": 16400,
+            "251658240": 1074266112,
+            "8388608": 1073758208,
+            "25165824": 540688,
+            "41943040": 16,
+            "58720256": 1073758224,
+            "75497472": 1074282512,
+            "92274688": 1073741824,
+            "109051904": 524288,
+            "125829120": 1074266128,
+            "142606336": 524304,
+            "159383552": 0,
+            "176160768": 16384,
+            "192937984": 1074266112,
+            "209715200": 1073741840,
+            "226492416": 540672,
+            "243269632": 1074282496,
+            "260046848": 16400,
+            "268435456": 0,
+            "285212672": 1074266128,
+            "301989888": 1073758224,
+            "318767104": 1074282496,
+            "335544320": 1074266112,
+            "352321536": 16,
+            "369098752": 540688,
+            "385875968": 16384,
+            "402653184": 16400,
+            "419430400": 524288,
+            "436207616": 524304,
+            "452984832": 1073741840,
+            "469762048": 540672,
+            "486539264": 1073758208,
+            "503316480": 1073741824,
+            "520093696": 1074282512,
+            "276824064": 540688,
+            "293601280": 524288,
+            "310378496": 1074266112,
+            "327155712": 16384,
+            "343932928": 1073758208,
+            "360710144": 1074282512,
+            "377487360": 16,
+            "394264576": 1073741824,
+            "411041792": 1074282496,
+            "427819008": 1073741840,
+            "444596224": 1073758224,
+            "461373440": 524304,
+            "478150656": 0,
+            "494927872": 16400,
+            "511705088": 1074266128,
+            "528482304": 540672
+          };
+          var a4 = {
+            "0": 260,
+            "1048576": 0,
+            "2097152": 67109120,
+            "3145728": 65796,
+            "4194304": 65540,
+            "5242880": 67108868,
+            "6291456": 67174660,
+            "7340032": 67174400,
+            "8388608": 67108864,
+            "9437184": 67174656,
+            "10485760": 65792,
+            "11534336": 67174404,
+            "12582912": 67109124,
+            "13631488": 65536,
+            "14680064": 4,
+            "15728640": 256,
+            "524288": 67174656,
+            "1572864": 67174404,
+            "2621440": 0,
+            "3670016": 67109120,
+            "4718592": 67108868,
+            "5767168": 65536,
+            "6815744": 65540,
+            "7864320": 260,
+            "8912896": 4,
+            "9961472": 256,
+            "11010048": 67174400,
+            "12058624": 65796,
+            "13107200": 65792,
+            "14155776": 67109124,
+            "15204352": 67174660,
+            "16252928": 67108864,
+            "16777216": 67174656,
+            "17825792": 65540,
+            "18874368": 65536,
+            "19922944": 67109120,
+            "20971520": 256,
+            "22020096": 67174660,
+            "23068672": 67108868,
+            "24117248": 0,
+            "25165824": 67109124,
+            "26214400": 67108864,
+            "27262976": 4,
+            "28311552": 65792,
+            "29360128": 67174400,
+            "30408704": 260,
+            "31457280": 65796,
+            "32505856": 67174404,
+            "17301504": 67108864,
+            "18350080": 260,
+            "19398656": 67174656,
+            "20447232": 0,
+            "21495808": 65540,
+            "22544384": 67109120,
+            "23592960": 256,
+            "24641536": 67174404,
+            "25690112": 65536,
+            "26738688": 67174660,
+            "27787264": 65796,
+            "28835840": 67108868,
+            "29884416": 67109124,
+            "30932992": 67174400,
+            "31981568": 4,
+            "33030144": 65792
+          };
+          var a5 = {
+            "0": 2151682048,
+            "65536": 2147487808,
+            "131072": 4198464,
+            "196608": 2151677952,
+            "262144": 0,
+            "327680": 4198400,
+            "393216": 2147483712,
+            "458752": 4194368,
+            "524288": 2147483648,
+            "589824": 4194304,
+            "655360": 64,
+            "720896": 2147487744,
+            "786432": 2151678016,
+            "851968": 4160,
+            "917504": 4096,
+            "983040": 2151682112,
+            "32768": 2147487808,
+            "98304": 64,
+            "163840": 2151678016,
+            "229376": 2147487744,
+            "294912": 4198400,
+            "360448": 2151682112,
+            "425984": 0,
+            "491520": 2151677952,
+            "557056": 4096,
+            "622592": 2151682048,
+            "688128": 4194304,
+            "753664": 4160,
+            "819200": 2147483648,
+            "884736": 4194368,
+            "950272": 4198464,
+            "1015808": 2147483712,
+            "1048576": 4194368,
+            "1114112": 4198400,
+            "1179648": 2147483712,
+            "1245184": 0,
+            "1310720": 4160,
+            "1376256": 2151678016,
+            "1441792": 2151682048,
+            "1507328": 2147487808,
+            "1572864": 2151682112,
+            "1638400": 2147483648,
+            "1703936": 2151677952,
+            "1769472": 4198464,
+            "1835008": 2147487744,
+            "1900544": 4194304,
+            "1966080": 64,
+            "2031616": 4096,
+            "1081344": 2151677952,
+            "1146880": 2151682112,
+            "1212416": 0,
+            "1277952": 4198400,
+            "1343488": 4194368,
+            "1409024": 2147483648,
+            "1474560": 2147487808,
+            "1540096": 64,
+            "1605632": 2147483712,
+            "1671168": 4096,
+            "1736704": 2147487744,
+            "1802240": 2151678016,
+            "1867776": 4160,
+            "1933312": 2151682048,
+            "1998848": 4194304,
+            "2064384": 4198464
+          };
+          var a6 = {
+            "0": 128,
+            "4096": 17039360,
+            "8192": 262144,
+            "12288": 536870912,
+            "16384": 537133184,
+            "20480": 16777344,
+            "24576": 553648256,
+            "28672": 262272,
+            "32768": 16777216,
+            "36864": 537133056,
+            "40960": 536871040,
+            "45056": 553910400,
+            "49152": 553910272,
+            "53248": 0,
+            "57344": 17039488,
+            "61440": 553648128,
+            "2048": 17039488,
+            "6144": 553648256,
+            "10240": 128,
+            "14336": 17039360,
+            "18432": 262144,
+            "22528": 537133184,
+            "26624": 553910272,
+            "30720": 536870912,
+            "34816": 537133056,
+            "38912": 0,
+            "43008": 553910400,
+            "47104": 16777344,
+            "51200": 536871040,
+            "55296": 553648128,
+            "59392": 16777216,
+            "63488": 262272,
+            "65536": 262144,
+            "69632": 128,
+            "73728": 536870912,
+            "77824": 553648256,
+            "81920": 16777344,
+            "86016": 553910272,
+            "90112": 537133184,
+            "94208": 16777216,
+            "98304": 553910400,
+            "102400": 553648128,
+            "106496": 17039360,
+            "110592": 537133056,
+            "114688": 262272,
+            "118784": 536871040,
+            "122880": 0,
+            "126976": 17039488,
+            "67584": 553648256,
+            "71680": 16777216,
+            "75776": 17039360,
+            "79872": 537133184,
+            "83968": 536870912,
+            "88064": 17039488,
+            "92160": 128,
+            "96256": 553910272,
+            "100352": 262272,
+            "104448": 553910400,
+            "108544": 0,
+            "112640": 553648128,
+            "116736": 16777344,
+            "120832": 262144,
+            "124928": 537133056,
+            "129024": 536871040
+          };
+          var a7 = {
+            "0": 268435464,
+            "256": 8192,
+            "512": 270532608,
+            "768": 270540808,
+            "1024": 268443648,
+            "1280": 2097152,
+            "1536": 2097160,
+            "1792": 268435456,
+            "2048": 0,
+            "2304": 268443656,
+            "2560": 2105344,
+            "2816": 8,
+            "3072": 270532616,
+            "3328": 2105352,
+            "3584": 8200,
+            "3840": 270540800,
+            "128": 270532608,
+            "384": 270540808,
+            "640": 8,
+            "896": 2097152,
+            "1152": 2105352,
+            "1408": 268435464,
+            "1664": 268443648,
+            "1920": 8200,
+            "2176": 2097160,
+            "2432": 8192,
+            "2688": 268443656,
+            "2944": 270532616,
+            "3200": 0,
+            "3456": 270540800,
+            "3712": 2105344,
+            "3968": 268435456,
+            "4096": 268443648,
+            "4352": 270532616,
+            "4608": 270540808,
+            "4864": 8200,
+            "5120": 2097152,
+            "5376": 268435456,
+            "5632": 268435464,
+            "5888": 2105344,
+            "6144": 2105352,
+            "6400": 0,
+            "6656": 8,
+            "6912": 270532608,
+            "7168": 8192,
+            "7424": 268443656,
+            "7680": 270540800,
+            "7936": 2097160,
+            "4224": 8,
+            "4480": 2105344,
+            "4736": 2097152,
+            "4992": 268435464,
+            "5248": 268443648,
+            "5504": 8200,
+            "5760": 270540808,
+            "6016": 270532608,
+            "6272": 270540800,
+            "6528": 270532616,
+            "6784": 8192,
+            "7040": 2105352,
+            "7296": 2097160,
+            "7552": 0,
+            "7808": 268435456,
+            "8064": 268443656
+          };
+          var a8 = {
+            "0": 1048576,
+            "16": 33555457,
+            "32": 1024,
+            "48": 1049601,
+            "64": 34604033,
+            "80": 0,
+            "96": 1,
+            "112": 34603009,
+            "128": 33555456,
+            "144": 1048577,
+            "160": 33554433,
+            "176": 34604032,
+            "192": 34603008,
+            "208": 1025,
+            "224": 1049600,
+            "240": 33554432,
+            "8": 34603009,
+            "24": 0,
+            "40": 33555457,
+            "56": 34604032,
+            "72": 1048576,
+            "88": 33554433,
+            "104": 33554432,
+            "120": 1025,
+            "136": 1049601,
+            "152": 33555456,
+            "168": 34603008,
+            "184": 1048577,
+            "200": 1024,
+            "216": 34604033,
+            "232": 1,
+            "248": 1049600,
+            "256": 33554432,
+            "272": 1048576,
+            "288": 33555457,
+            "304": 34603009,
+            "320": 1048577,
+            "336": 33555456,
+            "352": 34604032,
+            "368": 1049601,
+            "384": 1025,
+            "400": 34604033,
+            "416": 1049600,
+            "432": 1,
+            "448": 0,
+            "464": 34603008,
+            "480": 33554433,
+            "496": 1024,
+            "264": 1049600,
+            "280": 33555457,
+            "296": 34603009,
+            "312": 1,
+            "328": 33554432,
+            "344": 1048576,
+            "360": 1025,
+            "376": 34604032,
+            "392": 33554433,
+            "408": 34603008,
+            "424": 0,
+            "440": 34604033,
+            "456": 1049601,
+            "472": 1024,
+            "488": 33555456,
+            "504": 1048577
+          };
+          var a9 = {
+            "0": 134219808,
+            "1": 131072,
+            "2": 134217728,
+            "3": 32,
+            "4": 131104,
+            "5": 134350880,
+            "6": 134350848,
+            "7": 2048,
+            "8": 134348800,
+            "9": 134219776,
+            "10": 133120,
+            "11": 134348832,
+            "12": 2080,
+            "13": 0,
+            "14": 134217760,
+            "15": 133152,
+            "2147483648": 2048,
+            "2147483649": 134350880,
+            "2147483650": 134219808,
+            "2147483651": 134217728,
+            "2147483652": 134348800,
+            "2147483653": 133120,
+            "2147483654": 133152,
+            "2147483655": 32,
+            "2147483656": 134217760,
+            "2147483657": 2080,
+            "2147483658": 131104,
+            "2147483659": 134350848,
+            "2147483660": 0,
+            "2147483661": 134348832,
+            "2147483662": 134219776,
+            "2147483663": 131072,
+            "16": 133152,
+            "17": 134350848,
+            "18": 32,
+            "19": 2048,
+            "20": 134219776,
+            "21": 134217760,
+            "22": 134348832,
+            "23": 131072,
+            "24": 0,
+            "25": 131104,
+            "26": 134348800,
+            "27": 134219808,
+            "28": 134350880,
+            "29": 133120,
+            "30": 2080,
+            "31": 134217728,
+            "2147483664": 131072,
+            "2147483665": 2048,
+            "2147483666": 134348832,
+            "2147483667": 133152,
+            "2147483668": 32,
+            "2147483669": 134348800,
+            "2147483670": 134217728,
+            "2147483671": 134219808,
+            "2147483672": 134350880,
+            "2147483673": 134217760,
+            "2147483674": 134219776,
+            "2147483675": 0,
+            "2147483676": 133120,
+            "2147483677": 2080,
+            "2147483678": 131104,
+            "2147483679": 134350848
+          };
+          ae.DES = ad.extend({
+            _doReset: function () {
+              for (var ap = this._key, aq = ap.words, ar = [], as = 0; as < 56; as++) {
+                var at = af[as] - 1;
+                ar[as] = aq[at >>> 5] >>> 31 - at % 32 & 1;
+              }
+              for (this._subKeys = [], au = this._subKeys = [], av = 0, void 0; av < 16; av++) {
+                var au, av;
+                au[av] = [];
+                var aw = au[av],
+                  ax = ah[av];
+                for (as = 0; as < 24; as++) {
+                  aw[as / 6 | 0] |= ar[(ag[as] - 1 + ax) % 28] << 31 - as % 6;
+                  aw[4 + (as / 6 | 0)] |= ar[28 + (ag[as + 24] - 1 + ax) % 28] << 31 - as % 6;
+                }
+                for (aw[0] = aw[0] << 1 | aw[0] >>> 31, as = 1; as < 7; as++) {
+                  aw[as] = aw[as] >>> 4 * (as - 1) + 3;
+                }
+                aw[7] = aw[7] << 5 | aw[7] >>> 27;
+              }
+              this._invSubKeys = [];
+              var ay = this._invSubKeys;
+              for (as = 0; as < 16; as++) {
+                ay[as] = au[15 - as];
+              }
+            },
+            encryptBlock: function (ao, ap) {
+              this._doCryptBlock(ao, ap, this._subKeys);
+            },
+            decryptBlock: function (ao, ap) {
+              this._doCryptBlock(ao, ap, this._invSubKeys);
+            },
+            _doCryptBlock: function (ao, ap, aq) {
+              this._lBlock = ao[ap];
+              this._rBlock = ao[ap + 1];
+              al.call(this, 4, 252645135);
+              al.call(this, 16, 65535);
+              am.call(this, 2, 858993459);
+              am.call(this, 8, 16711935);
+              al.call(this, 1, 1431655765);
+              for (var as = 0; as < 16; as++) {
+                for (var at = aq[as], au = this._lBlock, av = this._rBlock, aw = 0, ax = 0; ax < 8; ax++) {
+                  aw |= ai[ax][((av ^ at[ax]) & aj[ax]) >>> 0];
+                }
+                this._lBlock = av;
+                this._rBlock = au ^ aw;
+              }
+              var ay = this._lBlock;
+              this._lBlock = this._rBlock;
+              this._rBlock = ay;
+              al.call(this, 1, 1431655765);
+              am.call(this, 8, 16711935);
+              am.call(this, 2, 858993459);
+              al.call(this, 16, 65535);
+              al.call(this, 4, 252645135);
+              ao[ap] = this._lBlock;
+              ao[ap + 1] = this._rBlock;
+            },
+            keySize: 2,
+            ivSize: 2,
+            blockSize: 2
+          });
+          var aa = a0,
+            ab = aa.lib,
+            ac = ab.WordArray,
+            ad = ab.BlockCipher,
+            ae = aa.algo,
+            af = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44, 36, 63, 55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61, 53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4],
+            ag = [14, 17, 11, 24, 1, 5, 3, 28, 15, 6, 21, 10, 23, 19, 12, 4, 26, 8, 16, 7, 27, 20, 13, 2, 41, 52, 31, 37, 47, 55, 30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32],
+            ah = [1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28],
+            ai = [a2, a3, a4, a5, a6, a7, a8, a9],
+            aj = [4160749569, 528482304, 33030144, 2064384, 129024, 8064, 504, 2147483679],
+            ak = ae.DES;
+          function al(ao, ap) {
+            var ar = (this._lBlock >>> ao ^ this._rBlock) & ap;
+            this._rBlock ^= ar;
+            this._lBlock ^= ar << ao;
+          }
+          function am(ao, ap) {
+            var ar = (this._rBlock >>> ao ^ this._lBlock) & ap;
+            this._lBlock ^= ar;
+            this._rBlock ^= ar << ao;
+          }
+          aa.DES = ad._createHelper(ak);
+          ae.TripleDES = ad.extend({
+            _doReset: function () {
+              var aq = this._key,
+                ar = aq.words;
+              if (2 !== ar.length && 4 !== ar.length && ar.length < 6) {
+                throw new Error("Invalid key length - 3DES requires the key length to be 64, 128, 192 or >192.");
+              }
+              var as = ar.slice(0, 2),
+                at = ar.length < 4 ? ar.slice(0, 2) : ar.slice(2, 4),
+                au = ar.length < 6 ? ar.slice(0, 2) : ar.slice(4, 6);
+              this._des1 = ak.createEncryptor(ac.create(as));
+              this._des2 = ak.createEncryptor(ac.create(at));
+              this._des3 = ak.createEncryptor(ac.create(au));
+            },
+            encryptBlock: function (ao, ap) {
+              this._des1.encryptBlock(ao, ap);
+              this._des2.decryptBlock(ao, ap);
+              this._des3.encryptBlock(ao, ap);
+            },
+            decryptBlock: function (ao, ap) {
+              this._des3.decryptBlock(ao, ap);
+              this._des2.encryptBlock(ao, ap);
+              this._des1.decryptBlock(ao, ap);
+            },
+            keySize: 6,
+            ivSize: 2,
+            blockSize: 2
+          });
+          var an = ae.TripleDES;
+          aa.TripleDES = ad._createHelper(an);
+        }(), a0.TripleDES);
+      },
+      240: function (W, X, Y) {
+        var a0;
+        W.exports = (a0 = Y(21), function (a2) {
+          a4.x64 = {};
+          var a4 = a0,
+            a5 = a4.lib,
+            a6 = a5.Base,
+            a7 = a5.WordArray,
+            a8 = a4.x64;
+          a8.Word = a6.extend({
+            init: function (a9, aa) {
+              this.high = a9;
+              this.low = aa;
+            }
+          });
+          a8.WordArray = a6.extend({
+            init: function (a9, aa) {
+              a9 = this.words = a9 || [];
+              this.sigBytes = aa != a2 ? aa : 8 * a9.length;
+            },
+            toX32: function () {
+              for (var aa = this.words, ab = aa.length, ac = [], ad = 0; ad < ab; ad++) {
+                var ae = aa[ad];
+                ac.push(ae.high);
+                ac.push(ae.low);
+              }
+              return a7.create(ac, this.sigBytes);
+            },
+            clone: function () {
+              for (a9.words = this.words.slice(0), a9 = a6.clone.call(this), aa = a9.words = this.words.slice(0), ab = aa.length, ac = 0, void 0; ac < ab; ac++) {
+                var a9, aa, ab, ac;
+                aa[ac] = aa[ac].clone();
+              }
+              return a9;
+            }
+          });
+        }(), a0);
+      },
+      477: () => {}
+    },
+    c = {};
+  function d(W) {
+    var X = c[W];
+    if (void 0 !== X) {
+      return X.exports;
     }
-    $.log("📢 开始检测服务器接口状态>>>");
-    let u = false;
-    const m = apiHost.split("&"),
-      V = m.length;
-    for (let M = 0; M < V; M++) {
-      if ($.isNode()) {
-        u = await checkAddress("" + m[M], 2500);
-      } else {
-        $.isSurge() || $.isLoon() ? u = await httpClientRequest("" + m[M], 2500) : u = await fetchRequest("" + m[M], 2500);
+    var Y = {
+      exports: {}
+    };
+    c[W] = Y;
+    var Z = c[W];
+    b[W].call(Z.exports, Z, Z.exports, d);
+    return Z.exports;
+  }
+  d.g = function () {
+    if ("object" == typeof globalThis) {
+      return globalThis;
+    }
+    try {
+      return this || new Function("return this")();
+    } catch (X) {
+      if ("object" == typeof window) {
+        return window;
       }
-      if (u == true) {
-        apiHost = m[M];
-        $.log("📢 接口" + (M + 1) + "[" + m[M] + "]服务器接口正常! 🎉");
-        break;
+    }
+  }();
+  function g(W) {
+    g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (Y) {
+      return typeof Y;
+    } : function (Y) {
+      return Y && "function" == typeof Symbol && Y.constructor === Symbol && Y !== Symbol.prototype ? "symbol" : typeof Y;
+    };
+    return g(W);
+  }
+  function h(W) {
+    return k(W) || j(W) || o(W) || i();
+  }
+  function i() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function j(W) {
+    if ("undefined" != typeof Symbol && null != W[Symbol.iterator] || null != W["@@iterator"]) {
+      return Array.from(W);
+    }
+  }
+  function k(W) {
+    if (Array.isArray(W)) {
+      return p(W);
+    }
+  }
+  function l(W, X) {
+    var Z = "undefined" != typeof Symbol && W[Symbol.iterator] || W["@@iterator"];
+    if (!Z) {
+      if (Array.isArray(W) || (Z = o(W)) || X && W && "number" == typeof W.length) {
+        Z && (W = Z);
+        var a0 = 0,
+          a1 = function () {};
+        return {
+          s: a1,
+          n: function () {
+            var a8 = {
+              done: !0
+            };
+            return a0 >= W.length ? a8 : {
+              done: !1,
+              value: W[a0++]
+            };
+          },
+          e: function (a8) {
+            throw a8;
+          },
+          f: a1
+        };
       }
-      if (M == V - 1 && u == false) {
-        $.log("📢 抱歉，所有接口都不可用, 请前往交流群置顶获取最新的接口地址! 😭");
-        $.msg($.name, "所有接口都不可用, 请尽快前往交流群置顶获取最新的接口地址!");
-        return;
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+    var a2,
+      a3 = !0,
+      a4 = !1;
+    return {
+      s: function () {
+        Z = Z.call(W);
+      },
+      n: function () {
+        var a8 = Z.next();
+        a3 = a8.done;
+        return a8;
+      },
+      e: function (a8) {
+        a4 = !0;
+        a2 = a8;
+      },
+      f: function () {
+        try {
+          a3 || null == Z.return || Z.return();
+        } finally {
+          if (a4) {
+            throw a2;
+          }
+        }
       }
-    }
-    if (!activeCode || !userId || userId == 1 || activeCode == 0 || activeCode.length != 32) {
-      $.log("❗️ 抱歉，你没有权限运行此脚本, 请关注电报机器人: https://t.me/DavidLoveBot");
-      return;
-    }
-    await getScriptAuth(appName, userId, activeCode);
-    $.log("📢 " + systemNotify);
-    $.log("🔔 当前脚本版本号: " + version + "，最新版本号: " + newest_version);
-    if (vipDate != "") {
-      let x = new Date(vipDate).getTime(),
-        D = new Date().getTime();
-      if (D > x) {
-        $.log("❗️ 抱歉，VIP到期了，请及时付费。");
-        return;
+    };
+  }
+  function m(W, X) {
+    return r(W) || q(W, X) || o(W, X) || n();
+  }
+  function n() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function o(W, X) {
+    if (W) {
+      if ("string" == typeof W) {
+        return p(W, X);
       }
+      var a0 = {}.toString.call(W).slice(8, -1);
+      "Object" === a0 && W.constructor && (a0 = W.constructor.name);
+      return "Map" === a0 || "Set" === a0 ? Array.from(W) : "Arguments" === a0 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(a0) ? p(W, X) : void 0;
     }
-    if (version < newest_version) {
-      $.log("❗️ 当前脚本版本号低于服务器版本，请更新脚本吧！");
-      sendMsg("🔔 当前脚本版本号低于服务器版本，请更新脚本吧！");
-      return;
+  }
+  function p(W, X) {
+    (null == X || X > W.length) && (X = W.length);
+    for (var Y = 0, Z = Array(X); Y < X; Y++) {
+      Z[Y] = W[Y];
     }
-    if (scriptAuth != true) {
-      $.log("❗️ 抱歉, 此脚本已停用。");
-      return;
-    }
-    if (userRank != true) {
-      $.log("❗️ 抱歉, 用户不合法，请先私聊机器人加入交流区。 https://t.me/DavidLoveBot");
-      return;
-    }
-    if (userAuth != true) {
-      $.log("❗️ 抱歉，你没有权限运行此脚本, 请关注电报机器人: https://t.me/DavidLoveBot");
-      return;
-    }
-    isCharge == true ? $.log("🔔 此脚本采用付费模式。🔒") : $.log("🔔 此脚本采用免费模式。🔓");
-    if (vipDate != "") {
-      if (isCharge == true) {
-        let h = new Date(vipDate).getTime(),
-          I = new Date().getTime();
-        if (I > h) {
-          $.log("❗️ 抱歉，VIP到期了，请及时付费。");
-          return;
+    return Z;
+  }
+  function q(W, X) {
+    var Y = null == W ? null : "undefined" != typeof Symbol && W[Symbol.iterator] || W["@@iterator"];
+    if (null != Y) {
+      var Z,
+        a0,
+        a1,
+        a2,
+        a3 = [],
+        a4 = !0,
+        a5 = !1;
+      try {
+        if (a1 = (Y = Y.call(W)).next, 0 === X) {
+          if (Object(Y) !== Y) {
+            return;
+          }
+          a4 = !1;
         } else {
-          $.log("🔔 尊敬的会员：您好，你是VIP用户！🔐");
+          for (; !(a4 = (Z = a1.call(Y)).done) && (a3.push(Z.value), a3.length !== X); a4 = !0) {}
+        }
+      } catch (aa) {
+        a5 = !0;
+        a0 = aa;
+      } finally {
+        try {
+          if (!a4 && null != Y.return && (a2 = Y.return(), Object(a2) !== a2)) {
+            return;
+          }
+        } finally {
+          if (a5) {
+            throw a0;
+          }
         }
       }
-    } else {
-      if (isCharge == true) {
-        if (vipAuth != true) {
-          $.log("❗️ 抱歉，你不是付费用户, 你没有权限运行此脚本, 需要使用请查看使用说明。");
-          return;
-        } else {
-          $.log("🔔 尊敬的会员：您好，你是付费用户！🔐");
-        }
-      }
+      return a3;
     }
-    multiAccount > 1 && $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一次可以运行" + numbers * multiAccount + "个账号。");
-    buyCount > 1 && $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一共可以运行" + runTotalCounts + "次, 已经运行了" + runedCounts + "次。");
-    if (runAuth != true) {
-      $.log("❗️ 抱歉,  该用户今天可能已经达到最大运行次数，明天再试吧！");
-      return;
+  }
+  function r(W) {
+    if (Array.isArray(W)) {
+      return W;
     }
-    if (qdngapp.length > numbers * multiAccount) {
-      $.log("❗️ 当前用户一次最多运行" + numbers * multiAccount + "个账号，需要增加账号请查看置顶说明。");
-      return;
+  }
+  function s() {
+    'use strict';
+
+    s = function () {
+      return Y;
+    };
+    var X,
+      Y = {},
+      Z = Object.prototype,
+      a0 = Z.hasOwnProperty,
+      a1 = Object.defineProperty || function (at, au, av) {
+        at[au] = av.value;
+      },
+      a2 = "function" == typeof Symbol ? Symbol : {},
+      a3 = a2.iterator || "@@iterator",
+      a4 = a2.asyncIterator || "@@asyncIterator",
+      a5 = a2.toStringTag || "@@toStringTag";
+    function a6(at, au, av) {
+      var ax = {
+        value: av,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+      };
+      Object.defineProperty(at, au, ax);
+      return at[au];
     }
-    if (qdngapp.length == 0) {
-      $.log("先抓取账号ck，再运行脚本吧！");
-      return;
+    try {
+      a6({}, "");
+    } catch (au) {
+      a6 = function (av, aw, ax) {
+        return av[aw] = ax;
+      };
     }
-    if (runedCounts + qdngapp.length > runTotalCounts) {
-      $.log("📢 一共发现了" + qdngapp.length + "个账号");
-      $.log("❗️ 当前用户运行次数剩余" + (runTotalCounts - runedCounts) + "次，还可以运行" + (runTotalCounts - runedCounts) + "个账号，还需要" + (qdngapp.length - (runTotalCounts - runedCounts)) + "次，可以通过赞赏后增加运行次数！");
-      return;
-    }
-    vipDate != "" && $.log("📢 你的会员有效期到： " + vipDate);
-    helpUtils = await loadUtils(flushCash);
-    CryptoJS = helpUtils.createCryptoJS();
-    $.log("📢 一共发现了" + qdngapp.length + "个账号");
-    $.isNode() && (!fs.existsSync(qdng_ck_file) ? qdng_cks = {} : qdng_cks = JSON.parse(fs.readFileSync(qdng_ck_file, "utf8")));
-    let g = [],
-      C = qdngapp.length,
-      W = 0;
-    $.isNode() && process.env.QDNG_THREAD_COUNT ? W = parseInt(process.env.QDNG_THREAD_COUNT) : W = C;
-    let Q = qdngapp.length;
-    if (W >= C) {
-      W = C;
-      Q = 1;
-      $.log("📢 你设置的线程数是" + W + "，账号个数是" + C + "，" + Q + "次可全部跑完。");
-      for (let H = 0; H < qdngapp.length; H++) {
-        g.push(runMultiTasks(H));
-        qdnglogs[H] = "";
-        isNeedAds[H] = true;
-        $.isNode() ? (channels_status[H] = 0, await init_ws(H)) : channels_status[H] = 1;
-      }
-      await Promise.allSettled(g).then(e => {
-        $.isNode() && saveFile && ($.log("[温馨提醒]: 即将本地化token，这样可以有效降低登录次数"), fs.writeFileSync(qdng_ck_file, JSON.stringify(qdng_cks, null, 2)));
-        $.log("日志整理功能如下：");
-        $.log("---------------日志整理开始--------------");
-        for (let B = 0; B < qdngapp.length; B++) {
-          $.log(qdnglogs[B]);
-          sendlogs += qdnglogs[B];
-        }
-        $.log("---------------日志整理结束--------------");
-        sendMsg(sendlogs);
+    function a7(aw, ax, ay, az) {
+      var aA = ax && ax.prototype instanceof ae ? ax : ae,
+        aB = Object.create(aA.prototype),
+        aC = new ar(az || []);
+      a1(aB, "_invoke", {
+        value: an(aw, ay, aC)
       });
-    } else {
-      Q = Math.ceil(C / W);
-      $.log("📢 你设置的线程数是" + W + "，账号个数是" + C + "，计算后分" + Q + "次执行，一次可执行" + W + "个账号，最后一次如果不够" + W + "个账号，剩多少个账号就跑几个账号。");
-      for (let e = 0; e < Q; e++) {
-        for (let B = e * W; B < W * (e + 1) && B < C; B++) {
-          g.push(runMultiTasks(B));
-          qdnglogs[B] = "";
-          channels_status[B] = 1;
-          await init_ws(B);
-        }
-        await Promise.allSettled(g).then(F => {
-          g = [];
-          if (e == Q - 1) {
-            $.isNode() && saveFile && ($.log("[温馨提醒]: 即将本地化token，这样可以有效降低登录次数"), fs.writeFileSync(qdng_ck_file, JSON.stringify(qdng_cks, null, 2)));
-            $.log("日志整理功能如下：");
-            $.log("---------------日志整理开始--------------");
-            for (let s = 0; s < qdngapp.length; s++) {
-              $.log(qdnglogs[s]);
-              sendlogs += qdnglogs[s];
-            }
-            $.log("---------------日志整理结束--------------");
-            sendMsg(sendlogs);
-          }
+      return aB;
+    }
+    function a8(aw, ax, ay) {
+      try {
+        return {
+          type: "normal",
+          arg: aw.call(ax, ay)
+        };
+      } catch (aC) {
+        var az = {};
+        az.type = "throw";
+        az.arg = aC;
+        return az;
+      }
+    }
+    Y.wrap = a7;
+    var a9 = "suspendedStart",
+      aa = "suspendedYield",
+      ab = "executing",
+      ac = "completed",
+      ad = {};
+    function ae() {}
+    function af() {}
+    function ag() {}
+    var ah = {};
+    a6(ah, a3, function () {
+      return this;
+    });
+    var ai = Object.getPrototypeOf,
+      aj = ai && ai(ai(as([])));
+    aj && aj !== Z && a0.call(aj, a3) && (ah = aj);
+    ag.prototype = ae.prototype = Object.create(ah);
+    var ak = ag.prototype;
+    function al(aw) {
+      ["next", "throw", "return"].forEach(function (az) {
+        a6(aw, az, function (aC) {
+          return this._invoke(az, aC);
         });
+      });
+    }
+    function am(aw, ax) {
+      function aB(aC, aD, aE, aF) {
+        var aH = a8(aw[aC], aw, aD);
+        if ("throw" !== aH.type) {
+          var aI = aH.arg,
+            aJ = aI.value;
+          return aJ && "object" == g(aJ) && a0.call(aJ, "__await") ? ax.resolve(aJ.__await).then(function (aL) {
+            aB("next", aL, aE, aF);
+          }, function (aL) {
+            aB("throw", aL, aE, aF);
+          }) : ax.resolve(aJ).then(function (aL) {
+            aI.value = aL;
+            aE(aI);
+          }, function (aL) {
+            return aB("throw", aL, aE, aF);
+          });
+        }
+        aF(aH.arg);
       }
+      var az;
+      a1(this, "_invoke", {
+        value: function (aC, aD) {
+          function aF() {
+            return new ax(function (aI, aJ) {
+              aB(aC, aD, aI, aJ);
+            });
+          }
+          return az = az ? az.then(aF, aF) : aF();
+        }
+      });
     }
-  }
-})().catch(u => $.logErr(u)).finally(() => $.done());
-async function runMultiTasks(u) {
-  return new Promise((m, V) => {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: 开始执行 working......");
-    runSubTask(m, u);
-  });
-}
-async function init_ws(u) {
-  $.isNode() && (reconectCounts[u] > 0 && $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: 尝试重新连接服务器>>>>>>"), wss[u] = new WebSocket(apiHost.replace("http", "ws") + "/ws"), wss[u].on("open", function m() {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: 签名通道已连接");
-  }), wss[u].on("close", function V() {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: 签名通道已关闭，原因是任务已处理完成");
-  }), wss[u].on("error", function g() {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: 签名通道已关闭，原因是出现错误");
-    channels_status[u] = 1;
-    reconectCounts[u]++;
-    reconectCounts[u] <= 3 && init_ws(u);
-  }));
-}
-async function runSubTask(u, V) {
-  $.isNode() && (await $.wait(3000, 5000));
-  let g = await commonRequest(V, "/login/loginAuto", "post", "自动登录", "refresh_key=" + qdngapp[V].token);
-  if (g) {
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 用户名=> " + g.data.username);
-    qdnglogs[V] += "[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 用户名=> " + g.data.username + "\n";
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 手机号=> " + helpUtils.phone_num(g.data.phone));
-    qdnglogs[V] += "[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 手机号=> " + helpUtils.phone_num(g.data.phone) + "\n";
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 金币=> " + g.data.gold_count);
-    qdnglogs[V] += "[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 金币=> " + g.data.gold_count + "\n";
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 现金余额=> " + g.data.gold_money + "元");
-    qdnglogs[V] += "[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 现金余额=> " + g.data.gold_money + "元\n";
-  } else {
-    u();
-    return;
-  }
-  g && g.data.gold_money >= 2 && hour == 8 && (await commonRequest(V, "/balance/goldWithdrawal", "post", "提现", "num=20000&pay_type=1"));
-  let C = helpUtils.createDayjs(),
-    W = C().format("YYYYMM"),
-    Q = await drawCommonRequest(V, "/user/get_sign_info?refresh_key=" + qdngapp[V].token + "&time=" + W + "&sign_type=2", "get", "每日睡觉信息", "");
-  if (Q && Q.data.days_my_is_sign == 2 && hour >= 21 && hour < 23) {
-    let s = await drawCommonRequest(V, "/user/user_sign?refresh_key=" + qdngapp[V].token + "&sign_type=2", "post", "早睡打卡", "");
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 早睡打卡任务=> 完成，获得" + s.data.integral + "积分");
-    await $.wait(helpUtils.randomNum(5000, 10000));
-    let L = await drawCommonRequest(V, "/user/userSignAdv", "post", "早睡打卡翻倍", "token=" + qdngapp[V].token + "&sign_type=2");
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 早睡打卡翻倍任务=> 完成，获得" + L.data.gold + "个金币");
-  }
-  let M = await drawCommonRequest(V, "/user/get_sign_info?refresh_key=" + qdngapp[V].token + "&time=" + W + "&sign_type=1", "get", "每日早起信息", "");
-  if (M && M.data.days_my_is_sign == 2 && hour >= 5 && hour <= 8) {
-    let l = await drawCommonRequest(V, "/user/user_sign?refresh_key=" + qdngapp[V].token + "&sign_type=1", "post", "早起打卡", "");
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 早起打卡任务=> 完成，获得" + l.data.integral + "积分");
-    await $.wait(helpUtils.randomNum(5000, 10000));
-    let K = await drawCommonRequest(V, "/user/userSignAdv", "post", "早起打卡翻倍", "token=" + qdngapp[V].token + "&sign_type=1");
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 早起打卡翻倍任务=> 完成，获得" + K.data.gold + "个金币");
-  }
-  let x = await drawCommonRequest(V, "/dayask/get_info", "post", "每日答题题目信息", "token=" + qdngapp[V].token);
-  while (x.data.power > 0) {
-    let Y = x.data.question_option,
-      w = Y.find(J => J.answer == 1);
-    if (w && x.data.power > 0) {
-      let J = await drawCommonRequest(V, "/dayask/user_ask", "post", "提交答案", "ask_id=" + w.ask_id + "&answer[0]=" + w.id + "&is_again=0&token=" + qdngapp[V].token);
-      if (J.data.is_true == 1) {
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 回答问题=> ✅正确，获得" + J.data.add_integral + "个金币");
-        await $.wait(helpUtils.randomNum(5000, 10000));
-        let U = await drawCommonRequest(V, "/dayask/user_double", "post", "回答正确看广告得双倍奖励", "double=2&token=" + qdngapp[V].token + "&id=" + J.data.id);
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 回答问题=> 看广告得双倍奖励，获得" + U.data.add_integral + "个金币");
-        await $.wait(helpUtils.randomNum(5000, 10000));
-        break;
+    function an(aw, ax, ay) {
+      var aA = a9;
+      return function (aB, aC) {
+        if (aA === ab) {
+          throw Error("Generator is already running");
+        }
+        if (aA === ac) {
+          if ("throw" === aB) {
+            throw aC;
+          }
+          var aE = {};
+          aE.value = X;
+          aE.done = !0;
+          return aE;
+        }
+        for (ay.method = aB, ay.arg = aC;;) {
+          var aF = ay.delegate;
+          if (aF) {
+            var aG = ao(aF, ay);
+            if (aG) {
+              if (aG === ad) {
+                continue;
+              }
+              return aG;
+            }
+          }
+          if ("next" === ay.method) {
+            ay.sent = ay._sent = ay.arg;
+          } else {
+            if ("throw" === ay.method) {
+              if (aA === a9) {
+                throw aA = ac, ay.arg;
+              }
+              ay.dispatchException(ay.arg);
+            } else {
+              "return" === ay.method && ay.abrupt("return", ay.arg);
+            }
+          }
+          aA = ab;
+          var aH = a8(aw, ax, ay);
+          if ("normal" === aH.type) {
+            if (aA = ay.done ? ac : aa, aH.arg === ad) {
+              continue;
+            }
+            var aI = {};
+            aI.value = aH.arg;
+            aI.done = ay.done;
+            return aI;
+          }
+          "throw" === aH.type && (aA = ac, ay.method = "throw", ay.arg = aH.arg);
+        }
+      };
+    }
+    function ao(aw, ax) {
+      var aC = ax.method,
+        aD = aw.iterator[aC];
+      if (aD === X) {
+        ax.delegate = null;
+        "throw" === aC && aw.iterator.return && (ax.method = "return", ax.arg = X, ao(aw, ax), "throw" === ax.method) || "return" !== aC && (ax.method = "throw", ax.arg = new TypeError("The iterator does not provide a '" + aC + "' method"));
+        return ad;
       }
+      var aF = a8(aD, aw.iterator, ax.arg);
+      if ("throw" === aF.type) {
+        ax.method = "throw";
+        ax.arg = aF.arg;
+        ax.delegate = null;
+        return ad;
+      }
+      var aE = aF.arg;
+      return aE ? aE.done ? (ax[aw.resultName] = aE.value, ax.next = aw.nextLoc, "return" !== ax.method && (ax.method = "next", ax.arg = X), ax.delegate = null, ad) : aE : (ax.method = "throw", ax.arg = new TypeError("iterator result is not an object"), ax.delegate = null, ad);
     }
-  }
-  let D = x.data.big_reward;
-  for (let t = 0; t < D.length; t++) {
-    let E = D[t];
-    if (E.can_receive == 1 && E.is_end == 0) {
-      let N = await drawCommonRequest(V, "/dayask/user_receive_big_reward", "post", "累计答题奖励", "id=" + E.id + "&token=" + qdngapp[V].token);
-      $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 累计答对" + E.num + "题=> 获得" + N.data.add_integral + "个金币");
-      await $.wait(helpUtils.randomNum(5000, 10000));
+    function ap(aw) {
+      var az = {
+        tryLoc: aw[0]
+      };
+      var aA = az;
+      1 in aw && (aA.catchLoc = aw[1]);
+      2 in aw && (aA.finallyLoc = aw[2], aA.afterLoc = aw[3]);
+      this.tryEntries.push(aA);
     }
-  }
-  let h = await drawCommonRequest(V, "/wheel/get_user_status?token=" + qdngapp[V].token, "get", "获取抽奖信息", "");
-  if (h && h.data.user_integral_remains > 0) {
-    if (h.data.user_daily_draw_remains > 0) {
-      for (let p = 0; p < h.data.user_daily_draw_remains; p++) {
-        await $.wait(helpUtils.randomNum(5000, 10000));
-        let R = await drawCommonRequest(V, "/wheel/make_draw", "post", "获取抽奖结果", "token=" + qdngapp[V].token);
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 抽奖类型=> " + R.data.award_type);
-        R.data.award_type == "gold" && $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 抽奖=> 完成，获得" + R.data.award_amount + "个金币");
-        if (isNeedAds[V] && R.data.award_type != "integral") {
-          await $.wait(helpUtils.randomNum(10000, 15000));
-          let b = await drawCommonRequest(V, "/wheel/view_ad_complete", "post", "获取抽奖结果", "token=" + qdngapp[V].token + "&award_type=" + R.data.award_type + "&award_amount=" + R.data.award_amount + "&multi=" + R.data.award_multi_num);
-          b ? $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 抽奖看广告得金币=> 完成，获得" + b.data.num + "个金币") : isNeedAds[V] = false;
-          await $.wait(helpUtils.randomNum(5000, 10000));
+    function aq(aw) {
+      var ax = aw.completion || {};
+      ax.type = "normal";
+      delete ax.arg;
+      aw.completion = ax;
+    }
+    function ar(aw) {
+      var ax = {
+        tryLoc: "root"
+      };
+      this.tryEntries = [ax];
+      aw.forEach(ap, this);
+      this.reset(!0);
+    }
+    function as(aw) {
+      if (aw || "" === aw) {
+        var ay = aw[a3];
+        if (ay) {
+          return ay.call(aw);
+        }
+        if ("function" == typeof aw.next) {
+          return aw;
+        }
+        if (!isNaN(aw.length)) {
+          var az = -1,
+            aA = function aC() {
+              for (; ++az < aw.length;) {
+                if (a0.call(aw, az)) {
+                  aC.value = aw[az];
+                  aC.done = !1;
+                  return aC;
+                }
+              }
+              aC.value = X;
+              aC.done = !0;
+              return aC;
+            };
+          return aA.next = aA;
         }
       }
+      throw new TypeError(g(aw) + " is not iterable");
     }
-    if (h.data.user_daily_view_vad_remains > 0) {
-      for (let T = 0; T < h.data.user_daily_view_vad_remains; T++) {
-        await drawCommonRequest(V, "/wheel/view_ad_complete", "post", "获取抽奖信息", "token=" + qdngapp[V].token + "&award_type=draw&award_amount=3&multi=1");
-        await $.wait(helpUtils.randomNum(10000, 15000));
-      }
-    }
-    if (isNeedAds[V] && h.data.user_brs_adt_5_info == 0) {
-      let S = await drawCommonRequest(V, "/wheel/view_ad_complete", "post", "累计抽奖奖励", "token=" + qdngapp[V].token + "&award_type=gold&award_amount=0&multi=0&draw_times=5");
-      S ? ($.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 累计抽奖5次奖励=> 完成，获得" + S.data.num + "个金币"), await $.wait(helpUtils.randomNum(5000, 10000))) : isNeedAds[V] = false;
-    }
-    if (isNeedAds[V] && h.data.user_brs_adt_10_info == 0) {
-      let Z = await drawCommonRequest(V, "/wheel/view_ad_complete", "post", "累计抽奖奖励", "token=" + qdngapp[V].token + "&award_type=gold&award_amount=0&multi=0&draw_times=10");
-      Z ? ($.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 累计抽奖10次奖励=> 完成，获得" + Z.data.num + "个金币"), await $.wait(helpUtils.randomNum(5000, 10000))) : isNeedAds[V] = false;
-    }
-    if (isNeedAds[V] && h.data.user_brs_adt_20_info == 0) {
-      let d = await drawCommonRequest(V, "/wheel/view_ad_complete", "post", "累计抽奖奖励", "token=" + qdngapp[V].token + "&award_type=gold&award_amount=0&multi=0&draw_times=20");
-      d ? ($.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 累计抽奖20次奖励=> 完成，获得" + d.data.num + "个金币"), await $.wait(helpUtils.randomNum(5000, 10000))) : isNeedAds[V] = false;
-    }
-  }
-  let I = await commonRequest(V, "/qudongTask/getTimerBoxTask", "post", "定时宝箱信息", "");
-  if (I) {
-    let X = I.data.task_list[0];
-    if (X.count_down_seconds == 0) {
-      await $.wait(helpUtils.randomNum(10000, 15000));
-      let c = await commonRequest(V, "/qudongTask/pickTaskReward", "post", "开宝箱得金币", "data=&id=" + X.id + "&task_id=" + X.task_id);
-      $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + c.data.task_name + "=> 完成，获得" + c.data.gold + "个金币");
-      if (isNeedAds[V]) {
-        await $.wait(helpUtils.randomNum(10000, 15000));
-        let A = await commonRequest(V, "/qudongTask/viewAdComplete", "post", "开宝箱看广告得金币", "award_amount=" + c.data.gold + "&award_type=gold&multi=" + c.data.gold_multi + "&task_id=" + X.task_id);
-        A ? $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + c.data.task_name + "翻倍=> 完成，获得" + A.data.gold + "个金币") : isNeedAds[V] = false;
-      }
-    }
-  }
-  let H = await commonRequest(V, "/sport/addSportRecord", "post", "运动记录", "time_zone=" + encodeURIComponent("GMT+8") + "&sport_type=0&step_count=0&request_time=" + helpUtils.ts10());
-  if (H && H.data.step < 9999) {
-    $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 今天还没有上传运动信息，开始上传>>>");
-    await $.wait(helpUtils.randomNum(5000, 15000));
-    let r = helpUtils.randomNum(10000, 13000);
-    H = await commonRequest(V, "/sport/addSportRecord", "post", "运动步数上传", "time_zone=" + encodeURIComponent("GMT+8") + "&sport_type=0&step_count=" + r + "&request_time=" + helpUtils.ts10());
-    H && ($.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 每日运动上传=> 成功上传了" + H.data.step + "步 🎉"), qdnglogs[V] += "[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 每日运动上传=> 成功上传了" + H.data.step + "步 🎉 \n");
-  }
-  let e = await commonRequest(V, "/gold/get_gold_info", "get", "签到金币任务信息", "");
-  if (e && hour < 8) {
-    let f = e.data.sign_task_list;
-    for (let j in f) {
-      let O = f[j];
-      if (O.is_receive == 1 && O.special_status == 2) {
-        await $.wait(helpUtils.randomNum(15000, 20000));
-        let o = await commonRequest(V, "/gold/user_gold_sign", "post", "获取签到金", "id=" + O.id + "&is_adv=" + O.adv_b);
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 签到第" + (parseInt(j) + 1) + "个任务=> 完成，获得" + o.data.num + "个金币");
-        O.is_special == 2 && (await $.wait(helpUtils.randomNum(15000, 20000)), o = await commonRequest(V, "/gold/user_gold_sign", "post", "获取签到金", "id=" + O.id + "&is_adv=1"), $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 签到第" + (parseInt(j) + 1) + "个翻倍任务=> 完成，获得" + o.data.num + "个金币"));
-      } else {
-        if (O.is_receive == 1 && O.special_status == 1) {
-          await $.wait(helpUtils.randomNum(15000, 20000));
-          let q = await commonRequest(V, "/gold/user_gold_sign", "post", "获取签到金", "id=" + O.id + "&is_adv=" + O.adv_b);
-          $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 签到第" + (parseInt(j) + 1) + "个大额金币任务=> 完成，获得" + q.data.num + "个金币");
+    af.prototype = ag;
+    a1(ak, "constructor", {
+      value: ag,
+      configurable: !0
+    });
+    a1(ag, "constructor", {
+      value: af,
+      configurable: !0
+    });
+    af.displayName = a6(ag, a5, "GeneratorFunction");
+    Y.isGeneratorFunction = function (aw) {
+      var ay = "function" == typeof aw && aw.constructor;
+      return !!ay && (ay === af || "GeneratorFunction" === (ay.displayName || ay.name));
+    };
+    Y.mark = function (aw) {
+      Object.setPrototypeOf ? Object.setPrototypeOf(aw, ag) : (aw.__proto__ = ag, a6(aw, a5, "GeneratorFunction"));
+      aw.prototype = Object.create(ak);
+      return aw;
+    };
+    Y.awrap = function (aw) {
+      var ay = {
+        __await: aw
+      };
+      return ay;
+    };
+    al(am.prototype);
+    a6(am.prototype, a4, function () {
+      return this;
+    });
+    Y.AsyncIterator = am;
+    Y.async = function (aw, ax, ay, az, aA) {
+      void 0 === aA && (aA = Promise);
+      var aC = new am(a7(aw, ax, ay, az), aA);
+      return Y.isGeneratorFunction(ax) ? aC : aC.next().then(function (aD) {
+        return aD.done ? aD.value : aC.next();
+      });
+    };
+    al(ak);
+    a6(ak, a5, "Generator");
+    a6(ak, a3, function () {
+      return this;
+    });
+    a6(ak, "toString", function () {
+      return "[object Generator]";
+    });
+    Y.keys = function (aw) {
+      var ay = Object(aw),
+        az = [];
+      for (var aA in ay) az.push(aA);
+      az.reverse();
+      return function aB() {
+        for (; az.length;) {
+          var aC = az.pop();
+          if (aC in ay) {
+            aB.value = aC;
+            aB.done = !1;
+            return aB;
+          }
         }
-      }
-    }
-    let z = e.data.task_list;
-    if (z) {
-      for (let P = 0; P < z.length; P++) {
-        let y = z[P];
-        if (y.is_receive == 1) {
-          let G = await commonRequest(V, "/gold/task_receive", "post", "签到累计" + y.days + "天奖励", "days=" + y.days + "&is_adv=2&num=" + y.reward_num);
-          $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 连续签到" + y.days + "天任务=> 完成，获得" + G.data.num + "个金币");
-          await $.wait(helpUtils.randomNum(5000, 15000));
-          let v = await commonRequest(V, "/gold/task_receive", "post", "签到累计" + y.days + "天翻倍奖励", "days=" + y.days + "&is_adv=1&num=" + y.reward_num);
-          $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 连续签到" + y.days + "天翻倍任务=> 完成，获得" + v.data.num + "个金币");
+        aB.done = !0;
+        return aB;
+      };
+    };
+    Y.values = as;
+    ar.prototype = {
+      constructor: ar,
+      reset: function (aw) {
+        if (this.prev = 0, this.next = 0, this.sent = this._sent = X, this.done = !1, this.delegate = null, this.method = "next", this.arg = X, this.tryEntries.forEach(aq), !aw) {
+          for (var ay in this) "t" === ay.charAt(0) && a0.call(this, ay) && !isNaN(+ay.slice(1)) && (this[ay] = X);
         }
-      }
-    }
-  }
-  let B = await commonRequest(V, "/qudongTask/getTodayTaskList", "post", "任务中心列表", ""),
-    F = await commonRequest(V, "/qudongTask/getTodaySignList", "post", "每日登录App任务信息", "");
-  if (F) {
-    let a = F.data.user_sign_list,
-      u0 = a.find(u1 => u1.words == "今天");
-    if (u0 && u0.pick_status == 0) {
-      let u1 = await commonRequest(V, "/qudongTask/pickTaskReward", "post", "每日登录App得金币", "data=&id=" + u0.id + "&task_id=" + u0.task_id);
-      await $.wait(helpUtils.randomNum(5000, 15000));
-      let u2 = await commonRequest(V, "/qudongTask/viewAdComplete", "post", "每日登录App看广告得双倍金币", "award_amount=" + u1.data.gold + "&award_type=gold&multi=" + u1.data.gold_multi + "&task_id=" + u0.task_id);
-      $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 每日登录App看广告得双倍金币任务=> 完成，获得" + u2.data.gold + "个金币");
-    }
-  }
-  if (B) {
-    let u3 = B.data.find(uu => uu.type == "video_bonus_tasks"),
-      u4 = u3.tasks;
-    for (let uu in u4) {
-      let um = u4[uu],
-        uV = um.task_list[0];
-      if (uV.pick_status == 0) {
-        await $.wait(helpUtils.randomNum(15000, 30000));
-        let ug = await commonRequest(V, "/qudongTask/pickTaskReward", "post", "看广告得金币", "data=&id=" + uV.id + "&task_id=" + uV.task_id);
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uV.task_name + "(" + (parseInt(uu) + 1) + "/10)=> 完成，获得" + ug.data.gold + "个金币");
-      }
-      if (uV.multi_status == 0) {
-        await $.wait(helpUtils.randomNum(15000, 30000));
-        let uC = await commonRequest(V, "/qudongTask/viewAdComplete", "post", "再看一次广告翻倍得金币", "award_amount=" + uV.bonus + "&award_type=gold&multi=" + uV.multi + "&task_id=" + uV.task_id);
-        $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uV.task_name + "(" + (parseInt(uu) + 1) + "/10)_翻倍=> 完成，获得" + uC.data.gold + "个金币");
-      }
-    }
-    let u5 = B.data.find(uW => uW.type == "daily_tasks"),
-      u6 = u5.tasks.find(uW => uW.task_tag == "step"),
-      u7 = u6.task_list;
-    for (let uW in u7) {
-      let uQ = u7[uW];
-      if (uQ.pick_status == 0) {
-        await $.wait(helpUtils.randomNum(1000, 3000));
-        let uM = await commonRequest(V, "/qudongTask/pickTaskReward", "post", "完成特定步数得金币", "data=&id=" + uQ.id + "&task_id=" + uQ.task_id);
-        uM && $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uQ.task_name + "(" + (parseInt(uW) + 1) + "/10)=> 完成，获得" + uM.data.gold + "个金币");
-      }
-    }
-    let u8 = B.data.find(ux => ux.type == "habit_tasks");
-    if (u8) {
-      for (let uD = 0; uD < u8.tasks.length; uD++) {
-        let uh = u8.tasks[uD];
-        if (uh.task_tag != "drink_water") {
-          let uI = uh.task_list[0];
-          if (uI.finish_status == 1 && uI.pick_status == 0) {
-            let uH = await commonRequest(V, "/qudongTask/pickTaskReward", "post", uI.task_name, "data=&id=" + uI.id + "&task_id=" + uI.task_id);
-            $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uH.data.task_name + "=> 完成，获得" + uH.data.gold + "个金币");
-            if (isNeedAds[V]) {
-              await $.wait(helpUtils.randomNum(5000, 15000));
-              let ue = await commonRequest(V, "/qudongTask/viewAdComplete", "post", uI.task_name + "看广告得双倍金币", "award_amount=" + uH.data.gold + "&award_type=gold&multi=" + uH.data.gold_multi + "&task_id=" + uI.task_id);
-              ue ? $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uI.task_name + "看广告得双倍金币=> 完成，获得" + ue.data.gold + "个金币") : isNeedAds[V] = false;
+      },
+      stop: function () {
+        this.done = !0;
+        var ax = this.tryEntries[0].completion;
+        if ("throw" === ax.type) {
+          throw ax.arg;
+        }
+        return this.rval;
+      },
+      dispatchException: function (aw) {
+        if (this.done) {
+          throw aw;
+        }
+        var ay = this;
+        function aF(aG, aH) {
+          aB.type = "throw";
+          aB.arg = aw;
+          ay.next = aG;
+          aH && (ay.method = "next", ay.arg = X);
+          return !!aH;
+        }
+        for (var az = this.tryEntries.length - 1; az >= 0; --az) {
+          var aA = this.tryEntries[az],
+            aB = aA.completion;
+          if ("root" === aA.tryLoc) {
+            return aF("end");
+          }
+          if (aA.tryLoc <= this.prev) {
+            var aC = a0.call(aA, "catchLoc"),
+              aD = a0.call(aA, "finallyLoc");
+            if (aC && aD) {
+              if (this.prev < aA.catchLoc) {
+                return aF(aA.catchLoc, !0);
+              }
+              if (this.prev < aA.finallyLoc) {
+                return aF(aA.finallyLoc);
+              }
+            } else {
+              if (aC) {
+                if (this.prev < aA.catchLoc) {
+                  return aF(aA.catchLoc, !0);
+                }
+              } else {
+                if (!aD) {
+                  throw Error("try statement without catch or finally");
+                }
+                if (this.prev < aA.finallyLoc) {
+                  return aF(aA.finallyLoc);
+                }
+              }
             }
           }
         }
-      }
-      let ux = u8.tasks.find(uB => uB.task_tag == "drink_water");
-      if (ux && hour > 12) {
-        let uB = await commonRequest(V, "/user/water_list", "get", "每日喝水信息", ""),
-          un = uB.data.list;
-        for (let uF = 0; uF < un.length; uF++) {
-          let us = un[uF];
-          us.is_receive == 2 && (await $.wait(helpUtils.randomNum(5000, 15000)), await commonRequest(V, "/user/receive_water", "post", "喝水", "id=" + us.key + "&receive_type=1"), $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 每日喝水(" + us.key + "/8)=> 完成，获得" + us.num + "个金币"));
-          us.is_adv == 2 && (await $.wait(helpUtils.randomNum(5000, 15000)), await commonRequest(V, "/user/receive_water", "post", "喝水翻倍", "id=" + us.key + "&receive_type=2"), $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: 每日喝水(" + us.key + "/8)看广告翻倍=> 完成，获得" + us.adv + "个金币"));
+      },
+      abrupt: function (aw, ax) {
+        for (var az = this.tryEntries.length - 1; az >= 0; --az) {
+          var aA = this.tryEntries[az];
+          if (aA.tryLoc <= this.prev && a0.call(aA, "finallyLoc") && this.prev < aA.finallyLoc) {
+            var aB = aA;
+            break;
+          }
         }
+        aB && ("break" === aw || "continue" === aw) && aB.tryLoc <= ax && ax <= aB.finallyLoc && (aB = null);
+        var aC = aB ? aB.completion : {};
+        aC.type = aw;
+        aC.arg = ax;
+        return aB ? (this.method = "next", this.next = aB.finallyLoc, ad) : this.complete(aC);
+      },
+      complete: function (aw, ax) {
+        if ("throw" === aw.type) {
+          throw aw.arg;
+        }
+        "break" === aw.type || "continue" === aw.type ? this.next = aw.arg : "return" === aw.type ? (this.rval = this.arg = aw.arg, this.method = "return", this.next = "end") : "normal" === aw.type && ax && (this.next = ax);
+        return ad;
+      },
+      finish: function (aw) {
+        for (var ay = this.tryEntries.length - 1; ay >= 0; --ay) {
+          var az = this.tryEntries[ay];
+          if (az.finallyLoc === aw) {
+            this.complete(az.completion, az.afterLoc);
+            aq(az);
+            return ad;
+          }
+        }
+      },
+      catch: function (aw) {
+        for (var ay = this.tryEntries.length - 1; ay >= 0; --ay) {
+          var az = this.tryEntries[ay];
+          if (az.tryLoc === aw) {
+            var aA = az.completion;
+            if ("throw" === aA.type) {
+              var aB = aA.arg;
+              aq(az);
+            }
+            return aB;
+          }
+        }
+        throw Error("illegal catch attempt");
+      },
+      delegateYield: function (aw, ax, ay) {
+        this.delegate = {
+          iterator: as(aw),
+          resultName: ax,
+          nextLoc: ay
+        };
+        "next" === this.method && (this.arg = X);
+        return ad;
       }
+    };
+    return Y;
+  }
+  function t(W, X) {
+    var Z = Object.keys(W);
+    if (Object.getOwnPropertySymbols) {
+      var a0 = Object.getOwnPropertySymbols(W);
+      X && (a0 = a0.filter(function (a3) {
+        return Object.getOwnPropertyDescriptor(W, a3).enumerable;
+      }));
+      Z.push.apply(Z, a0);
     }
-    let u9 = B.data.find(uL => uL.type == "interactive_tasks");
-    if (u9) {
-      let uL = u9.tasks;
-      for (let ul = 0; ul < uL.length; ul++) {
-        let ui = uL[ul].task_list[0];
-        if (ui.task_tag == "invite_user") {
-          for (let uK = 0; uK < 5; uK++) {
-            await $.wait(helpUtils.randomNum(10000, 12000));
-            let uY = await commonRequest(V, "/qudongTask/pickTaskReward", "post", ui.task_name, "data=&id=" + ui.id + "&task_id=" + ui.task_id);
-            $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uY.data.task_name + "(" + (uK + 1) + "/5)=> 完成，获得" + uY.data.gold + "个金币");
-            await $.wait(helpUtils.randomNum(15000, 30000));
-            if (isNeedAds[V]) {
-              let uw = await commonRequest(V, "/qudongTask/viewAdComplete", "post", uY.data.task_name + "看广告得翻倍金币", "award_amount=" + uY.data.gold + "&award_type=gold&multi=" + uY.data.gold_multi + "&task_id=" + ui.task_id);
-              uw ? $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uY.data.task_name + "看广告(" + (uK + 1) + "/5)=> 完成，获得" + uw.data.gold + "个金币") : isNeedAds[V] = false;
+    return Z;
+  }
+  function u(W) {
+    for (var Y = 1; Y < arguments.length; Y++) {
+      var Z = null != arguments[Y] ? arguments[Y] : {};
+      Y % 2 ? t(Object(Z), !0).forEach(function (a0) {
+        v(W, a0, Z[a0]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(W, Object.getOwnPropertyDescriptors(Z)) : t(Object(Z)).forEach(function (a0) {
+        Object.defineProperty(W, a0, Object.getOwnPropertyDescriptor(Z, a0));
+      });
+    }
+    return W;
+  }
+  function v(W, X, Y) {
+    var Z = {
+      value: Y,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    };
+    (X = z(X)) in W ? Object.defineProperty(W, X, Z) : W[X] = Y;
+    return W;
+  }
+  function w(W, X) {
+    if (!(W instanceof X)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function x(W, X) {
+    for (var Y = 0; Y < X.length; Y++) {
+      var Z = X[Y];
+      Z.enumerable = Z.enumerable || !1;
+      Z.configurable = !0;
+      "value" in Z && (Z.writable = !0);
+      Object.defineProperty(W, z(Z.key), Z);
+    }
+  }
+  function y(W, X, Y) {
+    var Z = {
+      writable: !1
+    };
+    X && x(W.prototype, X);
+    Y && x(W, Y);
+    Object.defineProperty(W, "prototype", Z);
+    return W;
+  }
+  function z(W) {
+    var X = A(W, "string");
+    return "symbol" == g(X) ? X : X + "";
+  }
+  function A(W, X) {
+    if ("object" != g(W) || !W) {
+      return W;
+    }
+    var Y = W[Symbol.toPrimitive];
+    if (void 0 !== Y) {
+      var Z = Y.call(W, X || "default");
+      if ("object" != g(Z)) {
+        return Z;
+      }
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === X ? String : Number)(W);
+  }
+  function B(W, X, Y, Z, a0, a1, a2) {
+    try {
+      var a3 = W[a1](a2),
+        a4 = a3.value;
+    } catch (a5) {
+      return void Y(a5);
+    }
+    a3.done ? X(a4) : Promise.resolve(a4).then(Z, a0);
+  }
+  function C(W) {
+    return function () {
+      var Y = this,
+        Z = arguments;
+      return new Promise(function (a0, a1) {
+        var a4 = W.apply(Y, Z);
+        function a5(a7) {
+          B(a4, a0, a1, a5, a6, "next", a7);
+        }
+        function a6(a7) {
+          B(a4, a0, a1, a5, a6, "throw", a7);
+        }
+        a5(void 0);
+      });
+    };
+  }
+  var D = "xcbwc_data",
+    E = $.toObj($.isNode() ? process.env[D] : $.getdata(D)) || [];
+  function F() {
+    return G.apply(this, arguments);
+  }
+  function G() {
+    G = C(s().mark(function X() {
+      var Y, Z, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9;
+      return s().wrap(function (aa) {
+        for (;;) {
+          switch (aa.prev = aa.next) {
+            case 0:
+              Y = l($.userList);
+              aa.prev = 1;
+              Y.s();
+            case 3:
+              if ((Z = Y.n()).done) {
+                aa.next = 53;
+                break;
+              }
+              a0 = Z.value;
+              aa.prev = 5;
+              aa.next = 8;
+              return a0.GetUserInfo();
+            case 8:
+              if (a1 = aa.sent, !a0.ckStatus) {
+                aa.next = 45;
+                break;
+              }
+              $.log("\n-------------\u8D26\u53F7".concat(a0.index, "-------------\n"));
+              $.log("[INFO] \u300C".concat(a1.nickname, "\u300D\u767B\u5F55\u6210\u529F\uFF01"));
+              aa.next = 14;
+              return a0.OpenBox();
+            case 14:
+              a2 = 0;
+              a3 = [1, 2, 4, 5, 8, 9, 10, 11];
+            case 15:
+              if (!(a2 < a3.length)) {
+                aa.next = 22;
+                break;
+              }
+              a4 = a3[a2];
+              aa.next = 19;
+              return a0.GetDailyTask(a4);
+            case 19:
+              a2++;
+              aa.next = 15;
+              break;
+            case 22:
+              aa.next = 24;
+              return a0.Lottery();
+            case 24:
+              if (a0.drawStatus && a0.drawCount++ <= 15) {
+                aa.next = 22;
+                break;
+              }
+            case 25:
+              a5 = 1;
+            case 26:
+              if (!(a5 <= 2)) {
+                aa.next = 32;
+                break;
+              }
+              aa.next = 29;
+              return a0.ReceiveExtraLottery(a5);
+            case 29:
+              a5++;
+              aa.next = 26;
+              break;
+            case 32:
+              aa.next = 34;
+              return a0.GetRedPack();
+            case 34:
+              a6 = aa.sent;
+              aa.next = 37;
+              return a0.GetPoint();
+            case 37:
+              a7 = aa.sent;
+              aa.next = 40;
+              return a0.GetCard();
+            case 40:
+              a8 = aa.sent;
+              $.notifyMsg.push("[".concat(a1.nickname, "] \u79EF\u5206:").concat(a7, " \u7EA2\u5305:").concat(a6, " \u996D\u7968:").concat(a8));
+              $.succCount++;
+              aa.next = 46;
+              break;
+            case 45:
+              P("\u26D4\uFE0F \u300C".concat(null !== (a9 = a0.userName) && void 0 !== a9 ? a9 : "\u8D26\u53F7".concat(index), "\u300D\u7B7E\u5230\u5931\u8D25, \u7528\u6237\u9700\u8981\u53BB\u767B\u5F55"));
+            case 46:
+              aa.next = 51;
+              break;
+            case 48:
+              throw aa.prev = 48, aa.t0 = aa.catch(5), aa.t0;
+            case 51:
+              aa.next = 3;
+              break;
+            case 53:
+              aa.next = 58;
+              break;
+            case 55:
+              aa.prev = 55;
+              aa.t1 = aa.catch(1);
+              Y.e(aa.t1);
+            case 58:
+              aa.prev = 58;
+              Y.f();
+              return aa.finish(58);
+            case 61:
+              $.title = "\u5171".concat($.userList.length, "\u4E2A\u8D26\u53F7,\u6210\u529F").concat($.succCount, "\u4E2A,\u5931\u8D25").concat($.userList.length - 0 - $.succCount, "\u4E2A");
+              aa.next = 64;
+              return N($.notifyMsg.join("\n"), {
+                $media: $.avatar
+              });
+            case 64:
+            case "end":
+              return aa.stop();
+          }
+        }
+      }, X, null, [[1, 55, 58, 61], [5, 48]]);
+    }));
+    return G.apply(this, arguments);
+  }
+  $.userIdx = 0;
+  $.userList = [];
+  $.notifyMsg = [];
+  $.succCount = 0;
+  $.is_debug = ($.isNode() ? process.env.IS_DEDUG : $.getdata("is_debug")) || "false";
+  var H = function () {
+    return y(function a5(a6) {
+      var a7 = this;
+      w(this, a5);
+      this.index = ++$.userIdx;
+      this.token = a6.token || a6;
+      this.userId = a6.userId;
+      this.teemo = parseInt(a6.teemo);
+      this.drawCount = 0;
+      this.drawStatus = !0;
+      this.userName = a6.userName;
+      this.avatar = a6.avatar;
+      this.ckStatus = !0;
+      this.baseUrl = "https://gw.xiaocantech.com/rpc";
+      this.headers = {
+        "user-agent": "Dart/3.3 (dart:io)",
+        "content-type": "application/json",
+        "x-teemo": this.teemo,
+        "x-annie": "XC",
+        "x-version": "2.8.5.0",
+        "x-vayne": this.userId,
+        host: "gw.xiaocantech.com",
+        "x-sivir": this.token,
+        "x-platform": "iOS"
+      };
+      this.fetch = function () {
+        var a9 = C(s().mark(function aa(ab) {
+          var ad, ae, af, ag, ah, ai;
+          return s().wrap(function (aj) {
+            for (;;) {
+              switch (aj.prev = aj.next) {
+                case 0:
+                  aj.prev = 0;
+                  "string" == typeof ab && (ab = {
+                    url: ab
+                  });
+                  ab.dataType = "json";
+                  ab.type = "post";
+                  (null === (ad = ab) || void 0 === ad || !ad.url || null !== (ae = ab) && void 0 !== ae && null !== (ae = ae.url) && void 0 !== ae && ae.startsWith("/") || null !== (af = ab) && void 0 !== af && null !== (af = af.url) && void 0 !== af && af.startsWith(":")) && (ab.url = a7.baseUrl + (ab.url || ""));
+                  aj.next = 7;
+                  return U(u(u({}, ab), {}, {
+                    headers: ab.headers || a7.headers,
+                    url: ab.url
+                  }));
+                case 7:
+                  ai = aj.sent;
+                  S(ai, null === (ag = ab) || void 0 === ag || null === (ag = ag.url) || void 0 === ag ? void 0 : ag.replace(/\/+$/, "").substring((null === (ah = ab) || void 0 === ah || null === (ah = ah.url) || void 0 === ah ? void 0 : ah.lastIndexOf("/")) + 1));
+                  return aj.abrupt("return", ai);
+                case 12:
+                  aj.prev = 12;
+                  aj.t0 = aj.catch(0);
+                  a7.ckStatus = !1;
+                  $.log("[".concat(a7.userName || a7.index, "][ERROR] \u8BF7\u6C42\u53D1\u8D77\u5931\u8D25!").concat(aj.t0, "\n"));
+                case 16:
+                case "end":
+                  return aj.stop();
+              }
+            }
+          }, aa, null, [[0, 12]]);
+        }));
+        return function (ab) {
+          return a9.apply(this, arguments);
+        };
+      }();
+    }, [{
+      key: "GetPoint",
+      value: (a4 = C(s().mark(function a6() {
+        var a8, a9, aa, ab, ac, ad, ae, af;
+        return s().wrap(function (ag) {
+          for (;;) {
+            switch (ag.prev = ag.next) {
+              case 0:
+                ag.prev = 0;
+                ac = "ActivityTask";
+                ad = "ActivityTaskMobileService.UserTaskV2";
+                ae = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ac,
+                    methodname: ad
+                  }, I(this.teemo, ac, ad)),
+                  body: {
+                    silk_id: this.teemo
+                  }
+                };
+                ag.next = 6;
+                return this.fetch(ae);
+              case 6:
+                if (af = ag.sent, 0 == (null == af || null === (a8 = af.status) || void 0 === a8 ? void 0 : a8.code)) {
+                  ag.next = 9;
+                  break;
+                }
+                throw new Error(null == af || null === (a9 = af.status) || void 0 === a9 ? void 0 : a9.msg);
+              case 9:
+                $.log("[INFO] \u7528\u6237\u79EF\u5206:".concat(null == af || null === (aa = af.data) || void 0 === aa ? void 0 : aa.point));
+                return ag.abrupt("return", null == af || null === (ab = af.data) || void 0 === ab ? void 0 : ab.point);
+              case 13:
+                ag.prev = 13;
+                ag.t0 = ag.catch(0);
+              case 16:
+              case "end":
+                return ag.stop();
             }
           }
-        }
-        if (ui.finish_status == 1 && ui.pick_status == 0) {
-          await $.wait(helpUtils.randomNum(10000, 12000));
-          let uJ = await commonRequest(V, "/qudongTask/pickTaskReward", "post", ui.task_name, "data=&id=" + ui.id + "&task_id=" + ui.task_id);
-          $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uJ.data.task_name + "=> 完成，获得" + uJ.data.gold + "个金币");
-          await $.wait(helpUtils.randomNum(15000, 30000));
-          if (isNeedAds[V]) {
-            let uU = await commonRequest(V, "/qudongTask/viewAdComplete", "post", uJ.data.task_name + "看广告得翻倍金币", "award_amount=" + uJ.data.gold + "&award_type=gold&multi=" + uJ.data.gold_multi + "&task_id=" + ui.task_id);
-            uU ? $.log("[账号" + (V + 1 < 10 ? "0" + (V + 1) : V + 1) + "]: " + uJ.data.task_name + "看广告=> 完成，获得" + uU.data.gold + "个金币") : isNeedAds[V] = false;
+        }, a6, this, [[0, 13]]);
+      })), function () {
+        return a4.apply(this, arguments);
+      })
+    }, {
+      key: "GetRedPack",
+      value: (a3 = C(s().mark(function a7() {
+        var a9, aa, ab, ac, ad, ae;
+        return s().wrap(function (af) {
+          for (;;) {
+            switch (af.prev = af.next) {
+              case 0:
+                af.prev = 0;
+                ab = "RedPackService";
+                ac = "RedPackService.GetAppRedPackList";
+                ad = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ab,
+                    methodname: ac
+                  }, I(this.teemo, ab, ac)),
+                  body: {
+                    silk_id: this.teemo,
+                    page_size: 1000,
+                    page: 1
+                  }
+                };
+                af.next = 6;
+                return this.fetch(ad);
+              case 6:
+                if (ae = af.sent, 0 == (null == ae || null === (a9 = ae.status) || void 0 === a9 ? void 0 : a9.code)) {
+                  af.next = 9;
+                  break;
+                }
+                throw new Error(null == ae || null === (aa = ae.status) || void 0 === aa ? void 0 : aa.msg);
+              case 9:
+                return af.abrupt("return", null == ae ? void 0 : ae.unused_items.length);
+              case 12:
+                af.prev = 12;
+                af.t0 = af.catch(0);
+              case 15:
+              case "end":
+                return af.stop();
+            }
+          }
+        }, a7, this, [[0, 12]]);
+      })), function () {
+        return a3.apply(this, arguments);
+      })
+    }, {
+      key: "GetUserInfo",
+      value: (a2 = C(s().mark(function a8() {
+        var a9, aa, ab, ac, ad, ae;
+        return s().wrap(function (af) {
+          for (;;) {
+            switch (af.prev = af.next) {
+              case 0:
+                af.prev = 0;
+                ab = "Silkworm";
+                ac = "SilkwormService.GetClientUserInfo";
+                ad = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ab,
+                    methodname: ac
+                  }, I(this.teemo, ab, ac)),
+                  body: {
+                    silk_id: this.teemo
+                  }
+                };
+                af.next = 6;
+                return this.fetch(ad);
+              case 6:
+                if (ae = af.sent, 0 == (null == ae || null === (a9 = ae.status) || void 0 === a9 ? void 0 : a9.code)) {
+                  af.next = 9;
+                  break;
+                }
+                throw new Error(null == ae || null === (aa = ae.status) || void 0 === aa ? void 0 : aa.msg);
+              case 9:
+                return af.abrupt("return", null == ae ? void 0 : ae.user_info);
+              case 12:
+                af.prev = 12;
+                af.t0 = af.catch(0);
+                this.ckStatus = !1;
+              case 16:
+              case "end":
+                return af.stop();
+            }
+          }
+        }, a8, this, [[0, 12]]);
+      })), function () {
+        return a2.apply(this, arguments);
+      })
+    }, {
+      key: "GetCard",
+      value: (a1 = C(s().mark(function a9() {
+        var aa, ab, ac, ad, ae, af, ag;
+        return s().wrap(function (ah) {
+          for (;;) {
+            switch (ah.prev = ah.next) {
+              case 0:
+                ah.prev = 0;
+                ad = "SilkwormCard";
+                ae = "SilkwormCardService.GetUserCardList";
+                af = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ad,
+                    methodname: ae
+                  }, I(this.teemo, ad, ae)),
+                  body: {
+                    silk_id: this.teemo,
+                    status: 0,
+                    number: 1000,
+                    offset: 0
+                  }
+                };
+                ah.next = 6;
+                return this.fetch(af);
+              case 6:
+                if (ag = ah.sent, 0 == (null == ag || null === (aa = ag.status) || void 0 === aa ? void 0 : aa.code)) {
+                  ah.next = 9;
+                  break;
+                }
+                throw new Error(null == ag || null === (ab = ag.status) || void 0 === ab ? void 0 : ab.msg);
+              case 9:
+                return ah.abrupt("return", null == ag || null === (ac = ag.list) || void 0 === ac ? void 0 : ac.length);
+              case 12:
+                ah.prev = 12;
+                ah.t0 = ah.catch(0);
+              case 15:
+              case "end":
+                return ah.stop();
+            }
+          }
+        }, a9, this, [[0, 12]]);
+      })), function () {
+        return a1.apply(this, arguments);
+      })
+    }, {
+      key: "GetDailyTask",
+      value: (a0 = C(s().mark(function aa(ab) {
+        var ac, ad, ae, af, ag, ah;
+        return s().wrap(function (ai) {
+          for (;;) {
+            switch (ai.prev = ai.next) {
+              case 0:
+                ai.prev = 0;
+                ae = "SilkwormLottery";
+                af = "SilkwormLotteryMobile.AddLotteryTimes";
+                ag = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ae,
+                    methodname: af
+                  }, I(this.teemo, ae, af)),
+                  body: {
+                    silk_id: this.teemo,
+                    type: ab
+                  }
+                };
+                ai.next = 6;
+                return this.fetch(ag);
+              case 6:
+                if (ah = ai.sent, 0 == (null == ah || null === (ac = ah.status) || void 0 === ac ? void 0 : ac.code)) {
+                  ai.next = 9;
+                  break;
+                }
+                throw new Error(null == ah || null === (ad = ah.status) || void 0 === ad ? void 0 : ad.msg);
+              case 9:
+                $.log("[INFO] \u5B8C\u6210\u4EFB\u52A1\uFF0C\u62BD\u5956\u6B21\u6570 +1");
+                ai.next = 15;
+                break;
+              case 12:
+                ai.prev = 12;
+                ai.t0 = ai.catch(0);
+              case 15:
+              case "end":
+                return ai.stop();
+            }
+          }
+        }, aa, this, [[0, 12]]);
+      })), function (ab) {
+        return a0.apply(this, arguments);
+      })
+    }, {
+      key: "Lottery",
+      value: (Z = C(s().mark(function ab() {
+        var ac, ad, ae, af, ag, ah, ai;
+        return s().wrap(function (aj) {
+          for (;;) {
+            switch (aj.prev = aj.next) {
+              case 0:
+                aj.prev = 0;
+                af = "SilkwormLottery";
+                ag = "SilkwormLotteryMobile.Lottery";
+                ah = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: af,
+                    methodname: ag
+                  }, I(this.teemo, af, ag)),
+                  body: {
+                    silk_id: this.teemo,
+                    prize_type: 1
+                  }
+                };
+                aj.next = 6;
+                return this.fetch(ah);
+              case 6:
+                if (ai = aj.sent, 0 == (null == ai || null === (ac = ai.status) || void 0 === ac ? void 0 : ac.code)) {
+                  aj.next = 9;
+                  break;
+                }
+                throw new Error(null == ai || null === (ad = ai.status) || void 0 === ad ? void 0 : ad.msg);
+              case 9:
+                $.log("[INFO] \u62BD\u5956:".concat(null == ai || null === (ae = ai.prize) || void 0 === ae ? void 0 : ae.name));
+                aj.next = 16;
+                break;
+              case 12:
+                aj.prev = 12;
+                aj.t0 = aj.catch(0);
+                this.drawStatus = !1;
+              case 16:
+              case "end":
+                return aj.stop();
+            }
+          }
+        }, ab, this, [[0, 12]]);
+      })), function () {
+        return Z.apply(this, arguments);
+      })
+    }, {
+      key: "ReceiveExtraLottery",
+      value: (Y = C(s().mark(function ac(ad) {
+        var ae, af, ag, ah, ai, aj, ak;
+        return s().wrap(function (al) {
+          for (;;) {
+            switch (al.prev = al.next) {
+              case 0:
+                al.prev = 0;
+                ah = "SilkwormLottery";
+                ai = "SilkwormLotteryMobile.ReceiveExtraLottery";
+                aj = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ah,
+                    methodname: ai
+                  }, I(this.teemo, ah, ai)),
+                  body: {
+                    silk_id: this.teemo,
+                    step: ad
+                  }
+                };
+                al.next = 6;
+                return this.fetch(aj);
+              case 6:
+                if (ak = al.sent, 0 == (null == ak || null === (ae = ak.status) || void 0 === ae ? void 0 : ae.code)) {
+                  al.next = 9;
+                  break;
+                }
+                throw new Error(null == ak || null === (af = ak.status) || void 0 === af ? void 0 : af.msg);
+              case 9:
+                $.log("[INFO] \u7B2C".concat(ad, "\u9636\u68AF\u5956\u52B1:").concat(null == ak || null === (ag = ak.prize) || void 0 === ag ? void 0 : ag.name));
+                al.next = 16;
+                break;
+              case 12:
+                al.prev = 12;
+                al.t0 = al.catch(0);
+                this.drawStatus = !1;
+              case 16:
+              case "end":
+                return al.stop();
+            }
+          }
+        }, ac, this, [[0, 12]]);
+      })), function (ad) {
+        return Y.apply(this, arguments);
+      })
+    }, {
+      key: "OpenBox",
+      value: (X = C(s().mark(function ad() {
+        var af, ag, ah, ai, aj, ak, al;
+        return s().wrap(function (am) {
+          for (;;) {
+            switch (am.prev = am.next) {
+              case 0:
+                am.prev = 0;
+                ai = "ActivityTask";
+                aj = "ActivityTaskMobileService.OpenBox";
+                ak = {
+                  headers: u(u({}, this.headers), {}, {
+                    servername: ai,
+                    methodname: aj
+                  }, I(this.teemo, ai, aj)),
+                  body: {
+                    silk_id: this.teemo
+                  }
+                };
+                am.next = 6;
+                return this.fetch(ak);
+              case 6:
+                if (al = am.sent, 0 == (null == al || null === (af = al.status) || void 0 === af ? void 0 : af.code)) {
+                  am.next = 9;
+                  break;
+                }
+                throw new Error(null == al || null === (ag = al.status) || void 0 === ag ? void 0 : ag.msg);
+              case 9:
+                $.log("[INFO] \u5F00\u5B9D\u7BB1:".concat(null == al || null === (ah = al.prize) || void 0 === ah ? void 0 : ah.name));
+                am.next = 16;
+                break;
+              case 12:
+                am.prev = 12;
+                am.t0 = am.catch(0);
+                this.drawStatus = !1;
+              case 16:
+              case "end":
+                return am.stop();
+            }
+          }
+        }, ad, this, [[0, 12]]);
+      })), function () {
+        return X.apply(this, arguments);
+      })
+    }]);
+    var X, Y, Z, a0, a1, a2, a3, a4;
+  }();
+  function I(W, X, Y) {
+    var Z = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (a4) {
+        var a5 = 16 * Math.random() | 0;
+        return ("x" === a4 ? a5 : 3 & a5 | 8).toString(16);
+      }).replace(/-/g, ""),
+      a0 = W,
+      a1 = Z.slice(0, 4) + a0 + Z.slice(4, 20 - a0.length - 4),
+      a2 = String(Date.now());
+    return {
+      "x-ashe": a3(a3("".concat(X, ".").concat(Y).toLowerCase()) + a2 + a1),
+      "x-garen": a2,
+      "x-nami": a1
+    };
+    function a3(a4) {
+      return $.CryptoJS.MD5(a4).toString();
+    }
+  }
+  function J() {
+    return K.apply(this, arguments);
+  }
+  function K() {
+    K = C(s().mark(function X() {
+      var a0, a1, a2, a3, a4, a5, a6;
+      return s().wrap(function (a7) {
+        for (;;) {
+          switch (a7.prev = a7.next) {
+            case 0:
+              if (a7.prev = 0, !$request || "OPTIONS" !== $request.method) {
+                a7.next = 3;
+                break;
+              }
+              return a7.abrupt("return");
+            case 3:
+              if (a1 = null !== (a0 = T($request.headers)) && void 0 !== a0 ? a0 : {}, "SilkwormService.GetClientUserInfo" == a1.methodname) {
+                a7.next = 6;
+                break;
+              }
+              return a7.abrupt("return");
+            case 6:
+              if (a2 = a1["x-teemo"], a3 = a1["x-sivir"], a4 = a1["x-vayne"], a2 && a3 && a4) {
+                a7.next = 11;
+                break;
+              }
+              throw new Error("\u83B7\u53D6token\u5931\u8D25\uFF01\u53C2\u6570\u7F3A\u5931");
+            case 11:
+              var a8 = {};
+              a8.userId = a4;
+              a8.teemo = a2;
+              a8.token = a3;
+              a8.userName = a4;
+              a5 = a8;
+              a6 = E.findIndex(function (a9) {
+                return a9.userId == a5.userId;
+              });
+              E[a6] ? E[a6] = a5 : E.push(a5);
+              $.setjson(E, D);
+              $.msg($.name, "\uD83C\uDF89\u8D26\u53F7[".concat(a5.userName, "]\u66F4\u65B0token\u6210\u529F!"), "");
+              a7.next = 21;
+              break;
+            case 18:
+              throw a7.prev = 18, a7.t0 = a7.catch(0), a7.t0;
+            case 21:
+            case "end":
+              return a7.stop();
           }
         }
-        ui.task_tag == "view_miniclub_act" && ui.finish_status == 0 && (await drawCommonRequest(V, "/miniclub/activity_info", "post", "浏览同城活动", "token=" + qdngapp[V].token + "&activity_id=34090"), await $.wait(helpUtils.randomNum(3000, 5000)));
-        ui.task_tag == "view_miniclub" && ui.finish_status == 0 && (await commonRequest(V, "/miniclub/all_club_list", "post", "浏览同城俱乐部主页", "pages=1&type=1"), await $.wait(helpUtils.randomNum(3000, 5000)));
-        ui.task_tag == "browse_award" && ui.finish_status == 0 && (await drawCommonRequest(V, "/qudongTask/finishBrowseTask", "post", "逛街领奖励", "token=" + qdngapp[V].token + "&task_id=" + ui.task_id), await $.wait(helpUtils.randomNum(3000, 5000)));
-        if (ui.task_tag == "follow_miniclub" && ui.finish_status == 0) {
-          let ut = await commonRequest(V, "/miniclub/all_club_list", "post", "浏览同城俱乐部主页", "pages=1&type=1"),
-            uE = ut.data.list;
-          for (let uN in uE) {
-            let up = uE[uN];
-            if (up.is_join == 0) {
-              await commonRequest(V, "/miniclub/add_club", "post", "关注俱乐部", "club_id=" + up.id + "&status=1");
+      }, X, null, [[0, 18]]);
+    }));
+    return K.apply(this, arguments);
+  }
+  function L() {
+    return M.apply(this, arguments);
+  }
+  function M() {
+    M = C(s().mark(function X() {
+      var Z;
+      return s().wrap(function a0(a1) {
+        for (;;) {
+          switch (a1.prev = a1.next) {
+            case 0:
+              if (Z = ($.isNode() ? d(396) : $.getdata("CryptoJS_code")) || "", !$.isNode()) {
+                a1.next = 3;
+                break;
+              }
+              return a1.abrupt("return", Z);
+            case 3:
+              if (!Z || !Object.keys(Z).length) {
+                a1.next = 7;
+                break;
+              }
+              eval(Z);
+              return a1.abrupt("return", createCryptoJS());
+            case 7:
+              return a1.abrupt("return", new Promise(function () {
+                var a3 = C(s().mark(function a4(a5) {
+                  return s().wrap(function a7(a8) {
+                    for (;;) {
+                      switch (a8.prev = a8.next) {
+                        case 0:
+                          $.getScript("https://cdn.jsdelivr.net/gh/Sliverkiss/QuantumultX@main/Utils/CryptoJS.min.js").then(function (a9) {
+                            $.setdata(a9, "CryptoJS_code");
+                            eval(a9);
+                            var aa = createCryptoJS();
+                            a5(aa);
+                          });
+                        case 1:
+                        case "end":
+                          return a8.stop();
+                      }
+                    }
+                  }, a4);
+                }));
+                return function (a5) {
+                  return a3.apply(this, arguments);
+                };
+              }()));
+            case 9:
+            case "end":
+              return a1.stop();
+          }
+        }
+      }, X);
+    }));
+    return M.apply(this, arguments);
+  }
+  function N(W, X) {
+    return O.apply(this, arguments);
+  }
+  function O() {
+    O = C(s().mark(function X(Y, Z) {
+      return s().wrap(function (a2) {
+        for (;;) {
+          switch (a2.prev = a2.next) {
+            case 0:
+              if (a2.t0 = Y, !a2.t0) {
+                a2.next = 8;
+                break;
+              }
+              if (!$.isNode()) {
+                a2.next = 7;
+                break;
+              }
+              a2.next = 5;
+              return notify.sendNotify($.name, Y);
+            case 5:
+              a2.next = 8;
+              break;
+            case 7:
+              $.msg($.name, $.title || "", Y, Z);
+            case 8:
+            case "end":
+              return a2.stop();
+          }
+        }
+      }, X);
+    }));
+    return O.apply(this, arguments);
+  }
+  function P(W) {
+    W && ($.log("".concat(W)), $.notifyMsg.push("".concat(W)));
+  }
+  function Q() {
+    return R.apply(this, arguments);
+  }
+  function R() {
+    R = C(s().mark(function X() {
+      var Z, a0;
+      return s().wrap(function (a1) {
+        for (;;) {
+          switch (a1.prev = a1.next) {
+            case 0:
+              if (a1.prev = 0, null != E && E.length) {
+                a1.next = 3;
+                break;
+              }
+              throw new Error("no available accounts found");
+            case 3:
+              $.log("\n[INFO] \u68C0\u6D4B\u5230 ".concat(null !== (Z = null == E ? void 0 : E.length) && void 0 !== Z ? Z : 0, " \u4E2A\u8D26\u53F7\n"));
+              (a0 = $.userList).push.apply(a0, h(E.map(function (a2) {
+                return new H(a2);
+              }).filter(Boolean)));
+              a1.next = 9;
+              break;
+            case 6:
+              throw a1.prev = 6, a1.t0 = a1.catch(0), a1.t0;
+            case 9:
+            case "end":
+              return a1.stop();
+          }
+        }
+      }, X, null, [[0, 6]]);
+    }));
+    return R.apply(this, arguments);
+  }
+  function S(W) {
+    var X = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : "debug";
+    "true" === $.is_debug && ($.log("\n-----------".concat(X, "------------\n")), $.log("string" == typeof W ? W : $.toStr(W) || "debug error => t=".concat(W)), $.log("\n-----------".concat(X, "------------\n")));
+  }
+  function T(W) {
+    return W ? Object.fromEntries(Object.entries(W).map(function (Y) {
+      var Z = m(Y, 2),
+        a0 = Z[0],
+        a1 = Z[1];
+      return [a0.toLowerCase(), a1];
+    })) : {};
+  }
+  function U(W) {
+    return V.apply(this, arguments);
+  }
+  function V() {
+    V = C(s().mark(function X(Y) {
+      var a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, ac, ad, ae, af, ag, ah, ai;
+      return s().wrap(function (aj) {
+        for (;;) {
+          switch (aj.prev = aj.next) {
+            case 0:
+              if ("string" == typeof Y && (Y = {
+                url: Y
+              }), aj.prev = 1, null !== (a0 = Y) && void 0 !== a0 && a0.url) {
+                aj.next = 4;
+                break;
+              }
+              throw new Error("[URL][ERROR] \u7F3A\u5C11 url \u53C2\u6570");
+            case 4:
+              a2 = Y;
+              a3 = a2.url;
+              a4 = a2.type;
+              a5 = a2.headers;
+              a6 = void 0 === a5 ? {} : a5;
+              a7 = a2.body;
+              a8 = a2.params;
+              a9 = a2.dataType;
+              aa = void 0 === a9 ? "form" : a9;
+              ab = a2.resultType;
+              ac = void 0 === ab ? "data" : ab;
+              ad = a4 ? null == a4 ? void 0 : a4.toLowerCase() : "body" in Y ? "post" : "get";
+              ae = a3.concat("post" === ad ? "?" + $.queryStr(a8) : "");
+              af = Y.timeout ? $.isSurge() ? Y.timeout / 1000 : Y.timeout : 10000;
+              "json" === aa && (a6["Content-Type"] = "application/json;charset=UTF-8");
+              ag = "string" == typeof a7 ? a7 : a7 && "form" == aa ? $.queryStr(a7) : $.toStr(a7);
+              ah = u(u(u(u(u({}, Y), null !== (a1 = Y) && void 0 !== a1 && a1.opts ? Y.opts : {}), {}, {
+                url: ae,
+                headers: a6
+              }, "post" === ad && {
+                body: ag
+              }), "get" === ad && a8 && {
+                params: a8
+              }), {}, {
+                timeout: af
+              });
+              ai = $.http[ad.toLowerCase()](ah).then(function (al) {
+                return "data" == ac ? $.toObj(al.body) || al.body : $.toObj(al) || al;
+              }).catch(function (al) {
+                return $.log("[".concat(ad.toUpperCase(), "][ERROR] ").concat(al, "\n"));
+              });
+              return aj.abrupt("return", Promise.race([new Promise(function (al, am) {
+                return setTimeout(function () {
+                  return am("\u5F53\u524D\u8BF7\u6C42\u5DF2\u8D85\u65F6");
+                }, af);
+              }), ai]));
+            case 11:
+              aj.prev = 11;
+              aj.t0 = aj.catch(1);
+            case 14:
+            case "end":
+              return aj.stop();
+          }
+        }
+      }, X, null, [[1, 11]]);
+    }));
+    return V.apply(this, arguments);
+  }
+  C(s().mark(function W() {
+    return s().wrap(function (Y) {
+      for (;;) {
+        switch (Y.prev = Y.next) {
+          case 0:
+            if (Y.prev = 0, "undefined" == typeof $request) {
+              Y.next = 6;
               break;
             }
-          }
-          await $.wait(helpUtils.randomNum(3000, 5000));
+            Y.next = 4;
+            return J();
+          case 4:
+            Y.next = 13;
+            break;
+          case 6:
+            Y.next = 8;
+            return L();
+          case 8:
+            $.CryptoJS = Y.sent;
+            Y.next = 11;
+            return Q();
+          case 11:
+            Y.next = 13;
+            return F();
+          case 13:
+            Y.next = 18;
+            break;
+          case 15:
+            throw Y.prev = 15, Y.t0 = Y.catch(0), Y.t0;
+          case 18:
+          case "end":
+            return Y.stop();
         }
       }
+    }, W, null, [[0, 15]]);
+  }))().catch(function (X) {
+    $.logErr(X);
+    $.msg($.name, "\u26D4\uFE0F script run error!", X.message || X);
+  }).finally(C(s().mark(function X() {
+    return s().wrap(function (Y) {
+      for (;;) {
+        switch (Y.prev = Y.next) {
+          case 0:
+            var Z = {};
+            Z.ok = 1;
+            $.done(Z);
+          case 1:
+          case "end":
+            return Y.stop();
+        }
+      }
+    }, X);
+  })));
+})();
+function Env(t, e) {
+  class s {
+    constructor(t) {
+      this.env = t;
     }
-  }
-  $.isNode() && (await wss[V].close());
-  await runComplete(appName, userId);
-  u();
-}
-async function getCk() {
-  if ($request.url.match(/\/qudongTask\/getTodayTaskList/)) {
-    const u = $request.body,
-      m = u.split("app_imei=")[1].split("&app_type")[0],
-      V = u.split("token=")[1];
-    let g = qdnguserck - 1;
-    qdngapp[g] ? (qdngapp[g].deviceId = m, qdngapp[g].token = V) : qdngapp[g] = {
-      deviceId: m,
-      token: V
-    };
-    $.setdata(JSON.stringify(qdngapp, null, 2), "qdngapp");
-    $.msg($.name, "趣动账号" + (g + 1) + "Token获取成功！🎉");
-  }
-}
-async function commonRequest(u, m, V, g, C) {
-  let W = "https://capi.wewillpro.com" + m,
-    Q = await encrypt(u, C);
-  V == "post" ? await getReqObject(W, Q, u) : (W = W + "?" + Q, await getReqObject(W, "", u));
-  await httpRequest(V, requestObjects[u], printCaller());
-  let M = httpResult;
-  if (M != null && M.code == 200) {
-    return M;
-  } else {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: " + g + "=> " + M.msg);
-    qdnglogs[u] += "[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: " + g + "=> " + M.msg + "\n";
-  }
-}
-async function drawCommonRequest(u, m, V, g, C) {
-  let W = "https://capi.wewillpro.com" + m;
-  await getReqObject(W, C, u);
-  await httpRequest(V, requestObjects[u], printCaller());
-  let Q = httpResult;
-  if (Q != null && Q.code == 200) {
-    return Q;
-  } else {
-    $.log("[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: " + g + "=> " + Q.msg);
-    qdnglogs[u] += "[账号" + (u + 1 < 10 ? "0" + (u + 1) : u + 1) + "]: " + g + "=> " + Q.msg + "\n";
-  }
-}
-function getScriptAuth(u, m, V) {
-  return new Promise((g, C) => {
-    const W = apiHost + "/script/permissions/lastest",
-      Q = {
-        appName: u,
-        userId: m,
-        activityCode: V,
-        version: version
-      },
-      M = {
-        url: W,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        },
-        body: JSON.stringify(Q)
-      };
-    $.post(M, async (x, D, h) => {
-      if (h && h != null && h.replace(/\"/g, "").length > 50) {
-        const I = h.replace(/\"/g, "").slice(34);
-        helpUtils = await loadUtils(flushCash);
-        CryptoJS = helpUtils.createCryptoJS();
-        result = JSON.parse(CryptoJS.enc.Base64.parse(I).toString(CryptoJS.enc.Utf8));
-        try {
-          newest_version = result.version;
-          userAuth = result.userAuth;
-          scriptAuth = result.scriptAuth;
-          runAuth = result.runAuth;
-          systemNotify = result.notify;
-          vipAuth = result.vipAuth;
-          isCharge = result.isCharge;
-          multiAccount = result.runAcounts;
-          buyCount = result.buyCount;
-          runedCounts = result.runedCounts;
-          runTotalCounts = result.runTotalCounts;
-          userRank = result.userRank;
-          invicode = result.invicate;
-          numbers = result.accountNumbers;
-          vipDate = result.vipDate;
-        } catch (H) {
-          $.log(H);
-        }
-      } else {
-        $.log("请求服务器接口出现错误，请检查网络连接情况");
-      }
-      g();
-    });
-  });
-}
-function runComplete(u, m) {
-  return new Promise((V, g) => {
-    const C = apiHost + "/script/run/add",
-      W = {
-        appName: u,
-        userId: m,
-        activityCode: activeCode,
-        version: version
-      },
-      Q = {
-        url: C,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        },
-        body: JSON.stringify(W)
-      };
-    $.post(Q, async (M, x, D) => {
-      V();
-    });
-  });
-}
-function loadToken(u) {
-  let m = qdngapp[u].mobile;
-  qdng_item = qdng_cks["" + m];
-  return qdng_item ? (qdngapp[u].refreshToken = qdng_item.refreshToken, qdngapp[u].accessToken = qdng_item.accessToken, true) : false;
-}
-function saveToken(u) {
-  qdng_cks[qdngapp[u].mobile] = {
-    refreshToken: qdngapp[u].refreshToken,
-    accessToken: qdngapp[u].accessToken,
-    ts: ts13()
-  };
-}
-async function loadUtils(u) {
-  let m = $.getdata("Utils_Code") || "";
-  if (!u && m && Object.keys(m).length) {
-    $.log("📢 缓存中存在JS-Utils");
-    eval(m);
-    return creatUtils();
-  }
-  $.log("📢 开始初始化JS-Utils");
-  return new Promise(async V => {
-    $.getScript("http://script.david2024.top/scripts/tools/JS-Utils.js").then(g => {
-      $.setdata(g, "Utils_Code");
-      eval(g);
-      $.log("📢 JS-Utils加载成功");
-      V(creatUtils());
-    });
-  });
-}
-function checkAddress(u, m) {
-  return new Promise((V, g) => {
-    const C = setTimeout(() => {
-        V(false);
-      }, m),
-      W = http.get(u, Q => {
-        clearTimeout(C);
-        Q.statusCode === 404 ? V(true) : V(false);
-      });
-    W.on("error", Q => {
-      clearTimeout(C);
-      V(false);
-    });
-    W.on("timeout", () => {
-      W.abort();
-      g(new Error("请求超时"));
-    });
-  });
-}
-async function fetchRequest(u, m = 3000) {
-  return new Promise((V, g) => {
-    const C = {
-      url: u + "/docs"
-    };
-    setTimeout(() => {
-      V(false);
-    }, m);
-    $.get(C, async (W, Q, M) => {
-      Q.status == 401 ? V(true) : V(false);
-    });
-  });
-}
-async function httpClientRequest(u, m = 3000) {
-  return new Promise((V, g) => {
-    const C = {
-      url: u + "/"
-    };
-    setTimeout(() => {
-      V(false);
-    }, m);
-    $httpClient.get(C, async (W, Q, M) => {
-      M == "{\"detail\":\"Not Found\"}" ? V(true) : V(false);
-    });
-  });
-}
-async function redisGet(u, m, V) {
-  return new Promise((g, C) => {
-    const W = apiHost + "/redis/hash/get/" + m + "/" + V,
-      Q = {
-        url: W,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        }
-      };
-    $.get(Q, async (M, x, D) => {
-      const h = D.replace(/\"/g, "");
-      answerTexts[u] = h;
-      g();
-    });
-  });
-}
-function redisSet(u, m, V) {
-  return new Promise((g, C) => {
-    const W = apiHost + "/redis/hash/set",
-      Q = {
-        key: u,
-        hashKey: m,
-        hashValue: V
-      },
-      M = {
-        url: W,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        },
-        body: JSON.stringify(Q)
-      };
-    $.post(M, async (x, D, h) => {
-      g();
-    });
-  });
-}
-function redisPop(u) {
-  return new Promise((m, V) => {
-    const g = apiHost + "/redis/set/pop/" + u,
-      C = {
-        url: g,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        }
-      };
-    $.get(C, async (W, Q, M) => {
-      const x = M.replace(/\"/g, "");
-      popCookie = x;
-      m();
-    });
-  });
-}
-async function getReqObject(u, m, V) {
-  let g = "Will/3.7.3 (com.rdhy.will; build:104; iOS 16.6.1) Alamofire/5.8.0";
-  qdngapp[V].ua && qdngapp[V].ua != "" && (g = qdngapp[V].ua);
-  let C = getHostname(u),
-    W = {
-      url: u,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "User-Agent": g,
-        brand: "Apple",
-        appVersion: "3.7.3",
-        deviceId: qdngapp[V].deviceId,
-        Host: C
-      },
-      body: m
-    };
-  m;
-  requestObjects[V] = W;
-  return W;
-}
-function getReqObject_(u, m, V) {
-  let g = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.31(0x18001f34) NetType/WIFI Language/zh_CN";
-  qdngapp[V].ua && qdngapp[V].ua != "" && (g = qdngapp[V].ua);
-  let C = getHostname(u),
-    W = {
-      url: u,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": g,
-        Authorization: qdngapp[V].auth,
-        Host: C
-      },
-      body: m
-    };
-  m;
-  requestObjects[V] = W;
-  return W;
-}
-async function httpRequest(u, m, V) {
-  httpResult = null;
-  return new Promise(g => {
-    $[u](m, async (C, W, Q) => {
-      try {
-        if (C) {
-          $.log(V + ": " + u + "请求失败");
-          $.log(JSON.stringify(C));
-          $.logErr(C);
-        } else {
-          if (safeGet(Q)) {
-            httpResult = JSON.parse(Q);
-            debug == 1 && $.log(httpResult);
-          } else {
-            const M = new URL(m.url);
-            $.log(M.pathname + "发起" + u + "请求时，出现错误，请处理");
-          }
-        }
-      } catch (x) {
-        $.logErr(x, W);
-      } finally {
-        g(httpResult);
-      }
-    });
-  });
-}
-async function selectChannel(u, m) {
-  channels_status[u] == 0 ? await getSign_(u, m) : await getSign(u, m);
-}
-function getSign_(u, m) {
-  return new Promise((V, g) => {
-    function C(W) {
-      let Q = W.toString("utf8");
-      requestSigns[u] = Q;
-      wss[u].removeListener("message", C);
-      V(Q);
-    }
-    wss[u].on("message", C);
-    wss[u].readyState === 1 ? wss[u].send(JSON.stringify({
-      method: appName,
-      params: {
-        content: m,
-        appName: appName,
-        uuid: userId
-      }
-    }), W => {
-      W && g(W);
-    }) : (V(getSign(u, m)), wss[u].removeListener("message", C));
-  });
-}
-function getSign(u, m) {
-  return new Promise((V, g) => {
-    const C = apiHost + "/sign/qdng",
-      W = {
-        content: m,
-        appName: appName,
-        uuid: userId
-      },
-      Q = {
-        url: C,
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json"
-        },
-        body: JSON.stringify(W)
-      };
-    $.post(Q, async (M, x, D) => {
-      const h = D.replace(/\"/g, "");
-      requestSigns[u] = h;
-      V();
-    });
-  });
-}
-function sortUrlParams(u, m, V) {
-  const g = url2obj(u);
-  m.forEach(Q => {
-    delete g[Q];
-  });
-  Object.assign(g, V);
-  const C = Object.keys(g).sort(),
-    W = C.map(Q => Q + "=" + g[Q]).join("&");
-  return W;
-}
-function url2obj(u) {
-  if (u == "") {
-    return {};
-  }
-  u = u.replace(/\"/g, "");
-  var m,
-    V = {},
-    g = u.split("&");
-  for (var C = 0; C < g.length; C++) {
-    m = g[C].split("=");
-    V[m[0]] = m[1];
-  }
-  return V;
-}
-function convertStringToJson(u) {
-  const m = u.replace(/[{} ]/g, ""),
-    V = m.split(","),
-    g = {};
-  V.forEach(C => {
-    const [W, Q] = C.split("=");
-    g[W] = Q;
-  });
-  return g;
-}
-function getHostname(u) {
-  let m = u.substr(u.indexOf("//") + 2),
-    V = m.substr(0, m.indexOf("/")),
-    g = "",
-    C = V.indexOf(":");
-  C > 0 ? g = V.substr(0, C) : g = V;
-  return g;
-}
-function calculateTimeDifference(u, m) {
-  var V = new Date(u),
-    g = new Date(m),
-    C = g - V,
-    W = Math.floor(C / 1000);
-  return W;
-}
-function cutString(u, m) {
-  if (u.length * 2 <= m) {
-    return u;
-  }
-  var V = 0,
-    g = "";
-  for (var C = 0; C < u.length; C++) {
-    g = g + u.charAt(C);
-    if (u.charCodeAt(C) > 128) {
-      V = V + 2;
-      if (V >= m) {
-        return g.substring(0, g.length - 1) + "...";
-      }
-    } else {
-      V = V + 1;
-      if (V >= m) {
-        return g.substring(0, g.length - 2) + "...";
-      }
-    }
-  }
-  return g;
-}
-function printCaller() {
-  return new Error().stack.split("\n")[3].split("@")[0];
-}
-function safeGet(u) {
-  try {
-    if (typeof JSON.parse(u) == "object") {
-      return true;
-    }
-  } catch (m) {
-    console.log(m);
-    console.log("服务器访问数据为空，请检查自身设备网络情况");
-    return false;
-  }
-}
-function jsonToUrl(u) {
-  var m = Object.keys(u).map(function (V) {
-    return encodeURIComponent(V) + "=" + encodeURIComponent(u[V]);
-  }).join("&");
-  return m;
-}
-function compileStr(u) {
-  var m = String.fromCharCode(u.charCodeAt(0) + u.length);
-  for (var V = 1; V < u.length; V++) {
-    m += String.fromCharCode(u.charCodeAt(V) + u.charCodeAt(V - 1));
-  }
-  return escape(m);
-}
-function uncompileStr(u) {
-  u = unescape(u);
-  var m = String.fromCharCode(u.charCodeAt(0) - u.length);
-  for (var V = 1; V < u.length; V++) {
-    m += String.fromCharCode(u.charCodeAt(V) - m.charCodeAt(V - 1));
-  }
-  return m;
-}
-function randomMac() {
-  return "XX:XX:XX:XX:XX:XX".replace(/X/g, function () {
-    return "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16));
-  });
-}
-function txt_api(u) {
-  return new Promise((m, V) => {
-    const g = "https://v1.hitokoto.cn/?c=e",
-      C = {
-        url: g,
-        headers: {
-          accept: "application/json"
-        }
-      };
-    $.get(C, async (W, Q, M) => {
-      let x = JSON.parse(M),
-        D = x.hitokoto;
-      contents[u] = D + " " + D;
-      m();
-    });
-  });
-}
-function getTime_8() {
-  return new Promise((u, m) => {
-    const V = "http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp",
-      g = {
-        url: V
-      };
-    $.get(g, async (C, W, Q) => {
-      u(Q);
-    });
-  });
-}
-function message() {
-  tz == 1 && $.msg($.name, "", $.message);
-}
-async function sendMsg(u) {
-  (hour == 9 || hour == 12 || hour == 18) && (tz == 1 ? $.isNode() ? await notify.sendNotify($.name, u) : $.msg($.name, "", u) : $.log(u));
-}
-async function wxPush(u, m, V) {
-  return new Promise((g, C) => {
-    const W = "https://wxpusher.zjiecode.com/api/send/message",
-      Q = {
-        appToken: "AT_6BZsE2IyJuVLPp3mcOkKvpoF245GR9xn",
-        content: m,
-        summary: "快手答题余额通知",
-        contentType: 1,
-        uids: [V],
-        verifyPay: false
-      },
-      M = {
-        url: W,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(Q)
-      };
-    $.post(M, async (x, D, h) => {
-      g();
-    });
-  });
-}
-async function encrypt(u, m) {
-  let V = sortUrlParams(m, [], {
-      app_channel: "Apple_iPhone10,2_16.6.1",
-      app_imei: qdngapp[u].deviceId,
-      app_type: "2",
-      app_version: "3.7.3",
-      appoint_source: "1",
-      time_str: helpUtils.ts10(),
-      token: qdngapp[u].token
-    }),
-    g = url2obj(V);
-  await selectChannel(u, JSON.stringify(g));
-  g.sign = requestSigns[u];
-  let C = Object.keys(g).map(W => encodeURIComponent(W) + "=" + encodeURIComponent(g[W])).join("&");
-  return sortUrlParams(C, [], {});
-}
-function Env(u, m) {
-  class V {
-    constructor(g) {
-      this.env = g;
-    }
-    send(g, C = "GET") {
-      g = "string" == typeof g ? {
-        url: g
-      } : g;
-      let W = this.get;
-      "POST" === C && (W = this.post);
-      return new Promise((Q, M) => {
-        W.call(this, g, (x, D, h) => {
-          x ? M(x) : Q(D);
+    send(t, e = "GET") {
+      t = "string" == typeof t ? {
+        url: t
+      } : t;
+      let s = this.get;
+      "POST" === e && (s = this.post);
+      return new Promise((e, i) => {
+        s.call(this, t, (t, s, o) => {
+          t ? i(t) : e(s);
         });
       });
     }
-    get(g) {
-      return this.send.call(this.env, g);
+    get(t) {
+      return this.send.call(this.env, t);
     }
-    post(g) {
-      return this.send.call(this.env, g, "POST");
+    post(t) {
+      return this.send.call(this.env, t, "POST");
     }
   }
   return new class {
-    constructor(g, C) {
+    constructor(t, e) {
       this.logLevels = {
         debug: 0,
         info: 1,
@@ -1069,8 +4441,8 @@ function Env(u, m) {
         error: "[ERROR] "
       };
       this.logLevel = "info";
-      this.name = g;
-      this.http = new V(this);
+      this.name = t;
+      this.http = new s(this);
       this.data = null;
       this.dataFile = "box.dat";
       this.logs = [];
@@ -1079,8 +4451,8 @@ function Env(u, m) {
       this.logSeparator = "\n";
       this.encoding = "utf-8";
       this.startTime = new Date().getTime();
-      Object.assign(this, C);
-      this.log("", "🔔 " + this.name + ", 开始!");
+      Object.assign(this, e);
+      this.log("", `🔔${this.name}, 开始!`);
     }
     getEnv() {
       return "undefined" != typeof $environment && $environment["surge-version"] ? "Surge" : "undefined" != typeof $environment && $environment["stash-version"] ? "Stash" : "undefined" != typeof module && module.exports ? "Node.js" : "undefined" != typeof $task ? "Quantumult X" : "undefined" != typeof $loon ? "Loon" : "undefined" != typeof $rocket ? "Shadowrocket" : void 0;
@@ -1103,66 +4475,66 @@ function Env(u, m) {
     isStash() {
       return "Stash" === this.getEnv();
     }
-    toObj(g, C = null) {
+    toObj(t, e = null) {
       try {
-        return JSON.parse(g);
+        return JSON.parse(t);
       } catch {
-        return C;
+        return e;
       }
     }
-    toStr(g, C = null, ...W) {
+    toStr(t, e = null, ...s) {
       try {
-        return JSON.stringify(g, ...W);
+        return JSON.stringify(t, ...s);
       } catch {
-        return C;
+        return e;
       }
     }
-    getjson(g, C) {
-      let W = C;
-      if (this.getdata(g)) {
+    getjson(t, e) {
+      let s = e;
+      if (this.getdata(t)) {
         try {
-          W = JSON.parse(this.getdata(g));
+          s = JSON.parse(this.getdata(t));
         } catch {}
       }
-      return W;
+      return s;
     }
-    setjson(g, C) {
+    setjson(t, e) {
       try {
-        return this.setdata(JSON.stringify(g), C);
+        return this.setdata(JSON.stringify(t), e);
       } catch {
         return !1;
       }
     }
-    getScript(g) {
-      return new Promise(C => {
+    getScript(t) {
+      return new Promise(e => {
         this.get({
-          url: g
-        }, (W, Q, M) => C(M));
+          url: t
+        }, (t, s, i) => e(i));
       });
     }
-    runScript(g, C) {
-      return new Promise(W => {
-        let Q = this.getdata("@chavy_boxjs_userCfgs.httpapi");
-        Q = Q ? Q.replace(/\n/g, "").trim() : Q;
-        let M = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
-        M = M ? 1 * M : 20;
-        M = C && C.timeout ? C.timeout : M;
-        const [x, D] = Q.split("@"),
-          h = {
-            url: "http://" + D + "/v1/scripting/evaluate",
+    runScript(t, e) {
+      return new Promise(s => {
+        let i = this.getdata("@chavy_boxjs_userCfgs.httpapi");
+        i = i ? i.replace(/\n/g, "").trim() : i;
+        let o = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
+        o = o ? 1 * o : 20;
+        o = e && e.timeout ? e.timeout : o;
+        const [r, a] = i.split("@"),
+          n = {
+            url: `http://${a}/v1/scripting/evaluate`,
             body: {
-              script_text: g,
+              script_text: t,
               mock_type: "cron",
-              timeout: M
+              timeout: o
             },
             headers: {
-              "X-Key": x,
+              "X-Key": r,
               Accept: "*/*"
             },
-            timeout: M
+            timeout: o
           };
-        this.post(h, (I, H, B) => W(B));
-      }).catch(W => this.logErr(W));
+        this.post(n, (t, e, i) => s(i));
+      }).catch(t => this.logErr(t));
     }
     loaddata() {
       if (!this.isNode()) {
@@ -1171,18 +4543,18 @@ function Env(u, m) {
       {
         this.fs = this.fs ? this.fs : require("fs");
         this.path = this.path ? this.path : require("path");
-        const g = this.path.resolve(this.dataFile),
-          C = this.path.resolve(process.cwd(), this.dataFile),
-          W = this.fs.existsSync(g),
-          Q = !W && this.fs.existsSync(C);
-        if (!W && !Q) {
+        const t = this.path.resolve(this.dataFile),
+          e = this.path.resolve(process.cwd(), this.dataFile),
+          s = this.fs.existsSync(t),
+          i = !s && this.fs.existsSync(e);
+        if (!s && !i) {
           return {};
         }
         {
-          const M = W ? g : C;
+          const i = s ? t : e;
           try {
-            return JSON.parse(this.fs.readFileSync(M));
-          } catch (x) {
+            return JSON.parse(this.fs.readFileSync(i));
+          } catch (t) {
             return {};
           }
         }
@@ -1192,104 +4564,104 @@ function Env(u, m) {
       if (this.isNode()) {
         this.fs = this.fs ? this.fs : require("fs");
         this.path = this.path ? this.path : require("path");
-        const g = this.path.resolve(this.dataFile),
-          C = this.path.resolve(process.cwd(), this.dataFile),
-          W = this.fs.existsSync(g),
-          Q = !W && this.fs.existsSync(C),
-          M = JSON.stringify(this.data);
-        W ? this.fs.writeFileSync(g, M) : Q ? this.fs.writeFileSync(C, M) : this.fs.writeFileSync(g, M);
+        const t = this.path.resolve(this.dataFile),
+          e = this.path.resolve(process.cwd(), this.dataFile),
+          s = this.fs.existsSync(t),
+          i = !s && this.fs.existsSync(e),
+          o = JSON.stringify(this.data);
+        s ? this.fs.writeFileSync(t, o) : i ? this.fs.writeFileSync(e, o) : this.fs.writeFileSync(t, o);
       }
     }
-    lodash_get(g, C, W) {
-      const Q = C.replace(/\[(\d+)\]/g, ".$1").split(".");
-      let M = g;
-      for (const x of Q) if (M = Object(M)[x], void 0 === M) {
-        return W;
+    lodash_get(t, e, s) {
+      const i = e.replace(/\[(\d+)\]/g, ".$1").split(".");
+      let o = t;
+      for (const t of i) if (o = Object(o)[t], void 0 === o) {
+        return s;
       }
-      return M;
+      return o;
     }
-    lodash_set(g, C, W) {
-      Object(g) !== g || (Array.isArray(C) || (C = C.toString().match(/[^.[\]]+/g) || []), C.slice(0, -1).reduce((Q, M, x) => Object(Q[M]) === Q[M] ? Q[M] : Q[M] = Math.abs(C[x + 1]) >> 0 == +C[x + 1] ? [] : {}, g)[C[C.length - 1]] = W);
-      return g;
+    lodash_set(t, e, s) {
+      Object(t) !== t || (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s);
+      return t;
     }
-    getdata(g) {
-      let C = this.getval(g);
-      if (/^@/.test(g)) {
-        const [, W, Q] = /^@(.*?)\.(.*?)$/.exec(g),
-          M = W ? this.getval(W) : "";
-        if (M) {
+    getdata(t) {
+      let e = this.getval(t);
+      if (/^@/.test(t)) {
+        const [, s, i] = /^@(.*?)\.(.*?)$/.exec(t),
+          o = s ? this.getval(s) : "";
+        if (o) {
           try {
-            const x = JSON.parse(M);
-            C = x ? this.lodash_get(x, Q, "") : C;
-          } catch (D) {
-            C = "";
+            const t = JSON.parse(o);
+            e = t ? this.lodash_get(t, i, "") : e;
+          } catch (t) {
+            e = "";
           }
         }
       }
-      return C;
+      return e;
     }
-    setdata(g, C) {
-      let W = !1;
-      if (/^@/.test(C)) {
-        const [, Q, M] = /^@(.*?)\.(.*?)$/.exec(C),
-          x = this.getval(Q),
-          D = Q ? "null" === x ? null : x || "{}" : "{}";
+    setdata(t, e) {
+      let s = !1;
+      if (/^@/.test(e)) {
+        const [, i, o] = /^@(.*?)\.(.*?)$/.exec(e),
+          r = this.getval(i),
+          a = i ? "null" === r ? null : r || "{}" : "{}";
         try {
-          const h = JSON.parse(D);
-          this.lodash_set(h, M, g);
-          W = this.setval(JSON.stringify(h), Q);
-        } catch (I) {
-          const H = {};
-          this.lodash_set(H, M, g);
-          W = this.setval(JSON.stringify(H), Q);
+          const e = JSON.parse(a);
+          this.lodash_set(e, o, t);
+          s = this.setval(JSON.stringify(e), i);
+        } catch (e) {
+          const r = {};
+          this.lodash_set(r, o, t);
+          s = this.setval(JSON.stringify(r), i);
         }
       } else {
-        W = this.setval(g, C);
+        s = this.setval(t, e);
       }
-      return W;
+      return s;
     }
-    getval(g) {
+    getval(t) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
-          return $persistentStore.read(g);
+          return $persistentStore.read(t);
         case "Quantumult X":
-          return $prefs.valueForKey(g);
+          return $prefs.valueForKey(t);
         case "Node.js":
           this.data = this.loaddata();
-          return this.data[g];
+          return this.data[t];
         default:
-          return this.data && this.data[g] || null;
+          return this.data && this.data[t] || null;
       }
     }
-    setval(g, C) {
+    setval(t, e) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
-          return $persistentStore.write(g, C);
+          return $persistentStore.write(t, e);
         case "Quantumult X":
-          return $prefs.setValueForKey(g, C);
+          return $prefs.setValueForKey(t, e);
         case "Node.js":
           this.data = this.loaddata();
-          this.data[C] = g;
+          this.data[e] = t;
           this.writedata();
           return !0;
         default:
-          return this.data && this.data[C] || null;
+          return this.data && this.data[e] || null;
       }
     }
-    initGotEnv(g) {
+    initGotEnv(t) {
       this.got = this.got ? this.got : require("got");
       this.cktough = this.cktough ? this.cktough : require("tough-cookie");
       this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar();
-      g && (g.headers = g.headers ? g.headers : {}, g && (g.headers = g.headers ? g.headers : {}, void 0 === g.headers.cookie && void 0 === g.headers.Cookie && void 0 === g.cookieJar && (g.cookieJar = this.ckjar)));
+      t && (t.headers = t.headers ? t.headers : {}, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.cookie && void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar)));
     }
-    get(g, C = () => {}) {
-      switch (g.headers && (delete g.headers["Content-Type"], delete g.headers["Content-Length"], delete g.headers["content-type"], delete g.headers["content-length"]), g.params && (g.url += "?" + this.queryStr(g.params)), void 0 === g.followRedirect || g.followRedirect || ((this.isSurge() || this.isLoon()) && (g["auto-redirect"] = !1), this.isQuanX() && (g.opts ? g.opts.redirection = !1 : g.opts = {
+    get(t, e = () => {}) {
+      switch (t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"], delete t.headers["content-type"], delete t.headers["content-length"]), t.params && (t.url += "?" + this.queryStr(t.params)), void 0 === t.followRedirect || t.followRedirect || ((this.isSurge() || this.isLoon()) && (t["auto-redirect"] = !1), this.isQuanX() && (t.opts ? t.opts.redirection = !1 : t.opts = {
         redirection: !1
       })), this.getEnv()) {
         case "Surge":
@@ -1297,76 +4669,76 @@ function Env(u, m) {
         case "Stash":
         case "Shadowrocket":
         default:
-          this.isSurge() && this.isNeedRewrite && (g.headers = g.headers || {}, Object.assign(g.headers, {
+          this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
             "X-Surge-Skip-Scripting": !1
           }));
-          $httpClient.get(g, (Q, M, x) => {
-            !Q && M && (M.body = x, M.statusCode = M.status ? M.status : M.statusCode, M.status = M.statusCode);
-            C(Q, M, x);
+          $httpClient.get(t, (t, s, i) => {
+            !t && s && (s.body = i, s.statusCode = s.status ? s.status : s.statusCode, s.status = s.statusCode);
+            e(t, s, i);
           });
           break;
         case "Quantumult X":
-          this.isNeedRewrite && (g.opts = g.opts || {}, Object.assign(g.opts, {
+          this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
             hints: !1
           }));
-          $task.fetch(g).then(Q => {
+          $task.fetch(t).then(t => {
             const {
-              statusCode: M,
-              statusCode: x,
-              headers: D,
-              body: h,
-              bodyBytes: I
-            } = Q;
-            C(null, {
-              status: M,
-              statusCode: x,
-              headers: D,
-              body: h,
-              bodyBytes: I
-            }, h, I);
-          }, Q => C(Q && Q.error || "UndefinedError"));
+              statusCode: s,
+              statusCode: i,
+              headers: o,
+              body: r,
+              bodyBytes: a
+            } = t;
+            e(null, {
+              status: s,
+              statusCode: i,
+              headers: o,
+              body: r,
+              bodyBytes: a
+            }, r, a);
+          }, t => e(t && t.error || "UndefinedError"));
           break;
         case "Node.js":
-          let W = require("iconv-lite");
-          this.initGotEnv(g);
-          this.got(g).on("redirect", (Q, M) => {
+          let s = require("iconv-lite");
+          this.initGotEnv(t);
+          this.got(t).on("redirect", (t, e) => {
             try {
-              if (Q.headers["set-cookie"]) {
-                const x = Q.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
-                x && this.ckjar.setCookieSync(x, null);
-                M.cookieJar = this.ckjar;
+              if (t.headers["set-cookie"]) {
+                const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
+                s && this.ckjar.setCookieSync(s, null);
+                e.cookieJar = this.ckjar;
               }
-            } catch (D) {
-              this.logErr(D);
+            } catch (t) {
+              this.logErr(t);
             }
-          }).then(Q => {
+          }).then(t => {
             const {
-                statusCode: M,
-                statusCode: x,
-                headers: D,
-                rawBody: h
-              } = Q,
-              I = W.decode(h, this.encoding);
-            C(null, {
-              status: M,
-              statusCode: x,
-              headers: D,
-              rawBody: h,
-              body: I
-            }, I);
-          }, Q => {
+                statusCode: i,
+                statusCode: o,
+                headers: r,
+                rawBody: a
+              } = t,
+              n = s.decode(a, this.encoding);
+            e(null, {
+              status: i,
+              statusCode: o,
+              headers: r,
+              rawBody: a,
+              body: n
+            }, n);
+          }, t => {
             const {
-              message: M,
-              response: x
-            } = Q;
-            C(M, x, x && W.decode(x.rawBody, this.encoding));
+              message: i,
+              response: o
+            } = t;
+            e(i, o, o && s.decode(o.rawBody, this.encoding));
           });
           break;
       }
     }
-    post(g, C = () => {}) {
-      const W = g.method ? g.method.toLocaleLowerCase() : "post";
-      switch (g.body && g.headers && !g.headers["Content-Type"] && !g.headers["content-type"] && (g.headers["content-type"] = "application/x-www-form-urlencoded"), g.headers && (delete g.headers["Content-Length"], delete g.headers["content-length"]), void 0 === g.followRedirect || g.followRedirect || ((this.isSurge() || this.isLoon()) && (g["auto-redirect"] = !1), this.isQuanX() && (g.opts ? g.opts.redirection = !1 : g.opts = {
+    post(t, e = () => {}) {
+      const s = t.method ? t.method.toLocaleLowerCase() : "post";
+      switch (t.body && t.headers && !t.headers["Content-Type"] && !t.headers["content-type"] && (t.headers["content-type"] = "application/x-www-form-urlencoded"), t.headers && (delete t.headers["Content-Length"], delete t.headers["content-length"]), void 0 === t.followRedirect || t.followRedirect || ((this.isSurge() || this.isLoon()) && (t["auto-redirect"] = !1), this.isQuanX() && (t.opts ? t.opts.redirection = !1 : t.opts = {
         redirection: !1
       })), this.getEnv()) {
         case "Surge":
@@ -1374,117 +4746,117 @@ function Env(u, m) {
         case "Stash":
         case "Shadowrocket":
         default:
-          this.isSurge() && this.isNeedRewrite && (g.headers = g.headers || {}, Object.assign(g.headers, {
+          this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
             "X-Surge-Skip-Scripting": !1
           }));
-          $httpClient[W](g, (D, h, I) => {
-            !D && h && (h.body = I, h.statusCode = h.status ? h.status : h.statusCode, h.status = h.statusCode);
-            C(D, h, I);
+          $httpClient[s](t, (t, s, i) => {
+            !t && s && (s.body = i, s.statusCode = s.status ? s.status : s.statusCode, s.status = s.statusCode);
+            e(t, s, i);
           });
           break;
         case "Quantumult X":
-          g.method = W;
-          this.isNeedRewrite && (g.opts = g.opts || {}, Object.assign(g.opts, {
+          t.method = s;
+          this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
             hints: !1
           }));
-          $task.fetch(g).then(D => {
+          $task.fetch(t).then(t => {
             const {
-              statusCode: h,
-              statusCode: I,
-              headers: H,
-              body: B,
-              bodyBytes: n
-            } = D;
-            C(null, {
-              status: h,
-              statusCode: I,
-              headers: H,
-              body: B,
-              bodyBytes: n
-            }, B, n);
-          }, D => C(D && D.error || "UndefinedError"));
+              statusCode: s,
+              statusCode: i,
+              headers: o,
+              body: r,
+              bodyBytes: a
+            } = t;
+            e(null, {
+              status: s,
+              statusCode: i,
+              headers: o,
+              body: r,
+              bodyBytes: a
+            }, r, a);
+          }, t => e(t && t.error || "UndefinedError"));
           break;
         case "Node.js":
-          let Q = require("iconv-lite");
-          this.initGotEnv(g);
+          let i = require("iconv-lite");
+          this.initGotEnv(t);
           const {
-            url: M,
-            ...x
-          } = g;
-          this.got[W](M, x).then(D => {
+            url: o,
+            ...r
+          } = t;
+          this.got[s](o, r).then(t => {
             const {
-                statusCode: h,
-                statusCode: I,
-                headers: H,
-                rawBody: B
-              } = D,
-              F = Q.decode(B, this.encoding);
-            C(null, {
-              status: h,
-              statusCode: I,
-              headers: H,
-              rawBody: B,
-              body: F
-            }, F);
-          }, D => {
+                statusCode: s,
+                statusCode: o,
+                headers: r,
+                rawBody: a
+              } = t,
+              n = i.decode(a, this.encoding);
+            e(null, {
+              status: s,
+              statusCode: o,
+              headers: r,
+              rawBody: a,
+              body: n
+            }, n);
+          }, t => {
             const {
-              message: h,
-              response: I
-            } = D;
-            C(h, I, I && Q.decode(I.rawBody, this.encoding));
+              message: s,
+              response: o
+            } = t;
+            e(s, o, o && i.decode(o.rawBody, this.encoding));
           });
           break;
       }
     }
-    time(g, C = null) {
-      const W = C ? new Date(C) : new Date();
-      let Q = {
-        "M+": W.getMonth() + 1,
-        "d+": W.getDate(),
-        "H+": W.getHours(),
-        "m+": W.getMinutes(),
-        "s+": W.getSeconds(),
-        "q+": Math.floor((W.getMonth() + 3) / 3),
-        S: W.getMilliseconds()
+    time(t, e = null) {
+      const s = e ? new Date(e) : new Date();
+      let i = {
+        "M+": s.getMonth() + 1,
+        "d+": s.getDate(),
+        "H+": s.getHours(),
+        "m+": s.getMinutes(),
+        "s+": s.getSeconds(),
+        "q+": Math.floor((s.getMonth() + 3) / 3),
+        S: s.getMilliseconds()
       };
-      /(y+)/.test(g) && (g = g.replace(RegExp.$1, (W.getFullYear() + "").substr(4 - RegExp.$1.length)));
-      for (let M in Q) new RegExp("(" + M + ")").test(g) && (g = g.replace(RegExp.$1, 1 == RegExp.$1.length ? Q[M] : ("00" + Q[M]).substr(("" + Q[M]).length)));
-      return g;
+      /(y+)/.test(t) && (t = t.replace(RegExp.$1, (s.getFullYear() + "").substr(4 - RegExp.$1.length)));
+      for (let e in i) new RegExp("(" + e + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? i[e] : ("00" + i[e]).substr(("" + i[e]).length)));
+      return t;
     }
-    queryStr(g) {
-      let C = "";
-      for (const W in g) {
-        let Q = g[W];
-        null != Q && "" !== Q && ("object" == typeof Q && (Q = JSON.stringify(Q)), C += W + "=" + Q + "&");
+    queryStr(t) {
+      let e = "";
+      for (const s in t) {
+        let i = t[s];
+        null != i && "" !== i && ("object" == typeof i && (i = JSON.stringify(i)), e += `${s}=${i}&`);
       }
-      C = C.substring(0, C.length - 1);
-      return C;
+      e = e.substring(0, e.length - 1);
+      return e;
     }
-    msg(g = u, C = "", W = "", Q = {}) {
-      const M = x => {
+    msg(e = t, s = "", i = "", o = {}) {
+      const r = t => {
         const {
-          $open: D,
-          $copy: h,
-          $media: I,
-          $mediaMime: H
-        } = x;
-        switch (typeof x) {
+          $open: e,
+          $copy: s,
+          $media: i,
+          $mediaMime: o
+        } = t;
+        switch (typeof t) {
           case void 0:
-            return x;
+            return t;
           case "string":
             switch (this.getEnv()) {
               case "Surge":
               case "Stash":
               default:
                 return {
-                  url: x
+                  url: t
                 };
               case "Loon":
               case "Shadowrocket":
-                return x;
+                return t;
               case "Quantumult X":
                 return {
-                  "open-url": x
+                  "open-url": t
                 };
               case "Node.js":
                 return;
@@ -1496,88 +4868,88 @@ function Env(u, m) {
               case "Shadowrocket":
               default:
                 {
-                  const B = {};
-                  let F = x.openUrl || x.url || x["open-url"] || D;
-                  F && Object.assign(B, {
+                  const r = {};
+                  let a = t.openUrl || t.url || t["open-url"] || e;
+                  a && Object.assign(r, {
                     action: "open-url",
-                    url: F
+                    url: a
                   });
-                  let L = x["update-pasteboard"] || x.updatePasteboard || h;
-                  if (L && Object.assign(B, {
+                  let n = t["update-pasteboard"] || t.updatePasteboard || s;
+                  if (n && Object.assign(r, {
                     action: "clipboard",
-                    text: L
-                  }), I) {
-                    let l, K, Y;
-                    if (I.startsWith("http")) {
-                      l = I;
+                    text: n
+                  }), i) {
+                    let t, e, s;
+                    if (i.startsWith("http")) {
+                      t = i;
                     } else {
-                      if (I.startsWith("data:")) {
-                        const [w] = I.split(";"),
-                          [, J] = I.split(",");
-                        K = J;
-                        Y = w.replace("data:", "");
+                      if (i.startsWith("data:")) {
+                        const [t] = i.split(";"),
+                          [, o] = i.split(",");
+                        e = o;
+                        s = t.replace("data:", "");
                       } else {
-                        K = I;
-                        Y = (U => {
-                          const E = {
+                        e = i;
+                        s = (t => {
+                          const e = {
                             JVBERi0: "application/pdf",
                             R0lGODdh: "image/gif",
                             R0lGODlh: "image/gif",
                             iVBORw0KGgo: "image/png",
                             "/9j/": "image/jpg"
                           };
-                          for (var N in E) if (0 === U.indexOf(N)) {
-                            return E[N];
+                          for (var s in e) if (0 === t.indexOf(s)) {
+                            return e[s];
                           }
                           return null;
-                        })(I);
+                        })(i);
                       }
                     }
-                    Object.assign(B, {
-                      "media-url": l,
-                      "media-base64": K,
-                      "media-base64-mime": H ?? Y
+                    Object.assign(r, {
+                      "media-url": t,
+                      "media-base64": e,
+                      "media-base64-mime": o ?? s
                     });
                   }
-                  Object.assign(B, {
-                    "auto-dismiss": x["auto-dismiss"],
-                    sound: x.sound
+                  Object.assign(r, {
+                    "auto-dismiss": t["auto-dismiss"],
+                    sound: t.sound
                   });
-                  return B;
+                  return r;
                 }
               case "Loon":
                 {
-                  const U = {};
-                  let E = x.openUrl || x.url || x["open-url"] || D;
-                  E && Object.assign(U, {
-                    openUrl: E
+                  const s = {};
+                  let o = t.openUrl || t.url || t["open-url"] || e;
+                  o && Object.assign(s, {
+                    openUrl: o
                   });
-                  let N = x.mediaUrl || x["media-url"];
-                  I?.["startsWith"]("http") && (N = I);
-                  N && Object.assign(U, {
-                    mediaUrl: N
+                  let r = t.mediaUrl || t["media-url"];
+                  i?.startsWith("http") && (r = i);
+                  r && Object.assign(s, {
+                    mediaUrl: r
                   });
-                  console.log(JSON.stringify(U));
-                  return U;
+                  console.log(JSON.stringify(s));
+                  return s;
                 }
               case "Quantumult X":
                 {
-                  const p = {};
-                  let R = x["open-url"] || x.url || x.openUrl || D;
-                  R && Object.assign(p, {
-                    "open-url": R
+                  const o = {};
+                  let r = t["open-url"] || t.url || t.openUrl || e;
+                  r && Object.assign(o, {
+                    "open-url": r
                   });
-                  let b = x["media-url"] || x.mediaUrl;
-                  I?.["startsWith"]("http") && (b = I);
-                  b && Object.assign(p, {
-                    "media-url": b
+                  let a = t["media-url"] || t.mediaUrl;
+                  i?.startsWith("http") && (a = i);
+                  a && Object.assign(o, {
+                    "media-url": a
                   });
-                  let T = x["update-pasteboard"] || x.updatePasteboard || h;
-                  T && Object.assign(p, {
-                    "update-pasteboard": T
+                  let n = t["update-pasteboard"] || t.updatePasteboard || s;
+                  n && Object.assign(o, {
+                    "update-pasteboard": n
                   });
-                  console.log(JSON.stringify(p));
-                  return p;
+                  console.log(JSON.stringify(o));
+                  return o;
                 }
               case "Node.js":
                 return;
@@ -1593,41 +4965,41 @@ function Env(u, m) {
           case "Stash":
           case "Shadowrocket":
           default:
-            $notification.post(g, C, W, M(Q));
+            $notification.post(e, s, i, r(o));
             break;
           case "Quantumult X":
-            $notify(g, C, W, M(Q));
+            $notify(e, s, i, r(o));
             break;
           case "Node.js":
             break;
         }
       }
       if (!this.isMuteLog) {
-        let x = ["", "==============📣系统通知📣=============="];
-        x.push(g);
-        C && x.push(C);
-        W && x.push(W);
-        console.log(x.join("\n"));
-        this.logs = this.logs.concat(x);
+        let t = ["", "==============\uD83D\uDCE3\u7CFB\u7EDF\u901A\u77E5\uD83D\uDCE3=============="];
+        t.push(e);
+        s && t.push(s);
+        i && t.push(i);
+        console.log(t.join("\n"));
+        this.logs = this.logs.concat(t);
       }
     }
-    debug(...g) {
-      this.logLevels[this.logLevel] <= this.logLevels.debug && (g.length > 0 && (this.logs = [...this.logs, ...g]), console.log("" + this.logLevelPrefixs.debug + g.map(C => C ?? String(C)).join(this.logSeparator)));
+    debug(...t) {
+      this.logLevels[this.logLevel] <= this.logLevels.debug && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.debug}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
     }
-    info(...g) {
-      this.logLevels[this.logLevel] <= this.logLevels.info && (g.length > 0 && (this.logs = [...this.logs, ...g]), console.log("" + this.logLevelPrefixs.info + g.map(C => C ?? String(C)).join(this.logSeparator)));
+    info(...t) {
+      this.logLevels[this.logLevel] <= this.logLevels.info && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.info}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
     }
-    warn(...g) {
-      this.logLevels[this.logLevel] <= this.logLevels.warn && (g.length > 0 && (this.logs = [...this.logs, ...g]), console.log("" + this.logLevelPrefixs.warn + g.map(C => C ?? String(C)).join(this.logSeparator)));
+    warn(...t) {
+      this.logLevels[this.logLevel] <= this.logLevels.warn && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.warn}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
     }
-    error(...g) {
-      this.logLevels[this.logLevel] <= this.logLevels.error && (g.length > 0 && (this.logs = [...this.logs, ...g]), console.log("" + this.logLevelPrefixs.error + g.map(C => C ?? String(C)).join(this.logSeparator)));
+    error(...t) {
+      this.logLevels[this.logLevel] <= this.logLevels.error && (t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(`${this.logLevelPrefixs.error}${t.map(t => t ?? String(t)).join(this.logSeparator)}`));
     }
-    log(...g) {
-      g.length > 0 && (this.logs = [...this.logs, ...g]);
-      console.log(g.map(C => C ?? String(C)).join(this.logSeparator));
+    log(...t) {
+      t.length > 0 && (this.logs = [...this.logs, ...t]);
+      console.log(t.map(t => t ?? String(t)).join(this.logSeparator));
     }
-    logErr(g, C) {
+    logErr(t, e) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
@@ -1635,30 +5007,30 @@ function Env(u, m) {
         case "Shadowrocket":
         case "Quantumult X":
         default:
-          this.log("", "❗️" + this.name + ", 错误!", C, g);
+          this.log("", `❗️${this.name}, 错误!`, e, t);
           break;
         case "Node.js":
-          this.log("", "❗️" + this.name + ", 错误!", C, void 0 !== g.message ? g.message : g, g.stack);
+          this.log("", `❗️${this.name}, 错误!`, e, void 0 !== t.message ? t.message : t, t.stack);
           break;
       }
     }
-    wait(g) {
-      return new Promise(C => setTimeout(C, g));
+    wait(t) {
+      return new Promise(e => setTimeout(e, t));
     }
-    done(g = {}) {
-      const C = (new Date().getTime() - this.startTime) / 1000;
-      switch (this.log("", "🔔" + this.name + ", 结束! 🕛 " + C + " 秒"), this.log(), this.getEnv()) {
+    done(t = {}) {
+      const e = (new Date().getTime() - this.startTime) / 1000;
+      switch (this.log("", `🔔${this.name}, 结束! 🕛 ${e} 秒`), this.log(), this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
         case "Quantumult X":
         default:
-          $done(g);
+          $done(t);
           break;
         case "Node.js":
           process.exit(1);
       }
     }
-  }(u, m);
+  }(t, e);
 }
