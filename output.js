@@ -1,20 +1,20 @@
-//Sun Oct 19 2025 05:28:16 GMT+0000 (Coordinated Universal Time)
+//Wed Oct 22 2025 15:39:53 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
-const $ = new Env("南方Plus"),
-  version = "V1.0.0",
-  appName = "nfpapp";
-let nfpapp = $.getjson(appName, []);
-const fs = $.isNode() ? require("fs") : "";
-const WebSocket = $.isNode() ? require("ws") : "",
+const $ = new Env("喜马拉雅极速版"),
+  version = "V1.0.6",
+  appName = "xmlyjsbapp";
+let xmlyjsbapp = $.getjson(appName, []);
+const fs = $.isNode() ? require("fs") : "",
+  WebSocket = $.isNode() ? require("ws") : "",
   file = "david_cookies.js";
-$.isNode() && !fs.existsSync(file) && ($.log("🔔 外挂ck文件不存在，开始创建模版>>>"), fs.writeFileSync("./david_cookies.js", "//独立CK文件，主要用来处理多账号大数据量CK,注意JRTTAPP外边不用加引号，依葫芦画瓢。\n//今日头条(三个账号)\nlet JRTTAPP = [{},{},{}]\n//番茄小说(一个账号)\nlet FQXSAPP = [{}]\n//抖音极速版(两个账号)\nlet DYJSBAPP = [{},{}]\n    \nlet APPS = {\n    JRTT: JRTTAPP,\n    FQXS: FQXSAPP,\n    DYJSB: DYJSBAPP\n}\n\nmodule.exports = APPS", U => {}));
+$.isNode() && !fs.existsSync(file) && ($.log("🔔 外挂ck文件不存在，开始创建模版>>>"), fs.writeFileSync("./david_cookies.js", "//独立CK文件，主要用来处理多账号大数据量CK,注意JRTTAPP外边不用加引号，依葫芦画瓢。\n//今日头条(三个账号)\nlet JRTTAPP = [{},{},{}]\n//番茄小说(一个账号)\nlet FQXSAPP = [{}]\n//抖音极速版(两个账号)\nlet DYJSBAPP = [{},{}]\n    \nlet APPS = {\n    JRTT: JRTTAPP,\n    FQXS: FQXSAPP,\n    DYJSB: DYJSBAPP\n}\n\nmodule.exports = APPS", m => {}));
 const http = $.isNode() ? require("http") : "",
   notify = $.isNode() ? require("./sendNotify") : "",
   COOKIES = $.isNode() ? require("./david_cookies") : "";
-let userId = $.getdata("tguserid") || 1;
-let activeCode = $.getdata("nfpactivecode") || 0,
-  nfpuserck = $.getval("nfpuserck") || 1,
+let userId = $.getdata("tguserid") || 1,
+  activeCode = $.getdata("xmlyjsbactivecode") || 0,
+  xmlyjsbuserck = $.getval("xmlyjsbuserck") || 1,
   apiHost = $.getval("apiHost") || "http://106.15.104.124:8080";
 $.getval("apiHosts") && (apiHost = $.getval("apiHosts"));
 let flushCash = $.getval("cleanCache") || false;
@@ -23,23 +23,20 @@ let tz = $.getval("tz") || "1",
   helpUtils = undefined,
   CryptoJS = undefined,
   saveFile = false,
-  wechatMiniAppId = "wxfb0905b0787971ad";
-let nfp_ck_file = "nfp_cookies.json";
+  xmlyjsb_ck_file = "xmlyjsb_cookies.json";
 var hour = "",
   minute = "";
 let sendlogs = "",
-  nfplogs = [],
+  xmlyjsblogs = [],
   wss = [],
   channels_status = [],
   reconectCounts = [],
   requestObjects = [],
   requestSigns = [],
-  codes = [],
-  articleIds = [],
-  videoIds = [],
+  redisGetInfos = [],
   httpResult = "",
-  userAuth = "";
-let scriptAuth = "",
+  userAuth = "",
+  scriptAuth = "",
   newest_version = "",
   runAuth = "",
   systemNotify = "",
@@ -54,9 +51,9 @@ let scriptAuth = "",
   numbers = 3,
   vipDate = "";
 if ($.isNode()) {
-  process.env.NFPAPP ? nfpapp = JSON.parse(process.env.NFPAPP) : nfpapp = COOKIES.NFP;
+  process.env.XMLYJSBAPP ? xmlyjsbapp = JSON.parse(process.env.XMLYJSBAPP) : xmlyjsbapp = COOKIES.XMLYJSB;
   userId = process.env.TGUSERID;
-  activeCode = process.env.NFPACTIVECODE;
+  activeCode = process.env.XMLYJSBACTIVECODE;
   process.env.APIHOST && (apiHost = process.env.APIHOST);
   process.env.APIHOSTS && (apiHost = process.env.APIHOSTS);
   process.env.CLEANCACHE && (flushCash = JSON.parse(process.env.CLEANCACHE));
@@ -72,26 +69,30 @@ if ($.isNode()) {
   if (typeof $request !== "undefined") {
     await getCk();
   } else {
-    if (!nfpapp) {
+    if (!xmlyjsbapp) {
       $.log("📢 很抱歉，😭 没有找到账号信息！你确定配置账号信息了吗？");
       return;
     }
     $.log("📢 开始检测服务器接口状态>>>");
-    let l = false;
-    const z = apiHost.split("&"),
-      N = z.length;
-    for (let C = 0; C < N; C++) {
+    let a = false;
+    const P = apiHost.split("&"),
+      J = P.length;
+    for (let d = 0; d < J; d++) {
       if ($.isNode()) {
-        l = await checkAddress("" + z[C], 2500);
+        a = await checkAddress("" + P[d], 2500);
       } else {
-        $.isSurge() || $.isLoon() ? l = await httpClientRequest("" + z[C], 2500) : l = await fetchRequest("" + z[C], 2500);
+        if ($.isSurge() || $.isLoon()) {
+          a = await httpClientRequest("" + P[d], 2500);
+        } else {
+          a = await fetchRequest("" + P[d], 2500);
+        }
       }
-      if (l == true) {
-        apiHost = z[C];
-        $.log("📢 接口" + (C + 1) + "[" + z[C] + "]服务器接口正常! 🎉");
+      if (a == true) {
+        apiHost = P[d];
+        $.log("📢 接口" + (d + 1) + "[" + P[d] + "]服务器接口正常! 🎉");
         break;
       }
-      if (C == N - 1 && l == false) {
+      if (d == J - 1 && a == false) {
         $.log("📢 抱歉，所有接口都不可用, 请前往交流群置顶获取最新的接口地址! 😭");
         $.msg($.name, "所有接口都不可用, 请尽快前往交流群置顶获取最新的接口地址!");
         return;
@@ -105,9 +106,9 @@ if ($.isNode()) {
     $.log("📢 " + systemNotify);
     $.log("🔔 当前脚本版本号: " + version + "，最新版本号: " + newest_version);
     if (vipDate != "") {
-      let Z = new Date(vipDate).getTime(),
-        Y = new Date().getTime();
-      if (Y > Z) {
+      let h = new Date(vipDate).getTime(),
+        R = new Date().getTime();
+      if (R > h) {
         $.log("❗️ 抱歉，VIP到期了，请及时付费。");
         return;
       }
@@ -129,12 +130,16 @@ if ($.isNode()) {
       $.log("❗️ 抱歉，你没有权限运行此脚本, 请关注电报机器人: https://t.me/DavidLoveBot");
       return;
     }
-    isCharge == true ? $.log("🔔 此脚本采用付费模式。🔒") : $.log("🔔 此脚本采用免费模式。🔓");
+    if (isCharge == true) {
+      $.log("🔔 此脚本采用付费模式。🔒");
+    } else {
+      $.log("🔔 此脚本采用免费模式。🔓");
+    }
     if (vipDate != "") {
       if (isCharge == true) {
-        let y = new Date(vipDate).getTime(),
-          R = new Date().getTime();
-        if (R > y) {
+        let g = new Date(vipDate).getTime(),
+          K = new Date().getTime();
+        if (K > g) {
           $.log("❗️ 抱歉，VIP到期了，请及时付费。");
           return;
         } else {
@@ -151,94 +156,95 @@ if ($.isNode()) {
         }
       }
     }
-    multiAccount > 1 && $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一次可以运行" + numbers * multiAccount + "个账号。");
-    if (buyCount > 1) {
-      $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一共可以运行" + runTotalCounts + "次, 已经运行了" + runedCounts + "次。");
+    if (multiAccount > 1) {
+      $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一次可以运行" + numbers * multiAccount + "个账号。");
     }
+    buyCount > 1 && $.log("🔔 尊敬的会员，您好！你使用的是付费多用户授权账号，一共可以运行" + runTotalCounts + "次, 已经运行了" + runedCounts + "次。");
     if (runAuth != true) {
       $.log("❗️ 抱歉,  该用户今天可能已经达到最大运行次数，明天再试吧！");
       return;
     }
-    if (nfpapp.length > numbers * multiAccount) {
+    if (xmlyjsbapp.length > numbers * multiAccount) {
       $.log("❗️ 当前用户一次最多运行" + numbers * multiAccount + "个账号，需要增加账号请查看置顶说明。");
       return;
     }
-    if (nfpapp.length == 0) {
+    if (xmlyjsbapp.length == 0) {
       $.log("先抓取账号ck，再运行脚本吧！");
       return;
     }
-    if (runedCounts + nfpapp.length > runTotalCounts) {
-      $.log("📢 一共发现了" + nfpapp.length + "个账号");
-      $.log("❗️ 当前用户运行次数剩余" + (runTotalCounts - runedCounts) + "次，还可以运行" + (runTotalCounts - runedCounts) + "个账号，还需要" + (nfpapp.length - (runTotalCounts - runedCounts)) + "次，可以通过赞赏后增加运行次数！");
+    if (runedCounts + xmlyjsbapp.length > runTotalCounts) {
+      $.log("📢 一共发现了" + xmlyjsbapp.length + "个账号");
+      $.log("❗️ 当前用户运行次数剩余" + (runTotalCounts - runedCounts) + "次，还可以运行" + (runTotalCounts - runedCounts) + "个账号，还需要" + (xmlyjsbapp.length - (runTotalCounts - runedCounts)) + "次，可以通过赞赏后增加运行次数！");
       return;
     }
-    if (vipDate != "") {
-      $.log("📢 你的会员有效期到： " + vipDate);
-    }
-    $.log("📢 一共发现了" + nfpapp.length + "个账号");
+    vipDate != "" && $.log("📢 你的会员有效期到： " + vipDate);
+    $.log("📢 一共发现了" + xmlyjsbapp.length + "个账号");
     if ($.isNode()) {
-      if (!fs.existsSync(nfp_ck_file)) {
-        nfp_cks = {};
+      if (!fs.existsSync(xmlyjsb_ck_file)) {
+        xmlyjsb_cks = {};
       } else {
-        nfp_cks = JSON.parse(fs.readFileSync(nfp_ck_file, "utf8"));
+        xmlyjsb_cks = JSON.parse(fs.readFileSync(xmlyjsb_ck_file, "utf8"));
       }
     }
-    let W = [],
-      c = nfpapp.length,
-      Q = 0;
-    if ($.isNode() && process.env.NFP_THREAD_COUNT) {
-      Q = parseInt(process.env.NFP_THREAD_COUNT);
+    let I = [],
+      U = xmlyjsbapp.length,
+      C = 0;
+    if ($.isNode() && process.env.XMLYJSB_THREAD_COUNT) {
+      C = parseInt(process.env.XMLYJSB_THREAD_COUNT);
     } else {
-      Q = c;
+      C = U;
     }
-    let M = nfpapp.length;
-    if (Q >= c) {
-      Q = c;
-      M = 1;
-      $.log("📢 你设置的线程数是" + Q + "，账号个数是" + c + "，" + M + "次可全部跑完。");
-      for (let U2 = 0; U2 < nfpapp.length; U2++) {
-        W.push(runMultiTasks(U2));
-        nfplogs[U2] = "";
+    let z = xmlyjsbapp.length;
+    if (C >= U) {
+      C = U;
+      z = 1;
+      $.log("📢 你设置的线程数是" + C + "，账号个数是" + U + "，" + z + "次可全部跑完。");
+      for (let m0 = 0; m0 < xmlyjsbapp.length; m0++) {
+        I.push(runMultiTasks(m0));
+        xmlyjsblogs[m0] = "";
         if ($.isNode()) {
-          channels_status[U2] = 0;
-          await init_ws(U2);
+          channels_status[m0] = 0;
+          await init_ws(m0);
         } else {
-          channels_status[U2] = 1;
+          channels_status[m0] = 1;
         }
       }
-      await Promise.allSettled(W).then(U6 => {
+      await Promise.allSettled(I).then(m4 => {
         if ($.isNode() && saveFile) {
           $.log("[温馨提醒]: 即将本地化token，这样可以有效降低登录次数");
-          fs.writeFileSync(nfp_ck_file, JSON.stringify(nfp_cks, null, 2));
+          fs.writeFileSync(xmlyjsb_ck_file, JSON.stringify(xmlyjsb_cks, null, 2));
         }
         $.log("日志整理功能如下：");
         $.log("---------------日志整理开始--------------");
-        for (let U9 = 0; U9 < nfpapp.length; U9++) {
-          $.log(nfplogs[U9]);
-          sendlogs += nfplogs[U9];
+        for (let m7 = 0; m7 < xmlyjsbapp.length; m7++) {
+          $.log(xmlyjsblogs[m7]);
+          sendlogs += xmlyjsblogs[m7];
         }
         $.log("---------------日志整理结束--------------");
         sendMsg(sendlogs);
       });
     } else {
-      M = Math.ceil(c / Q);
-      $.log("📢 你设置的线程数是" + Q + "，账号个数是" + c + "，计算后分" + M + "次执行，一次可执行" + Q + "个账号，最后一次如果不够" + Q + "个账号，剩多少个账号就跑几个账号。");
-      for (let U7 = 0; U7 < M; U7++) {
-        for (let U9 = U7 * Q; U9 < Q * (U7 + 1) && U9 < c; U9++) {
-          W.push(runMultiTasks(U9));
-          nfplogs[U9] = "";
-          channels_status[U9] = 0;
-          await init_ws(U9);
+      z = Math.ceil(U / C);
+      $.log("📢 你设置的线程数是" + C + "，账号个数是" + U + "，计算后分" + z + "次执行，一次可执行" + C + "个账号，最后一次如果不够" + C + "个账号，剩多少个账号就跑几个账号。");
+      for (let m6 = 0; m6 < z; m6++) {
+        for (let m7 = m6 * C; m7 < C * (m6 + 1) && m7 < U; m7++) {
+          I.push(runMultiTasks(m7));
+          xmlyjsblogs[m7] = "";
+          channels_status[m7] = 1;
+          await init_ws(m7);
         }
-        await Promise.allSettled(W).then(Up => {
-          W = [];
-          if (U7 == M - 1) {
-            $.isNode() && saveFile && ($.log("[温馨提醒]: 即将本地化token，这样可以有效降低登录次数"), fs.writeFileSync(nfp_ck_file, JSON.stringify(nfp_cks, null, 2)));
+        await Promise.allSettled(I).then(m9 => {
+          I = [];
+          if (m6 == z - 1) {
+            if ($.isNode() && saveFile) {
+              $.log("[温馨提醒]: 即将本地化token，这样可以有效降低登录次数");
+              fs.writeFileSync(xmlyjsb_ck_file, JSON.stringify(xmlyjsb_cks, null, 2));
+            }
             $.log("日志整理功能如下：");
             $.log("---------------日志整理开始--------------");
-            for (let Uz = 0; Uz < nfpapp.length; Uz++) {
-              $.log(nfplogs[Uz]);
-              sendlogs += nfplogs[Uz];
+            for (let mP = 0; mP < xmlyjsbapp.length; mP++) {
+              $.log(xmlyjsblogs[mP]);
+              sendlogs += xmlyjsblogs[mP];
             }
             $.log("---------------日志整理结束--------------");
             sendMsg(sendlogs);
@@ -247,412 +253,576 @@ if ($.isNode()) {
       }
     }
   }
-})().catch(U => $.logErr(U)).finally(() => $.done());
-async function runMultiTasks(U) {
-  return new Promise((f, l) => {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 开始执行 working......");
-    runSubTask(f, U);
+})().catch(m => $.logErr(m)).finally(() => $.done());
+async function runMultiTasks(m) {
+  return new Promise((a, P) => {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 开始执行 working......");
+    runSubTask(a, m);
   });
 }
-async function init_ws(U) {
+async function init_ws(m) {
   if ($.isNode()) {
-    if (reconectCounts[U] > 0) {
-      $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 尝试重新连接服务器>>>>>>");
+    if (reconectCounts[m] > 0) {
+      $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 尝试重新连接服务器>>>>>>");
     }
-    wss[U] = new WebSocket(apiHost.replace("http", "ws") + "/ws");
-    wss[U].on("open", function l() {
-      $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 签名通道已连接");
+    wss[m] = new WebSocket(apiHost.replace("http", "ws") + "/ws");
+    wss[m].on("open", function P() {
+      $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签名通道已连接");
     });
-    wss[U].on("close", function z() {
-      $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 签名通道已关闭，原因是任务已处理完成");
+    wss[m].on("close", function J() {
+      $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签名通道已关闭，原因是任务已处理完成");
     });
-    wss[U].on("error", function N() {
-      $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 签名通道已关闭，原因是出现错误");
-      channels_status[U] = 1;
-      reconectCounts[U]++;
-      if (reconectCounts[U] <= 3) {
-        init_ws(U);
+    wss[m].on("error", function I() {
+      $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签名通道已关闭，原因是出现错误");
+      channels_status[m] = 1;
+      reconectCounts[m]++;
+      if (reconectCounts[m] <= 3) {
+        init_ws(m);
       }
     });
   }
 }
-async function runSubTask(U, p) {
-  if ($.isNode()) {
-    await $.wait(3000, 5000);
+async function runSubTask(m, v) {
+  $.isNode() && (await $.wait(3000, 5000));
+  await userInfo(v);
+  await account(v);
+  if (hour > 5) {
+    await cashPageInfo(v);
   }
-  await userInfo(p);
-  await pointV2(p);
-  await aticleList(p);
-  if (hour > 10) {
-    await videoList(p);
+  if (minute < 10) {
+    await addListenTime(v, 375 * (hour + 1) + helpUtils.randomNum(3, 60));
   }
-  await taskList(p);
-  if ($.isNode()) {
-    await wss[p].close();
-  }
+  await listenInfo(v);
+  await signInfo(v);
+  await drinkInfo(v);
+  await topicInfo(v);
+  await redPacketInfo(v);
+  await doTasks(v);
+  $.isNode() && (await wss[v].close());
   await runComplete(appName, userId);
-  U();
+  m();
 }
 async function getCk() {
-  if ($request.url.match(/\/passport\/UnionLogin/)) {
-    const z = $request.body;
-    let N = nfpuserck - 1;
-    if (nfpapp[N]) {
-      nfpapp[N].token_body = z;
+  if ($request.url.match(/\/task\/record/)) {
+    const J = $request.headers.Cookie;
+    let I = xmlyjsbuserck - 1;
+    if (xmlyjsbapp[I]) {
+      xmlyjsbapp[I].cookie = J;
     } else {
-      const c = {
-        token_body: z
+      const C = {
+        cookie: J
       };
-      nfpapp[N] = c;
+      xmlyjsbapp[I] = C;
     }
-    $.setdata(JSON.stringify(nfpapp, null, 2), "nfpapp");
-    $.msg($.name, "快音账号" + (N + 1) + "Token获取成功！🎉");
+    $.setdata(JSON.stringify(xmlyjsbapp, null, 2), "xmlyjsbapp");
+    $.msg($.name, "喜马拉雅极速版账号" + (I + 1) + "Cookie获取成功！🎉");
   }
 }
-async function userInfo(U) {
-  const f = "https://member.nfnews.com/ucapi/login/newDeviceCheckLogin?uuid=" + nfpapp[U].uuid + "&deviceId=" + nfpapp[U].deviceId;
-  let l = "";
-  await getReqObject(f, l, U);
-  await httpRequest("post", requestObjects[U], printCaller());
+async function userInfo(m) {
+  const a = "https://passport.ximalaya.com/web/login/user";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.ret == 0) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 用户名=> " + J.nickname);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 用户名=> " + J.nickname + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 手机号=> " + J.mobile);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 手机号=> " + J.mobile + "\n";
+    xmlyjsbapp[m].uid = J.uid;
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 用户名信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 用户名信息=> " + J.msg + "\n";
+  }
+}
+async function account(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/account/coin";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 金币=> " + J.total);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 金币=> " + J.total + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 余额=> " + (J.total / 10000).toFixed(2) + "元");
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 余额=> " + (J.total / 10000).toFixed(2) + "元 \n";
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> " + J.msg + "\n";
+  }
+}
+async function refreshToken(m) {
+  const a = "https://passport.ximalaya.com/user-http-app/v1/token/refresh";
+  let P = "";
+  await getReqObject(a, P, m);
+  requestObjects[m].headers["Content-Type"] = "application/x-www-form-urlencoded";
+  await httpRequest("post", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.ret == 0) {
+    if (J.newToken != null) {
+      $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 刷新token=> " + J.data.newToken);
+    }
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 刷新token=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 刷新token=> " + J.msg + "\n";
+  }
+}
+async function addListenTime(m, v) {
+  const P = "https://mobwsa.ximalaya.com/pizza-category/ball/saveListenTime";
+  let J = helpUtils.ts13(),
+    I = CryptoJS.MD5("currenttimemillis=" + J + "&listentime=" + v + "&uid=" + xmlyjsbapp[m].uid + "&q35435432sadks2i3546p2ndkcaqiwurhqfebt4kn").toString();
+  let U = "activtyId=listenAward&currentTimeMillis=" + J + "&listenTime=" + v + "&nativeListenTime=" + v + "&signature=" + I + "&uid=" + xmlyjsbapp[m].uid;
+  await getReqObject(P, U, m);
+  requestObjects[m].headers["Content-Type"] = "application/x-www-form-urlencoded";
+  await httpRequest("post", requestObjects[m], printCaller());
+  let C = httpResult;
+  C != null ? ($.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 阅读时长增加到=> " + (C.nativeListenTime / 60).toFixed(1) + "分钟"), xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 阅读时长增加到=> " + (C.nativeListenTime / 60).toFixed(1) + "分钟\n") : ($.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 阅读时长增加=> " + C.msg), xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 阅读时长增加=> " + C.msg + "\n");
+}
+async function doTasks(v) {
+  const P = "https://m.ximalaya.com/speed/web-earn/task/record?taskLabels=1,2";
+  let J = "";
+  await getReqObject(P, J, v);
+  await httpRequest("get", requestObjects[v], printCaller());
+  let I = httpResult;
+  if (I != null) {
+    let C = I.taskList;
+    for (let z = 0; z < C.length; z++) {
+      let d = C[z];
+      if (d.taskId == 65) {
+        let F = d.step - d.process;
+        for (let y = 0; y < F; y++) {
+          let E = await getToken(v);
+          await $.wait(helpUtils.randomNum(10000, 15000));
+          await getScore(v, E, 2, d.title + "(" + (d.process + y + 1) + "/" + d.step + ")");
+        }
+      }
+    }
+  } else {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 任务中心=> " + I.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 任务中心=> " + I.msg + "\n";
+  }
+}
+async function signInfo(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/check-in/record?time=" + helpUtils.ts13();
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null) {
+    let U = J.receivedToday;
+    if (U == null || U == false) {
+      let C = J.checkInDetails[J.thatDay - 1];
+      await signIn(m, C.checkInAward);
+    }
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到记录=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到记录=> " + J.msg + "\n";
+  }
+}
+async function signIn(m, v) {
+  const P = "https://m.ximalaya.com/speed/web-earn/check-in/check";
+  let J = helpUtils.createDayjs(),
+    I = J().format("YYYYMMDD");
+  await selectChannel(m, "date=" + I + "&uid=" + xmlyjsbapp[m].uid);
+  let U = requestSigns[m];
+  let C = "{\"checkData\":\"" + U + "\",\"makeUp\":false}";
+  await getReqObject(P, C, m);
+  await httpRequest("post", requestObjects[m], printCaller());
   let z = httpResult;
-  if (z != null && z.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户名=> " + z.data.userName);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户名=> " + z.data.userName + "\n";
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 手机号=> " + z.data.phone);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 手机号=> " + z.data.phone + "\n";
+  if (z != null) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到=> 签到成功，获得" + v + "金币");
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到=> 签到成功，获得" + v + "金币\n";
+    let B = await getToken(m);
+    await $.wait(helpUtils.randomNum(10000, 15000));
+    await getScore(m, B, 1, "每日签到看广告奖励");
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户信息=> " + z.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户信息=> " + z.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到=> " + z.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 签到=> " + z.msg + "\n";
   }
 }
-async function pointV2(U) {
-  const f = "https://hdapi.nfnews.com/nfplus-points-api/user/points/myPointsV2",
-    l = helpUtils.ts13();
-  await selectChannel(U, "{\"userUuid\":\"" + nfpapp[U].uuid + "\",\"timestamp\":" + l + "}@sign@one");
-  let z = requestSigns[U];
-  await getReqObject(f, z, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null && N.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 积分=> " + N.data.redeemablePoints);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 积分=> " + N.data.redeemablePoints + "\n";
+async function getToken(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/ad/token";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null) {
+    return J.id;
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 账户信息=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 账户信息=> " + N.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 获取广告token=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 获取广告token=> " + J.msg + "\n";
   }
 }
-async function clickAticle(U, p) {
-  const l = "https://hdapi.nfnews.com/nfplus-points-api/task/execute/clickPushArticle",
-    z = helpUtils.ts13();
-  await selectChannel(U, "{\"articleId\":" + p + ",\"userUuid\":\"" + nfpapp[U].uuid + "\",\"timestamp\":\"" + z + "\"}@sign@two");
-  let N = requestSigns[U];
-  await getReqObject(l, N, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let W = httpResult;
-  if (W != null && W.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读推送文章[" + p + "]=> 完成");
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读推送文章[" + p + "]=> 完成\n";
+async function getScore(m, v, a, P) {
+  const I = "https://m.ximalaya.com/speed/web-earn/ad/score";
+  let U = CryptoJS.MD5("businesstype=" + a + "&token=" + v + "&uid=" + xmlyjsbapp[m].uid + "&q35435432sadks2i3546p2ndkcaqiwurhqfebt4kn").toString(),
+    C = "{\"sign\":\"" + U + "\",\"businessType\":" + a + "}";
+  await getReqObject(I, C, m);
+  await httpRequest("post", requestObjects[m], printCaller());
+  let z = httpResult;
+  if (z != null) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: " + P + "=> " + z.coin + "金币");
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: " + P + "=> " + z.coin + "金币\n";
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读推送文章[" + p + "]=> " + W.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读推送文章[" + p + "]=> " + W.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: " + P + "=> " + z.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: " + P + "=> " + z.msg + "\n";
   }
 }
-async function login(U) {
-  const f = "https://hdapi.nfnews.com/nfplus-points-api/task/execute/login";
-  const l = helpUtils.ts13();
-  await selectChannel(U, "{\"userUuid\":\"" + nfpapp[U].uuid + "\",\"timestamp\":" + l + "}@sign@two");
-  let z = requestSigns[U];
-  await getReqObject(f, z, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null && N.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 登录签到=> 完成");
+async function redPacketInfo(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/redPacket/config";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.code == 0) {
+    if (J.data.waitTime == 0) {
+      let U = J.data.stageId;
+      await receiveRedPacketReward(m, 1, U);
+      await $.wait(helpUtils.randomNum(10000, 15000));
+      await receiveRedPacketReward(m, 2, U);
+    }
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 登录签到=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 登录签到=> " + N.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg + "\n";
   }
 }
-async function doArticleTimeTask(p, f, l) {
-  const N = "https://hdapi.nfnews.com/nfplus-points-api/task/execute/submitSelectArticle",
-    W = helpUtils.ts13(),
-    c = {
-      userUuid: nfpapp[p].uuid,
-      articleId: f,
-      timestamp: W,
-      second: 60
-    };
-  await selectChannel(p, JSON.stringify(c) + "@sign@two");
-  let M = requestSigns[p];
-  await getReqObject(N, M, p);
-  await httpRequest("post", requestObjects[p], printCaller());
-  let v = httpResult;
-  if (v != null && v.code == 200) {
-    $.log("[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 阅读新闻[" + f + "]时长奖励(" + l + ")=> 完成");
-  } else {
-    $.log("[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 阅读新闻[" + f + "]时长奖励=> " + v.msg);
-    nfplogs[p] += "[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 阅读新闻[" + f + "]时长奖励=> " + v.msg + "\n";
-  }
-}
-async function doVideoTimeTask(p, f, l) {
-  const N = "https://hdapi.nfnews.com/nfplus-points-api/task/execute/submitMediaRead";
-  const W = helpUtils.ts13();
-  const c = {
-    userUuid: nfpapp[p].uuid,
-    articleId: f,
-    timestamp: W,
-    second: 60
+async function receiveRedPacketReward(v, a, P) {
+  const I = "https://m.ximalaya.com/speed/web-earn/redPacket/receive/v2";
+  let U = helpUtils.ts13();
+  await selectChannel(v, "stageId=" + P + "&receiveType=" + a + "&timestamp=" + U + "&uid=" + xmlyjsbapp[v].uid);
+  let C = requestSigns[v];
+  const z = {
+    receiveType: a,
+    signature: C,
+    timestamp: U,
+    stageId: P
   };
-  await selectChannel(p, JSON.stringify(c) + "@sign@two");
-  let M = requestSigns[p];
-  await getReqObject(N, M, p);
-  await httpRequest("post", requestObjects[p], printCaller());
-  let v = httpResult;
-  if (v != null && v.code == 200) {
-    $.log("[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 观看或者听新闻[" + f + "]时长奖励(" + l + ")=> 完成");
+  await getReqObject(I, JSON.stringify(z), v);
+  await httpRequest("post", requestObjects[v], printCaller());
+  let d = httpResult;
+  if (d != null && d.code == 0) {
+    a == 1 ? ($.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 打开宝箱=> 获得" + d.data.score + "金币"), xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 打开宝箱=> 获得" + d.data.score + "金币\n") : ($.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 开宝箱看广告得双倍奖励=> 获得" + d.data.score + "金币"), xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 开宝箱看广告得双倍奖励=> 获得" + d.data.score + "金币\n");
   } else {
-    $.log("[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 观看或者听新闻[" + f + "]时长奖励=> " + v.msg);
-    nfplogs[p] += "[账号" + (p + 1 < 10 ? "0" + (p + 1) : p + 1) + "]: 观看或者听新闻[" + f + "]时长奖励=> " + v.msg + "\n";
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 宝箱奖励=> " + d.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 宝箱奖励=> " + d.msg + "\n";
   }
 }
-async function taskList(U) {
-  const f = "https://hdapi.nfnews.com/nfplus-points-api/task/userPointsTasCatList";
-  const l = helpUtils.ts13();
-  await selectChannel(U, "{\"userUuid\":\"" + nfpapp[U].uuid + "\",\"timestamp\":" + l + "}@sign@one");
-  let z = requestSigns[U];
-  await getReqObject(f, z, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null && N.code == 200) {
-    await selectChannel(U, N.data + "@unSign@one");
-    let c = JSON.parse(requestSigns[U]),
-      Q = c.list.find(M => M.catName == "每日任务");
-    if (Q) {
-      let v = Q.list;
-      for (let C of v) {
-        if (C.taskName == "每日登录" && C.finishNum < C.taskLimitTimes) {
-          for (let r = 0; r < C.taskLimitTimes - C.finishNum; r++) {
-            await login(U);
-          }
-        }
-        if (C.taskName == "选读文章" && (C.finishNum < C.taskLimitTimes || C.subTaskList[0].finishNum < C.subTaskList[0].taskLimitTimes)) {
-          if (C.taskLimitTimes - C.finishNum > C.subTaskList[0].taskLimitTimes - C.subTaskList[0].finishNum) {
-            for (let g = 0; g < C.taskLimitTimes - C.finishNum; g++) {
-              await reportTask(U, articleIds[U][g]);
-              await $.wait(helpUtils.randomNum(30000, 60000));
-              await doArticleTimeTask(U, articleIds[U][g], C.finishNum + g + 1 + "/" + C.taskLimitTimes);
-            }
-          } else {
-            for (let t = 0; t < C.subTaskList[0].taskLimitTimes - C.subTaskList[0].finishNum; t++) {
-              await reportTask(U, articleIds[U][t]);
-              await $.wait(helpUtils.randomNum(30000, 60000));
-              await doArticleTimeTask(U, articleIds[U][t]);
-            }
-          }
-        }
-        if (C.taskName == "视听播报" && (C.finishNum < C.taskLimitTimes || C.subTaskList[0].finishNum < C.subTaskList[0].taskLimitTimes)) {
-          if (C.taskLimitTimes - C.finishNum > C.subTaskList[0].taskLimitTimes - C.subTaskList[0].finishNum) {
-            for (let j = 0; j < C.taskLimitTimes - C.finishNum; j++) {
-              await reportTask(U, videoIds[U][j]);
-              await $.wait(helpUtils.randomNum(30000, 60000));
-              await doVideoTimeTask(U, videoIds[U][j], C.finishNum + j + 1 + "/" + C.taskLimitTimes);
-            }
-          } else {
-            for (let G = 0; G < C.subTaskList[0].taskLimitTimes - C.subTaskList[0].finishNum; G++) {
-              await reportTask(U, videoIds[U][G]);
-              await $.wait(helpUtils.randomNum(30000, 60000));
-              await doVideoTimeTask(U, videoIds[U][G]);
-            }
-          }
-        }
-        if (C.taskName == "分享文章" && C.finishNum < C.taskLimitTimes) {
-          for (let q = 0; q < C.taskLimitTimes - C.finishNum; q++) {
-            await reportShareTask(U, articleIds[U][q], C.finishNum + q + 1 + "/" + C.taskLimitTimes);
-            await $.wait(helpUtils.randomNum(5000, 10000));
-          }
-        }
-        if (C.taskName == "订阅南方号" && C.finishNum < C.taskLimitTimes) {
-          for (let w = 0; w < C.taskLimitTimes - C.finishNum; w++) {
-            await getNfhList(U, C.taskLimitTimes - C.finishNum);
-          }
-        }
-        if (C.taskName == "订阅频道" && C.finishNum < C.taskLimitTimes) {
-          await reportSubChannelTask(U, "44147");
-        }
-        if (C.taskName == "发表观点" && C.finishNum < C.taskLimitTimes) {
-          for (let a = 0; a < C.taskLimitTimes - C.finishNum; a++) {
-            await reportLikeTask(U, articleIds[U][a], C.finishNum + a + 1 + "/" + C.taskLimitTimes);
-            await $.wait(helpUtils.randomNum(5000, 10000));
-          }
-        }
-        if (C.taskName == "阅读推送文章" && C.finishNum < C.taskLimitTimes) {
-          for (let S = 0; S < C.taskLimitTimes - C.finishNum; S++) {
-            await clickAticle(U, articleIds[U][S]);
-            await $.wait(helpUtils.randomNum(5000, 10000));
-          }
+async function topicInfo(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/topic/user";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.code == 0) {
+    if (J.data.stamina > 0) {
+      await startQuestion(m);
+    }
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg + "\n";
+  }
+}
+async function startQuestion(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/topic/start";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.code == 0) {
+    let I = J.data.paperId,
+      U = J.data.topics.length,
+      C = J.data.topics[U - 1].topicId;
+    await $.wait(helpUtils.randomNum(10000, 15000));
+    await receiveQuestionReward(m, 1, I, C, U);
+    await $.wait(helpUtils.randomNum(10000, 15000));
+    await receiveQuestionReward(m, 2, I, C, U);
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 宝箱信息=> " + J.msg + "\n";
+  }
+}
+async function receiveQuestionReward(v, a, P, J, I) {
+  const C = "https://m.ximalaya.com/speed/web-earn/topic/reward/v2";
+  let z = helpUtils.ts13();
+  await selectChannel(v, "lastTopicId=" + J + "&numOfAnswers=" + I + "&receiveType=" + a + "&timestamp=" + z + "&uid=" + xmlyjsbapp[v].uid);
+  let B = requestSigns[v];
+  const d = {
+    numOfAnswers: I,
+    paperId: P,
+    signature: B,
+    timestamp: z,
+    receiveType: a,
+    lastTopicId: J
+  };
+  await getReqObject(C, JSON.stringify(d), v);
+  await httpRequest("post", requestObjects[v], printCaller());
+  let F = httpResult;
+  if (F != null && F.code == 0) {
+    if (a == 1) {
+      $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题成功=> 获得" + F.data.reward + "金币");
+      xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题成功=> " + F.data.reward + "金币\n";
+    } else {
+      $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题成功看广告=> 翻了" + F.data.multiple + "倍，获得" + F.data.reward + "金币");
+      xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题成功看广告=> 翻了" + F.data.multiple + "倍，获得" + F.data.reward + "金币\n";
+    }
+  } else {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题奖励=> " + F.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 答题奖励=> " + F.msg + "\n";
+  }
+}
+async function drinkInfo(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/drink/detail?timestamp=" + helpUtils.ts13();
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null && J.code == 0) {
+    let U = J.data.drinks;
+    for (let C = 0; C < U.length; C++) {
+      let B = U[C];
+      if (B.receiveStatus == 2) {
+        await receiveDrinkReward(m, B, 1);
+        await $.wait(helpUtils.randomNum(10000, 15000));
+        await receiveDrinkReward(m, B, 2);
+      } else {
+        if (B.receiveStatus == 4) {
+          await $.wait(helpUtils.randomNum(10000, 15000));
+          await receiveDrinkReward(m, B, 3);
         }
       }
     }
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户信息=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 用户信息=> " + N.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 每日喝水信息=> " + J.msg);
+    xmlyjsblogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 每日喝水信息=> " + J.msg + "\n";
   }
 }
-async function aticleList(U) {
-  let f = 1;
-  if (hour > 10) {
-    f = 2;
+async function receiveDrinkReward(v, a, P) {
+  const I = "https://m.ximalaya.com/speed/web-earn/drink/receive/v2";
+  let U = helpUtils.ts13();
+  await selectChannel(v, "stageId=" + a.stageId + "&isDouble=" + P + "&timestamp=" + U + "&uid=" + xmlyjsbapp[v].uid);
+  let C = requestSigns[v];
+  const z = {
+    isDouble: P,
+    timestamp: U,
+    signature: C,
+    stageId: a.stageId
+  };
+  await getReqObject(I, JSON.stringify(z), v);
+  await httpRequest("post", requestObjects[v], printCaller());
+  let d = httpResult;
+  if (d != null && d.code == 0) {
+    if (P == 1) {
+      $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "(" + a.description + ")=> 获得" + d.data.score + "金币");
+      xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "(" + a.description + ")=> " + d.data.score + "金币\n";
+    } else {
+      if (P == 2) {
+        $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_看广告=> 获得" + d.data.score + "金币");
+        xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_看广告=> 获得" + d.data.score + "金币\n";
+      } else {
+        $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_(补)=> 获得" + d.data.score + "金币");
+        xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_(补)=> 获得" + d.data.score + "金币\n";
+      }
+    }
+  } else {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "=> " + d.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "=> " + d.msg + "\n";
   }
-  const l = "https://nfplusapi.nfnews.com/nfplus-manuscript-web/article/list?columnId=14&deviceId=" + nfpapp[U].deviceId + "&livePromotion=1&location=%E5%B9%BF%E5%B7%9E&nfhSubCount=0&pageNum=" + f + "&pageSize=100&service=1&userUuid=" + nfpapp[U].uuid;
-  let z = "";
-  await getReqObject(l, z, U);
-  await httpRequest("get", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null && N.code == 200) {
-    if (N.data.list.length > 0) {
-      articleIds[U] = [];
-      videoIds[U] = [];
-      for (let Q of N.data.list) {
-        let M = Q.articleId;
-        if (Q.videoInfo) {
-          videoIds[U].push(M);
+}
+async function listenInfo(v) {
+  const P = "https://m.ximalaya.com/speed/web-earn/listen/b/coin/config?ts=" + helpUtils.ts13();
+  let J = "";
+  await getReqObject(P, J, v);
+  await httpRequest("get", requestObjects[v], printCaller());
+  let I = httpResult;
+  if (I != null && I.code == 0) {
+    let U = I.data.coinList,
+      C = I.data.positionList;
+    const z = {
+      videoAdType: 1,
+      positionId: 0,
+      positionName: "",
+      coinSceneId: 0
+    };
+    let d = C.find(y => y.positionName == "sub_listentime_double_video"),
+      e = C.find(y => y.positionName == "sub_listentime_video"),
+      F = 375 * (hour + 1);
+    for (let y = 0; y < U.length; y++) {
+      let E = U[y];
+      if (E.coinStatus == 1 && F >= E.listenTime) {
+        if (y == U.length - 1) {
+          await receiveListenReward(v, E, I.data.priodId, e);
+          await $.wait(helpUtils.randomNum(10000, 15000));
+          await receiveListenReward(v, E, I.data.priodId, d);
+          await $.wait(helpUtils.randomNum(5000, 10000));
         } else {
-          articleIds[U].push(M);
+          await receiveListenReward(v, E, I.data.priodId, z);
+          await $.wait(helpUtils.randomNum(10000, 15000));
+          await receiveListenReward(v, E, I.data.priodId, d);
+          await $.wait(helpUtils.randomNum(5000, 10000));
+        }
+      } else {
+        if (E.coinStatus == 3 && E.hasDouble == false) {
+          await receiveListenReward(v, E, I.data.priodId, d);
         }
       }
     }
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 文章列表=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 文章列表=> " + N.msg + "\n";
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 听书奖励信息=> " + I.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 听书奖励信息=> " + I.msg + "\n";
   }
 }
-async function videoList(U) {
-  let f = 1;
-  if (hour > 19) {
-    f = 2;
+async function receiveListenReward(v, a, P, J) {
+  const U = "https://m.ximalaya.com/speed/web-earn/listen/b/award";
+  let C = helpUtils.ts13(),
+    z = "priodId=" + P + "&stageId=" + a.stageId + "&listenTime=" + a.listenTime + "&coinSceneId=" + J.coinSceneId + "&positionId=" + J.positionId + "&positionName=" + J.positionName + "&timestamp=" + C + "&randomDouble=" + J.videoAdType;
+  await selectChannel(v, z);
+  let B = requestSigns[v];
+  const d = {
+    stageId: a.stageId,
+    positionName: J.positionName,
+    randomDouble: J.videoAdType,
+    priodId: P,
+    signature: B,
+    positionId: J.positionId,
+    coinSceneId: J.coinSceneId,
+    timestamp: C,
+    listenTime: a.listenTime
+  };
+  await getReqObject(U, JSON.stringify(d), v);
+  await httpRequest("post", requestObjects[v], printCaller());
+  let F = httpResult;
+  if (F != null && F.code == 0) {
+    if (J.videoAdType == 1) {
+      $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "(" + a.comment + ")=> 获得" + F.data.coinNum + "金币");
+      xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "(" + a.comment + ")=> " + F.data.coinNum + "金币\n";
+    } else {
+      J.videoAdType == 2 && ($.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_看广告=> 获得" + F.data.coinNum + "金币"), xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "_看广告=> 获得" + F.data.coinNum + "金币\n");
+    }
+  } else {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "=> " + F.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: " + a.title + "=> " + F.msg + "\n";
   }
-  const l = "https://api.nfnews.com/nanfang_if/recommend/article/v1/getVideoRecommend?deviceId=" + nfpapp[U].deviceId + "&userUuid=" + nfpapp[U].uuid + "&pageNo=" + f + "&pageSize=20&city=%E5%B9%BF%E5%B7%9E&horiVideo=0";
-  let z = "";
-  await getReqObject(l, z, U);
-  await httpRequest("get", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null && N.code == 200) {
-    if (N.data.length > 0) {
-      videoIds[U] = [];
-      for (let Q of N.data) {
-        let v = Q.fileId;
-        videoIds[U].push(v);
+}
+async function receiveYesterdayReward(v, a) {
+  let J = helpUtils.ts13();
+  const I = "https://m.ximalaya.com/speed/web-earn/account/showAward/receive?ts=" + J;
+  await selectChannel(v, "stageId=" + a + "&timestamp=" + J + "&uid=" + xmlyjsbapp[v].uid);
+  let U = requestSigns[v];
+  const C = {
+    stageId: a,
+    signature: U,
+    timestamp: J
+  };
+  await getReqObject(I, JSON.stringify(C), v);
+  await httpRequest("post", requestObjects[v], printCaller());
+  let B = httpResult;
+  if (B != null && B.ret == 0) {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 昨日盈利奖励=> " + B.data.extraAward + "金币");
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 昨日盈利奖励=> " + B.data.extraAward + "金币\n";
+  } else {
+    $.log("[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 昨日盈利奖励=> " + B.msg);
+    xmlyjsblogs[v] += "[账号" + (v + 1 < 10 ? "0" + (v + 1) : v + 1) + "]: 昨日盈利奖励=> " + B.msg + "\n";
+  }
+}
+async function thirdAccountInfo(m) {
+  const a = "https://m.ximalaya.com/speed/web-earn/account/third-pay-account/3";
+  let P = "",
+    J = null;
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let I = httpResult;
+  if (I != null && I.code == 0) {
+    let C = I.data;
+    C.length > 0 && (J = C[0]);
+    return J;
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> " + I.msg);
+    qjxslogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> " + I.msg + "\n";
+  }
+}
+async function withdraw(m, v) {
+  const P = "https://m.ximalaya.com/speed/web-earn/account/take-out";
+  let J = await thirdAccountInfo(m);
+  if (J == null) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> 请绑定支付宝，再尝试提现");
+    qjxslogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 账户信息=> 请绑定支付宝，再尝试提现\n";
+    return;
+  }
+  let I = helpUtils.ts13(),
+    U = "accountType=" + J.accountType + "&accountNumber=" + J.accountNumber + "&amount=" + v + "&timestamp=" + I + "&uid=" + xmlyjsbapp[m].uid;
+  await selectChannel(m, U);
+  let C = requestSigns[m],
+    z = {
+      signature: C,
+      timestamp: parseInt(I),
+      name: J.name,
+      accountType: J.accountType,
+      accountNumber: J.accountNumber,
+      amount: v,
+      takeOutType: 2
+    };
+  await getReqObject(P, JSON.stringify(z), m);
+  await httpRequest("post", requestObjects[m], printCaller());
+  let B = httpResult;
+  if (B != null && B.code == 0) {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现=> 成功提现" + v + "元");
+    qjxslogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现=> 成功提现" + v + "元\n";
+  } else {
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现结果=> " + B.msg);
+    qjxslogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现结果=> " + B.msg + "\n";
+  }
+}
+async function cashPageInfo(m) {
+  const a = "https://m.ximalaya.com/growth-ssr-speed-welfare-center/page/withdraw?_full_with_transparent_bar=1";
+  let P = "";
+  await getReqObject(a, P, m);
+  await httpRequest("get", requestObjects[m], printCaller());
+  let J = httpResult;
+  if (J != null) {
+    const U = helpUtils.createCheerio(),
+      C = U.load(J);
+    let z = JSON.parse(C("#__NEXT_DATA__").text()),
+      B = z.props.pageProps.config.continuousDays,
+      d = z.props.pageProps.coin.total,
+      e = z.props.pageProps.config.alipayTakeOutInfo.activityTakeOutInfo.activityList,
+      y = e.find(S => S.amount == 20),
+      E = e.find(S => S.amount == 50);
+    if (E && E.takeOutTimes > 0 && E.leastContinuousDays <= B && d >= 500000) {
+      await withdraw(m, 50);
+    } else {
+      if (y && y.takeOutTimes > 0 && y.leastContinuousDays <= B && d >= 200000) {
+        await withdraw(m, 20);
       }
     }
   } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 视频列表=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 视频列表=> " + N.msg + "\n";
+    $.log("[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现页面信息=> " + J.msg);
+    qjxslogs[m] += "[账号" + (m + 1 < 10 ? "0" + (m + 1) : m + 1) + "]: 提现页面信息=> " + J.msg + "\n";
   }
 }
-async function getNfhList(U, p) {
-  const l = "https://api.nfnews.com/nanfang_if/nfh/getNfhList";
-  let z = "colId=23&page=1&size=20";
-  await getReqObject(l, z, U);
-  requestObjects[U].headers["content-type"] = "application/x-www-form-urlencoded";
-  await httpRequest("post", requestObjects[U], printCaller());
-  let N = httpResult;
-  if (N != null) {
-    if (N.columns.length > 0) {
-      articleIds[U] = [];
-      let W = 0;
-      for (let c of N.columns) {
-        if (W == p) {
-          break;
-        }
-        let M = c.columnId;
-        await reportSubTask(U, M);
-        await $.wait(helpUtils.randomNum(5000, 10000));
-        W++;
-      }
-    }
-  } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 文章列表=> " + N.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 文章列表=> " + N.msg + "\n";
-  }
-}
-async function reportTask(U, p) {
-  const l = "https://analyticsapi.nfnews.com/analytics/sendRecords",
-    z = helpUtils.ts13();
-  let N = "[{\n\t\"actionTime\": \"" + z + "\",\n\t\"discussNum\": \"7\",\n\t\"enterColumnId\": \"8967\",\n\t\"recommendSource\": \"2\",\n\t\"dataType\": \"1000005\",\n\t\"origin\": \"video\",\n\t\"articleID\": \"" + p + "\",\n\t\"recommendReason\": \"8\",\n\t\"deviceid\": \"" + nfpapp[U].deviceId + "\",\n\t\"operator\": \"--\",\n\t\"recallLevel\": \"10\",\n\t\"userUuid\": \"" + nfpapp[U].uuid + "\",\n\t\"isAutoPlay\": \"1\"\n}]";
-  await getReqObject(l, N, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let W = httpResult;
-  W != null && W.code == 200 ? $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读新闻[" + p + "]=> 完成") : ($.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读新闻[" + p + "]=> " + W.msg), nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 阅读新闻[" + p + "]=> " + W.msg + "\n");
-}
-async function reportShareTask(U, p, f) {
-  const z = "https://analyticsapi.nfnews.com/analytics/sendRecords";
-  const N = helpUtils.ts13();
-  let W = "[{\n\t\"origin\": \"14\",\n\t\"deviceid\": \"" + nfpapp[U].deviceId + "\",\n\t\"dataType\": \"1000009\",\n\t\"action\": \"1\",\n\t\"operator\": \"--\",\n\t\"shareChanel\": \"1\",\n\t\"userUuid\": \"" + nfpapp[U].uuid + "\",\n\t\"actionTime\":  \"" + N + "\",\n\t\"articleID\": \"" + p + "\",\n\t\"url\": \"https://static.nfnews.com/content/202507/12/c11500401.html?colID=14&firstColID=27700&appversion=12600&from=weChatMessage&enterColumnId=14\"\n}]";
-  await getReqObject(z, W, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let c = httpResult;
-  c != null && c.code == 200 ? $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 分享新闻[" + p + "]任务(" + f + ")=> 完成") : ($.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 分享新闻[" + p + "]任务=> " + c.msg), nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 分享新闻[" + p + "]任务=> " + c.msg + "\n");
-}
-async function reportSubTask(U, p) {
-  const l = "https://analyticsapi.nfnews.com/analytics/sendRecords",
-    z = helpUtils.ts13();
-  let N = "[{\n\t\"origin\": \"9\",\n\t\"deviceid\": \"" + nfpapp[U].deviceId + "\",\n\t\"dataType\": \"1000025\",\n\t\"operator\": \"--\",\n\t\"userUuid\": \"" + nfpapp[U].uuid + "\",\n\t\"actionTime\": \"" + z + "\",\n\t\"columnId\": " + p + ",\n\t\"isSuccess\": \"1\"\n}]";
-  await getReqObject(l, N, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let W = httpResult;
-  if (W != null && W.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅[" + p + "]任务=> 完成");
-  } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅[" + p + "]任务=> " + W.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅[" + p + "]任务=> " + W.msg + "\n";
-  }
-}
-async function reportSubChannelTask(U, p) {
-  const l = "https://analyticsapi.nfnews.com/analytics/sendRecords",
-    z = helpUtils.ts13();
-  let N = "[{\n\t\"origin\": \"2\",\n\t\"deviceid\": \"" + nfpapp[U].deviceId + "\",\n\t\"dataType\": \"1000039\",\n\t\"operator\": \"--\",\n\t\"userUuid\": \"" + nfpapp[U].uuid + "\",\n\t\"actionTime\": \"" + z + "\",\n\t\"columnId\": \"" + p + "\"\n}]";
-  await getReqObject(l, N, U);
-  await httpRequest("post", requestObjects[U], printCaller());
-  let W = httpResult;
-  W != null && W.code == 200 ? $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅频道[" + p + "]任务=> 完成") : ($.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅频道[" + p + "]任务=> " + W.msg), nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 订阅频道[" + p + "]任务=> " + W.msg + "\n");
-}
-async function reportLikeTask(U, p, f) {
-  let z = "[{\"articleId\":" + p + ",\"recommendTime\":\"\",\"grade\":\"\",\"reason\":\"\",\"recallLevel\":\"\",\"recommendScheme\":\"\"}]";
-  const N = "https://analyticsapi.nfnews.com/analytics/sendRecord?deviceid=" + nfpapp[U].deviceId + "&articleID=" + p + "&dataType=1000002&origin=14&advId=&advType=0&recommendReason=&recommendTime=&recommendGrade=&recallLevel=&recommendScheme=&recInfo=" + encodeURIComponent(z);
-  let c = "";
-  await getReqObject(N, c, U);
-  await httpRequest("get", requestObjects[U], printCaller());
-  let Q = httpResult;
-  if (Q != null && Q.code == 200) {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 点赞新闻[" + p + "]任务(" + f + ")=> 完成");
-  } else {
-    $.log("[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 点赞新闻[" + p + "]任务=> " + Q.msg);
-    nfplogs[U] += "[账号" + (U + 1 < 10 ? "0" + (U + 1) : U + 1) + "]: 点赞新闻[" + p + "]任务=> " + Q.msg + "\n";
-  }
-}
-function getScriptAuth(U, p, f) {
-  return new Promise((l, z) => {
-    const W = apiHost + "/script/permissions/lastest",
-      c = {
-        appName: U,
-        userId: p,
-        activityCode: f,
+function getScriptAuth(m, v, a) {
+  return new Promise((J, I) => {
+    const C = apiHost + "/script/permissions/lastest",
+      z = {
+        appName: m,
+        userId: v,
+        activityCode: a,
         version: version
       };
-    const M = {
+    const d = {
       "Content-Type": "application/json",
       accept: "application/json"
     };
-    const v = {
-      url: W,
-      headers: M,
-      body: JSON.stringify(c)
+    const e = {
+      url: C,
+      headers: d,
+      body: JSON.stringify(z)
     };
-    $.post(v, async (C, u, O) => {
-      if (O && O != null && O.replace(/\"/g, "").length > 50) {
-        const r = O.replace(/\"/g, "").slice(34);
+    $.post(e, async (F, y, E) => {
+      if (E && E != null && E.replace(/\"/g, "").length > 50) {
+        const c = E.replace(/\"/g, "").slice(34);
         helpUtils = await loadUtils(flushCash);
         CryptoJS = helpUtils.createCryptoJS();
-        result = JSON.parse(CryptoJS.enc.Base64.parse(r).toString(CryptoJS.enc.Utf8));
+        result = JSON.parse(CryptoJS.enc.Base64.parse(c).toString(CryptoJS.enc.Utf8));
         try {
           newest_version = result.version;
           userAuth = result.userAuth;
@@ -669,561 +839,541 @@ function getScriptAuth(U, p, f) {
           invicode = result.invicate;
           numbers = result.accountNumbers;
           vipDate = result.vipDate;
-        } catch (L) {
-          $.log(L);
+        } catch (t) {
+          $.log(t);
         }
       } else {
         $.log("请求服务器接口出现错误，请检查网络连接情况");
       }
-      l();
+      J();
     });
   });
 }
-function runComplete(U, p) {
-  return new Promise((i, l) => {
-    const W = apiHost + "/script/run/add",
-      c = {
-        appName: U,
-        userId: p,
+function runComplete(m, v) {
+  return new Promise((P, J) => {
+    const U = apiHost + "/script/run/add",
+      C = {
+        appName: m,
+        userId: v,
         activityCode: activeCode,
         version: version
       };
-    const M = {
+    const B = {
       "Content-Type": "application/json",
       accept: "application/json"
     };
-    const v = {
-      url: W,
-      headers: M,
-      body: JSON.stringify(c)
+    const d = {
+      url: U,
+      headers: B,
+      body: JSON.stringify(C)
     };
-    $.post(v, async (C, u, O) => {
-      i();
+    $.post(d, async (e, F, y) => {
+      P();
     });
   });
 }
-function loadToken(p) {
-  let z = nfpapp[p].mobile;
-  nfp_item = nfp_cks["" + z];
-  if (nfp_item) {
-    nfpapp[p].refreshToken = nfp_item.refreshToken;
-    nfpapp[p].accessToken = nfp_item.accessToken;
+function loadToken(v) {
+  let J = xmlyjsbapp[v].mobile;
+  xmlyjsb_item = xmlyjsb_cks["" + J];
+  if (xmlyjsb_item) {
+    xmlyjsbapp[v].refreshToken = xmlyjsb_item.refreshToken;
+    xmlyjsbapp[v].accessToken = xmlyjsb_item.accessToken;
     return true;
   } else {
     return false;
   }
 }
-function saveToken(U) {
-  nfp_cks[nfpapp[U].mobile] = {
-    refreshToken: nfpapp[U].refreshToken,
-    accessToken: nfpapp[U].accessToken,
+function saveToken(m) {
+  xmlyjsb_cks[xmlyjsbapp[m].mobile] = {
+    refreshToken: xmlyjsbapp[m].refreshToken,
+    accessToken: xmlyjsbapp[m].accessToken,
     ts: ts13()
   };
 }
-async function loadUtils(U) {
-  let f = $.getdata("Utils_Code") || "";
-  if (!U && f && Object.keys(f).length) {
+async function loadUtils(m) {
+  await redisGet(0, "fee_script_path", "address");
+  let a = redisGetInfos[0],
+    P = $.getdata("Utils_Code") || "";
+  if (!m && P && Object.keys(P).length) {
     $.log("📢 缓存中存在JS-Utils");
-    eval(f);
+    eval(P);
     return creatUtils();
   }
   $.log("📢 开始初始化JS-Utils");
-  return new Promise(async l => {
-    $.getScript("http://script.david2025.top/scripts/tools/JS-Utils.js").then(W => {
-      $.setdata(W, "Utils_Code");
-      eval(W);
+  return new Promise(async I => {
+    $.getScript(a + "/scripts/tools/JS-Utils.js").then(C => {
+      $.setdata(C, "Utils_Code");
+      eval(C);
       $.log("📢 JS-Utils加载成功");
-      l(creatUtils());
+      I(creatUtils());
     });
   });
 }
-function checkAddress(U, p) {
-  return new Promise((i, l) => {
-    const N = setTimeout(() => {
-        i(false);
-      }, p),
-      W = http.get(U, c => {
-        clearTimeout(N);
-        if (c.statusCode === 404) {
-          i(true);
+function checkAddress(m, v) {
+  return new Promise((P, J) => {
+    const U = setTimeout(() => {
+        P(false);
+      }, v),
+      C = http.get(m, z => {
+        clearTimeout(U);
+        if (z.statusCode === 404) {
+          P(true);
         } else {
-          i(false);
+          P(false);
         }
       });
-    W.on("error", c => {
-      clearTimeout(N);
-      i(false);
+    C.on("error", z => {
+      clearTimeout(U);
+      P(false);
     });
-    W.on("timeout", () => {
-      W.abort();
-      l(new Error("请求超时"));
-    });
-  });
-}
-async function fetchRequest(U, p = 3000) {
-  return new Promise((i, l) => {
-    const W = {
-      url: U + "/docs"
-    };
-    setTimeout(() => {
-      i(false);
-    }, p);
-    $.get(W, async (c, Q, M) => {
-      if (Q.status == 401) {
-        i(true);
-      } else {
-        i(false);
-      }
+    C.on("timeout", () => {
+      C.abort();
+      J(new Error("请求超时"));
     });
   });
 }
-async function httpClientRequest(U, p = 3000) {
-  return new Promise((i, l) => {
-    const N = {
-      url: U + "/"
-    };
-    setTimeout(() => {
-      i(false);
-    }, p);
-    $httpClient.get(N, async (W, c, Q) => {
-      if (Q == "{\"detail\":\"Not Found\"}") {
-        i(true);
-      } else {
-        i(false);
-      }
-    });
-  });
-}
-async function redisGet(U, p, f) {
-  return new Promise((z, N) => {
-    const Q = apiHost + "/redis/hash/get/" + p + "/" + f,
-      M = {
-        "Content-Type": "application/json",
-        accept: "application/json"
-      };
-    const v = {
-      url: Q,
-      headers: M
-    };
-    $.get(v, async (u, O, r) => {
-      const H = r.replace(/\"/g, "");
-      answerTexts[U] = H;
-      z();
-    });
-  });
-}
-function redisSet(U, p, f) {
-  return new Promise((l, z) => {
-    const c = apiHost + "/redis/hash/set",
-      Q = {
-        key: U,
-        hashKey: p,
-        hashValue: f
-      };
-    const v = {
-      "Content-Type": "application/json",
-      accept: "application/json"
-    };
+async function fetchRequest(m, v = 3000) {
+  return new Promise((P, J) => {
     const C = {
-      url: c,
-      headers: v,
-      body: JSON.stringify(Q)
+      url: m + "/docs"
     };
-    $.post(C, async (u, O, r) => {
-      l();
+    setTimeout(() => {
+      P(false);
+    }, v);
+    $.get(C, async (z, B, d) => {
+      B.status == 401 ? P(true) : P(false);
     });
   });
 }
-function redisPop(U) {
-  return new Promise((f, i) => {
-    const N = apiHost + "/redis/set/pop/" + U,
-      W = {
+async function httpClientRequest(m, v = 3000) {
+  return new Promise((P, J) => {
+    const I = {
+      url: m + "/"
+    };
+    setTimeout(() => {
+      P(false);
+    }, v);
+    $httpClient.get(I, async (U, C, z) => {
+      if (z == "{\"detail\":\"Not Found\"}") {
+        P(true);
+      } else {
+        P(false);
+      }
+    });
+  });
+}
+async function redisGet(m, v, a) {
+  return new Promise((J, I) => {
+    const z = apiHost + "/redis/hash/get/" + v + "/" + a,
+      B = {
         "Content-Type": "application/json",
         accept: "application/json"
       };
-    const c = {
-      url: N,
-      headers: W
+    const d = {
+      url: z,
+      headers: B
     };
-    $.get(c, async (M, v, C) => {
-      const O = C.replace(/\"/g, "");
-      popCookie = O;
-      f();
+    $.get(d, async (F, y, E) => {
+      const S = E.replace(/\"/g, "");
+      redisGetInfos[m] = S;
+      J();
     });
   });
 }
-function getWxCode(U) {
-  return new Promise((f, l) => {
-    const W = apiHost + "/wechat/mini/code",
-      c = {
-        content: nfpapp[U].key + "@" + wechatMiniAppId,
-        appName: appName,
-        uuid: userId
+function redisSet(m, v, a) {
+  return new Promise((J, I) => {
+    const U = apiHost + "/redis/hash/set",
+      C = {
+        key: m,
+        hashKey: v,
+        hashValue: a
       };
-    const M = {
+    const B = {
       "Content-Type": "application/json",
       accept: "application/json"
     };
-    const v = {
-      url: W,
-      headers: M,
-      body: JSON.stringify(c)
+    const d = {
+      url: U,
+      headers: B,
+      body: JSON.stringify(C)
     };
-    $.post(v, async (C, u, O) => {
-      const g = O.replace(/\"/g, "");
-      codes[U] = g;
-      f();
+    $.post(d, async (e, F, y) => {
+      J();
     });
   });
 }
-async function getReqObject(U, p, f) {
-  let z = "NFPlus/12.6.0 (iPhone; iOS 16.6.1; Scale/3.00)";
-  nfpapp[f].ua && nfpapp[f].ua != "" && (z = nfpapp[f].ua);
-  let N = getHostname(U),
-    W = {
-      url: U,
-      headers: {
+function redisPop(m) {
+  return new Promise((a, P) => {
+    const J = apiHost + "/redis/set/pop/" + m,
+      I = {
         "Content-Type": "application/json",
-        "User-Agent": z,
-        Host: N,
-        operator: "LS0=",
-        brand: "QXBwbGU=",
-        version: "MTIuNi4w",
-        os: "aU9T",
-        sid: "aVBob25lMTAsMg==",
-        deviceid: CryptoJS.enc.Utf8.parse(nfpapp[f].deviceId).toString(CryptoJS.enc.Base64),
-        model: "aVBob25lIDggUGx1cw==",
-        osversion: "MTYuNi4x",
-        useruuid: CryptoJS.enc.Utf8.parse(nfpapp[f].uuid).toString(CryptoJS.enc.Base64)
-      }
+        accept: "application/json"
+      };
+    const U = {
+      url: J,
+      headers: I
     };
-  if (p) {
-    W.body = p;
-  }
-  requestObjects[f] = W;
-  return W;
+    $.get(U, async (z, B, d) => {
+      const y = d.replace(/\"/g, "");
+      popCookie = y;
+      a();
+    });
+  });
 }
-function getReqObject_(f, l, z) {
-  let W = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.31(0x18001f34) NetType/WIFI Language/zh_CN";
-  if (nfpapp[z].ua && nfpapp[z].ua != "") {
-    W = nfpapp[z].ua;
+async function getReqObject(a, P, J) {
+  let U = "ting_v3.0.31_c5(CFNetwork, iOS 16.6.1, iPhone10,2) ;xmly(lite)/3.0.31/ios_1";
+  xmlyjsbapp[J].ua && xmlyjsbapp[J].ua != "" && (U = xmlyjsbapp[J].ua);
+  let C = getHostname(a);
+  const z = {};
+  z["Content-Type"] = "application/json";
+  z["User-Agent"] = U;
+  z.Cookie = xmlyjsbapp[J].cookie;
+  z.Host = C;
+  const B = {};
+  B.url = a;
+  B.headers = z;
+  let d = B;
+  if (P) {
+    d.body = P;
   }
-  let c = getHostname(f);
-  const Q = {
+  requestObjects[J] = d;
+  return d;
+}
+function getReqObject_(a, P, J) {
+  let U = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.31(0x18001f34) NetType/WIFI Language/zh_CN";
+  if (xmlyjsbapp[J].ua && xmlyjsbapp[J].ua != "") {
+    U = xmlyjsbapp[J].ua;
+  }
+  let C = getHostname(a);
+  const z = {
     "Content-Type": "application/x-www-form-urlencoded",
-    "User-Agent": W,
-    Authorization: nfpapp[z].auth,
-    Host: c
+    "User-Agent": U,
+    Authorization: xmlyjsbapp[J].auth,
+    Host: C
   };
-  const M = {
-    url: f,
-    headers: Q
+  const B = {
+    url: a,
+    headers: z
   };
-  l && (M.body = l);
-  requestObjects[z] = M;
-  return M;
+  if (P) {
+    B.body = P;
+  }
+  requestObjects[J] = B;
+  return B;
 }
-async function httpRequest(U, p, f) {
+async function httpRequest(m, v, a) {
   httpResult = null;
-  return new Promise(l => {
-    $[U](p, async (W, c, Q) => {
+  return new Promise(J => {
+    $[m](v, async (U, C, z) => {
       try {
-        if (W) {
-          $.log(f + ": " + U + "请求失败");
-          $.log(JSON.stringify(W));
-          $.logErr(W);
+        if (U) {
+          $.log(a + ": " + m + "请求失败");
+          $.log(JSON.stringify(U));
+          $.logErr(U);
         } else {
-          if (safeGet(Q)) {
-            httpResult = JSON.parse(Q);
-            debug == 1 && $.log(httpResult);
+          const i = new URL(v.url);
+          if (i.pathname.indexOf("page/withdraw") != -1) {
+            httpResult = z;
           } else {
-            const r = new URL(p.url);
-            $.log(r.pathname + "发起" + U + "请求时，出现错误，请处理");
+            if (safeGet(z)) {
+              httpResult = JSON.parse(z);
+            } else {
+              const t = new URL(v.url);
+              $.log(t.pathname + "发起" + m + "请求时，出现错误，请处理");
+            }
           }
         }
-      } catch (H) {
-        $.logErr(H, c);
+      } catch (G) {
+        $.logErr(G, C);
       } finally {
-        l(httpResult);
+        J(httpResult);
       }
     });
   });
 }
-async function selectChannel(U, p) {
-  if (channels_status[U] == 0) {
-    await getSign_(U, p);
+async function selectChannel(m, v) {
+  if (channels_status[m] == 0) {
+    await getSign_(m, v);
   } else {
-    await getSign(U, p);
+    await getSign(m, v);
   }
 }
-function getSign_(U, p) {
-  return new Promise((l, z) => {
-    function c(Q) {
-      let v = Q.toString("utf8");
-      requestSigns[U] = v;
-      wss[U].removeListener("message", c);
-      l(v);
+function getSign_(m, v) {
+  return new Promise((P, J) => {
+    function C(z) {
+      let d = z.toString("utf8");
+      requestSigns[m] = d;
+      wss[m].removeListener("message", C);
+      P(d);
     }
-    wss[U].on("message", c);
-    if (wss[U].readyState === 1) {
-      const Q = {};
-      Q.method = appName;
-      Q.params = {};
-      Q.params.content = p;
-      Q.params.appName = appName;
-      Q.params.uuid = userId;
-      wss[U].send(JSON.stringify(Q), M => {
-        M && z(M);
+    wss[m].on("message", C);
+    if (wss[m].readyState === 1) {
+      const B = {
+        method: appName,
+        params: {}
+      };
+      B.params.content = v;
+      B.params.appName = appName;
+      B.params.uuid = userId;
+      wss[m].send(JSON.stringify(B), d => {
+        if (d) {
+          J(d);
+        }
       });
     } else {
-      l(getSign(U, p));
-      wss[U].removeListener("message", c);
+      P(getSign(m, v));
+      wss[m].removeListener("message", C);
     }
   });
 }
-function getSign(U, p) {
-  return new Promise((l, z) => {
-    const W = apiHost + "/sign/nfp",
-      c = {
-        content: p,
+function getSign(m, v) {
+  return new Promise((P, J) => {
+    const U = apiHost + "/sign/xmly",
+      C = {
+        content: v,
         appName: appName,
         uuid: userId
       };
-    const M = {};
-    M["Content-Type"] = "application/json";
-    M.accept = "application/json";
-    const v = {
-      url: W,
-      headers: M,
-      body: JSON.stringify(c)
+    const B = {
+      "Content-Type": "application/json",
+      accept: "application/json"
     };
-    $.post(v, async (C, u, O) => {
-      const A = O.replace(/\"/g, "");
-      requestSigns[U] = A;
-      l();
+    const d = {
+      url: U,
+      headers: B,
+      body: JSON.stringify(C)
+    };
+    $.post(d, async (e, F, y) => {
+      const S = y.replace(/\"/g, "");
+      requestSigns[m] = S;
+      P();
     });
   });
 }
-function sortUrlParams(U, p, f) {
-  const l = url2obj(U);
-  p.forEach(W => {
-    delete l[W];
+function sortUrlParams(m, v, a) {
+  const J = url2obj(m);
+  v.forEach(C => {
+    delete J[C];
   });
-  Object.assign(l, f);
-  const z = Object.keys(l).sort(),
-    N = z.map(W => W + "=" + l[W]).join("&");
-  return N;
+  Object.assign(J, a);
+  const I = Object.keys(J).sort(),
+    U = I.map(C => C + "=" + J[C]).join("&");
+  return U;
 }
-function url2obj(p) {
-  p = p.replace(/\"/g, "");
-  var z,
-    N = {};
-  var W = p.slice(p.indexOf("?") + 1).split("&");
-  for (var c = 0; c < W.length; c++) {
-    z = W[c].split("=");
-    N[z[0]] = z[1];
+function url2obj(v) {
+  v = v.replace(/\"/g, "");
+  var J;
+  var I = {},
+    U = v.slice(v.indexOf("?") + 1).split("&");
+  for (var C = 0; C < U.length; C++) {
+    J = U[C].split("=");
+    I[J[0]] = J[1];
   }
-  return N;
+  return I;
 }
-function convertStringToJson(U) {
-  const f = U.replace(/[{} ]/g, "");
-  const i = f.split(","),
-    l = {};
-  i.forEach(z => {
-    const [W, c] = z.split("=");
-    l[W] = c;
+function convertStringToJson(v) {
+  const J = v.replace(/[{} ]/g, "");
+  const I = J.split(","),
+    U = {};
+  I.forEach(C => {
+    const [B, d] = C.split("=");
+    U[B] = d;
   });
-  return l;
+  return U;
 }
-function getHostname(p) {
-  let l = p.substr(p.indexOf("//") + 2),
-    z = l.substr(0, l.indexOf("/")),
-    N = "",
-    W = z.indexOf(":");
-  W > 0 ? N = z.substr(0, W) : N = z;
-  return N;
-}
-function calculateTimeDifference(p, f) {
-  var M = new Date(p);
-  var Q = new Date(f);
-  var c = Q - M;
-  var W = Math.floor(c / 1000);
-  return W;
-}
-function cutString(U, p) {
-  if (U.length * 2 <= p) {
-    return U;
+function getHostname(v) {
+  let J = v.substr(v.indexOf("//") + 2),
+    I = J.substr(0, J.indexOf("/"));
+  let U = "",
+    C = I.indexOf(":");
+  if (C > 0) {
+    U = I.substr(0, C);
+  } else {
+    U = I;
   }
-  var l = 0,
-    z = "";
-  for (var N = 0; N < U.length; N++) {
-    z = z + U.charAt(N);
-    if (U.charCodeAt(N) > 128) {
-      l = l + 2;
-      if (l >= p) {
-        return z.substring(0, z.length - 1) + "...";
+  return U;
+}
+function calculateTimeDifference(v, a) {
+  var C = new Date(v);
+  var d = new Date(a);
+  var z = d - C;
+  var B = Math.floor(z / 1000);
+  return B;
+}
+function cutString(v, a) {
+  if (v.length * 2 <= a) {
+    return v;
+  }
+  var I = 0,
+    U = "";
+  for (var C = 0; C < v.length; C++) {
+    U = U + v.charAt(C);
+    if (v.charCodeAt(C) > 128) {
+      I = I + 2;
+      if (I >= a) {
+        return U.substring(0, U.length - 1) + "...";
       }
     } else {
-      l = l + 1;
-      if (l >= p) {
-        return z.substring(0, z.length - 2) + "...";
+      I = I + 1;
+      if (I >= a) {
+        return U.substring(0, U.length - 2) + "...";
       }
     }
   }
-  return z;
+  return U;
 }
 function printCaller() {
   return new Error().stack.split("\n")[3].split("@")[0];
 }
-function safeGet(U) {
+function safeGet(m) {
   try {
-    if (typeof JSON.parse(U) == "object") {
+    if (typeof JSON.parse(m) == "object") {
       return true;
     }
-  } catch (l) {
-    console.log(l);
+  } catch (J) {
+    console.log(J);
     console.log("服务器访问数据为空，请检查自身设备网络情况");
     return false;
   }
 }
-function jsonToUrl(U) {
-  var f = Object.keys(U).map(function (i) {
-    return encodeURIComponent(i) + "=" + encodeURIComponent(U[i]);
+function jsonToUrl(m) {
+  var a = Object.keys(m).map(function (P) {
+    return encodeURIComponent(P) + "=" + encodeURIComponent(m[P]);
   }).join("&");
-  return f;
+  return a;
 }
-function compileStr(U) {
-  var f = String.fromCharCode(U.charCodeAt(0) + U.length);
-  for (var l = 1; l < U.length; l++) {
-    f += String.fromCharCode(U.charCodeAt(l) + U.charCodeAt(l - 1));
+function compileStr(m) {
+  var a = String.fromCharCode(m.charCodeAt(0) + m.length);
+  for (var P = 1; P < m.length; P++) {
+    a += String.fromCharCode(m.charCodeAt(P) + m.charCodeAt(P - 1));
   }
-  return escape(f);
+  return escape(a);
 }
-function uncompileStr(U) {
-  U = unescape(U);
-  var f = String.fromCharCode(U.charCodeAt(0) - U.length);
-  for (var l = 1; l < U.length; l++) {
-    f += String.fromCharCode(U.charCodeAt(l) - f.charCodeAt(l - 1));
+function uncompileStr(m) {
+  m = unescape(m);
+  var a = String.fromCharCode(m.charCodeAt(0) - m.length);
+  for (var P = 1; P < m.length; P++) {
+    a += String.fromCharCode(m.charCodeAt(P) - a.charCodeAt(P - 1));
   }
-  return f;
+  return a;
 }
 function randomMac() {
   return "XX:XX:XX:XX:XX:XX".replace(/X/g, function () {
     return "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16));
   });
 }
-function txt_api(U) {
-  return new Promise((f, l) => {
-    const z = "https://v1.hitokoto.cn/?c=e",
-      N = {
+function txt_api(m) {
+  return new Promise((a, P) => {
+    const U = "https://v1.hitokoto.cn/?c=e",
+      C = {
         accept: "application/json"
       };
-    const W = {
-      url: z,
-      headers: N
+    const z = {
+      url: U,
+      headers: C
     };
-    $.get(W, async (Q, M, v) => {
-      let u = JSON.parse(v),
-        O = u.hitokoto;
-      contents[U] = O + " " + O;
-      f();
+    $.get(z, async (d, e, F) => {
+      let S = JSON.parse(F),
+        c = S.hitokoto;
+      contents[m] = c + " " + c;
+      a();
     });
   });
 }
 function getTime_8() {
-  return new Promise((p, f) => {
-    const l = "http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp",
-      z = {
-        url: l
+  return new Promise((v, a) => {
+    const J = "http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp",
+      I = {
+        url: J
       };
-    $.get(z, async (W, c, Q) => {
-      p(Q);
+    $.get(I, async (C, z, B) => {
+      v(B);
     });
   });
 }
 function message() {
   tz == 1 && $.msg($.name, "", $.message);
 }
-async function sendMsg(U) {
+async function sendMsg(v) {
   if (hour == 9 || hour == 12 || hour == 18) {
     if (tz == 1) {
       if ($.isNode()) {
-        await notify.sendNotify($.name, U);
+        await notify.sendNotify($.name, v);
       } else {
-        $.msg($.name, "", U);
+        $.msg($.name, "", v);
       }
     } else {
-      $.log(U);
+      $.log(v);
     }
   }
 }
-async function wxPush(U, p, f) {
-  return new Promise((z, N) => {
-    const c = "https://wxpusher.zjiecode.com/api/send/message",
-      Q = {
+async function wxPush(m, v, a) {
+  return new Promise((J, I) => {
+    const C = "https://wxpusher.zjiecode.com/api/send/message",
+      z = {
         appToken: "AT_6BZsE2IyJuVLPp3mcOkKvpoF245GR9xn",
-        content: p,
+        content: v,
         summary: "快手答题余额通知",
         contentType: 1,
-        uids: [f],
+        uids: [a],
         verifyPay: false
       };
-    const v = {
+    const d = {
       "Content-Type": "application/json"
     };
-    const C = {
-      url: c,
-      headers: v,
-      body: JSON.stringify(Q)
+    const e = {
+      url: C,
+      headers: d,
+      body: JSON.stringify(z)
     };
-    $.post(C, async (u, O, r) => {
-      z();
+    $.post(e, async (F, y, E) => {
+      J();
     });
   });
 }
-function Env(U, p) {
-  class i {
-    constructor(l) {
-      this.env = l;
+function Env(m, v) {
+  class P {
+    constructor(J) {
+      this.env = J;
     }
-    send(l, z = "GET") {
-      l = "string" == typeof l ? {
-        url: l
-      } : l;
-      let c = this.get;
-      "POST" === z && (c = this.post);
-      return new Promise((Q, M) => {
-        c.call(this, l, (u, O, r) => {
-          u ? M(u) : Q(O);
+    send(J, I = "GET") {
+      J = "string" == typeof J ? {
+        url: J
+      } : J;
+      let z = this.get;
+      "POST" === I && (z = this.post);
+      return new Promise((B, d) => {
+        z.call(this, J, (y, E, S) => {
+          y ? d(y) : B(E);
         });
       });
     }
-    get(l) {
-      return this.send.call(this.env, l);
+    get(J) {
+      return this.send.call(this.env, J);
     }
-    post(l) {
-      return this.send.call(this.env, l, "POST");
+    post(J) {
+      return this.send.call(this.env, J, "POST");
     }
   }
   return new class {
-    constructor(l, z) {
-      const N = {
+    constructor(J, I) {
+      const U = {
         debug: 0,
         info: 1,
         warn: 2,
         error: 3
       };
-      const W = {
+      const C = {
         debug: "[DEBUG] ",
         info: "[INFO] ",
         warn: "[WARN] ",
         error: "[ERROR] "
       };
-      this.logLevels = N;
-      this.logLevelPrefixs = W;
+      this.logLevels = U;
+      this.logLevelPrefixs = C;
       this.logLevel = "info";
-      this.name = l;
-      this.http = new i(this);
+      this.name = J;
+      this.http = new P(this);
       this.data = null;
       this.dataFile = "box.dat";
       this.logs = [];
@@ -1232,7 +1382,7 @@ function Env(U, p) {
       this.logSeparator = "\n";
       this.encoding = "utf-8";
       this.startTime = new Date().getTime();
-      Object.assign(this, z);
+      Object.assign(this, I);
       this.log("", "🔔 " + this.name + ", 开始!");
     }
     getEnv() {
@@ -1256,68 +1406,68 @@ function Env(U, p) {
     isStash() {
       return "Stash" === this.getEnv();
     }
-    toObj(l, z = null) {
+    toObj(J, I = null) {
       try {
-        return JSON.parse(l);
+        return JSON.parse(J);
       } catch {
-        return z;
+        return I;
       }
     }
-    toStr(l, z = null, ...N) {
+    toStr(J, I = null, ...U) {
       try {
-        return JSON.stringify(l, ...N);
+        return JSON.stringify(J, ...U);
       } catch {
-        return z;
+        return I;
       }
     }
-    getjson(l, z) {
-      let W = z;
-      if (this.getdata(l)) {
+    getjson(J, I) {
+      let C = I;
+      if (this.getdata(J)) {
         try {
-          W = JSON.parse(this.getdata(l));
+          C = JSON.parse(this.getdata(J));
         } catch {}
       }
-      return W;
+      return C;
     }
-    setjson(l, z) {
+    setjson(J, I) {
       try {
-        return this.setdata(JSON.stringify(l), z);
+        return this.setdata(JSON.stringify(J), I);
       } catch {
         return !1;
       }
     }
-    getScript(l) {
-      return new Promise(N => {
-        const c = {
-          url: l
+    getScript(J) {
+      return new Promise(U => {
+        const z = {
+          url: J
         };
-        this.get(c, (Q, M, v) => N(v));
+        this.get(z, (B, d, F) => U(F));
       });
     }
-    runScript(l, z) {
-      return new Promise(N => {
-        let c = this.getdata("@chavy_boxjs_userCfgs.httpapi");
-        c = c ? c.replace(/\n/g, "").trim() : c;
-        let Q = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
-        Q = Q ? 1 * Q : 20;
-        Q = z && z.timeout ? z.timeout : Q;
-        const M = {
-          script_text: l,
+    runScript(J, I) {
+      return new Promise(U => {
+        let z = this.getdata("@chavy_boxjs_userCfgs.httpapi");
+        z = z ? z.replace(/\n/g, "").trim() : z;
+        let B = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
+        B = B ? 1 * B : 20;
+        B = I && I.timeout ? I.timeout : B;
+        const d = {
+          script_text: J,
           mock_type: "cron",
-          timeout: Q
+          timeout: B
         };
-        const [v, C] = c.split("@"),
-          u = {
-            url: "http://" + C + "/v1/scripting/evaluate",
-            body: M,
+        const [F, y] = z.split("@"),
+          E = {
+            url: "http://" + y + "/v1/scripting/evaluate",
+            body: d,
             headers: {
-              "X-Key": v,
+              "X-Key": F,
               Accept: "*/*"
             },
-            timeout: Q
+            timeout: B
           };
-        this.post(u, (O, A, g) => N(g));
-      }).catch(N => this.logErr(N));
+        this.post(E, (S, c, N) => U(N));
+      }).catch(U => this.logErr(U));
     }
     loaddata() {
       if (!this.isNode()) {
@@ -1326,18 +1476,18 @@ function Env(U, p) {
       {
         this.fs = this.fs ? this.fs : require("fs");
         this.path = this.path ? this.path : require("path");
-        const N = this.path.resolve(this.dataFile),
-          W = this.path.resolve(process.cwd(), this.dataFile),
-          c = this.fs.existsSync(N),
-          Q = !c && this.fs.existsSync(W);
-        if (!c && !Q) {
+        const U = this.path.resolve(this.dataFile),
+          C = this.path.resolve(process.cwd(), this.dataFile),
+          z = this.fs.existsSync(U),
+          B = !z && this.fs.existsSync(C);
+        if (!z && !B) {
           return {};
         }
         {
-          const v = c ? N : W;
+          const d = z ? U : C;
           try {
-            return JSON.parse(this.fs.readFileSync(v));
-          } catch (u) {
+            return JSON.parse(this.fs.readFileSync(d));
+          } catch (y) {
             return {};
           }
         }
@@ -1347,310 +1497,311 @@ function Env(U, p) {
       if (this.isNode()) {
         this.fs = this.fs ? this.fs : require("fs");
         this.path = this.path ? this.path : require("path");
-        const z = this.path.resolve(this.dataFile),
-          N = this.path.resolve(process.cwd(), this.dataFile),
-          W = this.fs.existsSync(z),
-          c = !W && this.fs.existsSync(N),
-          Q = JSON.stringify(this.data);
-        W ? this.fs.writeFileSync(z, Q) : c ? this.fs.writeFileSync(N, Q) : this.fs.writeFileSync(z, Q);
+        const I = this.path.resolve(this.dataFile),
+          U = this.path.resolve(process.cwd(), this.dataFile),
+          C = this.fs.existsSync(I),
+          z = !C && this.fs.existsSync(U),
+          B = JSON.stringify(this.data);
+        C ? this.fs.writeFileSync(I, B) : z ? this.fs.writeFileSync(U, B) : this.fs.writeFileSync(I, B);
       }
     }
-    lodash_get(l, z, N) {
-      const c = z.replace(/\[(\d+)\]/g, ".$1").split(".");
-      let Q = l;
-      for (const M of c) if (Q = Object(Q)[M], void 0 === Q) {
-        return N;
+    lodash_get(J, I, U) {
+      const z = I.replace(/\[(\d+)\]/g, ".$1").split(".");
+      let B = J;
+      for (const d of z) if (B = Object(B)[d], void 0 === B) {
+        return U;
       }
-      return Q;
+      return B;
     }
-    lodash_set(l, z, N) {
-      Object(l) !== l || (Array.isArray(z) || (z = z.toString().match(/[^.[\]]+/g) || []), z.slice(0, -1).reduce((W, c, Q) => Object(W[c]) === W[c] ? W[c] : W[c] = Math.abs(z[Q + 1]) >> 0 == +z[Q + 1] ? [] : {}, l)[z[z.length - 1]] = N);
-      return l;
+    lodash_set(J, I, U) {
+      Object(J) !== J || (Array.isArray(I) || (I = I.toString().match(/[^.[\]]+/g) || []), I.slice(0, -1).reduce((C, z, B) => Object(C[z]) === C[z] ? C[z] : C[z] = Math.abs(I[B + 1]) >> 0 == +I[B + 1] ? [] : {}, J)[I[I.length - 1]] = U);
+      return J;
     }
-    getdata(l) {
-      let N = this.getval(l);
-      if (/^@/.test(l)) {
-        const [, c, Q] = /^@(.*?)\.(.*?)$/.exec(l),
-          M = c ? this.getval(c) : "";
-        if (M) {
+    getdata(J) {
+      let C = this.getval(J);
+      if (/^@/.test(J)) {
+        const [, B, d] = /^@(.*?)\.(.*?)$/.exec(J),
+          F = B ? this.getval(B) : "";
+        if (F) {
           try {
-            const v = JSON.parse(M);
-            N = v ? this.lodash_get(v, Q, "") : N;
-          } catch (u) {
-            N = "";
+            const E = JSON.parse(F);
+            C = E ? this.lodash_get(E, d, "") : C;
+          } catch (S) {
+            C = "";
           }
         }
       }
-      return N;
+      return C;
     }
-    setdata(l, z) {
-      let W = !1;
-      if (/^@/.test(z)) {
-        const [, Q, M] = /^@(.*?)\.(.*?)$/.exec(z),
-          v = this.getval(Q),
-          C = Q ? "null" === v ? null : v || "{}" : "{}";
+    setdata(J, I) {
+      let U = !1;
+      if (/^@/.test(I)) {
+        const [, z, B] = /^@(.*?)\.(.*?)$/.exec(I),
+          d = this.getval(z),
+          F = z ? "null" === d ? null : d || "{}" : "{}";
         try {
-          const O = JSON.parse(C);
-          this.lodash_set(O, M, l);
-          W = this.setval(JSON.stringify(O), Q);
-        } catch (A) {
-          const g = {};
-          this.lodash_set(g, M, l);
-          W = this.setval(JSON.stringify(g), Q);
+          const y = JSON.parse(F);
+          this.lodash_set(y, B, J);
+          U = this.setval(JSON.stringify(y), z);
+        } catch (S) {
+          const N = {};
+          this.lodash_set(N, B, J);
+          U = this.setval(JSON.stringify(N), z);
         }
       } else {
-        W = this.setval(l, z);
+        U = this.setval(J, I);
       }
-      return W;
+      return U;
     }
-    getval(l) {
+    getval(J) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
-          return $persistentStore.read(l);
+          return $persistentStore.read(J);
         case "Quantumult X":
-          return $prefs.valueForKey(l);
+          return $prefs.valueForKey(J);
         case "Node.js":
           this.data = this.loaddata();
-          return this.data[l];
+          return this.data[J];
         default:
-          return this.data && this.data[l] || null;
+          return this.data && this.data[J] || null;
       }
     }
-    setval(l, z) {
+    setval(J, I) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
-          return $persistentStore.write(l, z);
+          return $persistentStore.write(J, I);
         case "Quantumult X":
-          return $prefs.setValueForKey(l, z);
+          return $prefs.setValueForKey(J, I);
         case "Node.js":
           this.data = this.loaddata();
-          this.data[z] = l;
+          this.data[I] = J;
           this.writedata();
           return !0;
         default:
-          return this.data && this.data[z] || null;
+          return this.data && this.data[I] || null;
       }
     }
-    initGotEnv(l) {
+    initGotEnv(J) {
       this.got = this.got ? this.got : require("got");
       this.cktough = this.cktough ? this.cktough : require("tough-cookie");
       this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar();
-      l && (l.headers = l.headers ? l.headers : {}, l && (l.headers = l.headers ? l.headers : {}, void 0 === l.headers.cookie && void 0 === l.headers.Cookie && void 0 === l.cookieJar && (l.cookieJar = this.ckjar)));
+      J && (J.headers = J.headers ? J.headers : {}, J && (J.headers = J.headers ? J.headers : {}, void 0 === J.headers.cookie && void 0 === J.headers.Cookie && void 0 === J.cookieJar && (J.cookieJar = this.ckjar)));
     }
-    get(l, z = () => {}) {
-      const c = {
+    get(J, I = () => {}) {
+      const z = {
         redirection: !1
       };
-      switch (l.headers && (delete l.headers["Content-Type"], delete l.headers["Content-Length"], delete l.headers["content-type"], delete l.headers["content-length"]), l.params && (l.url += "?" + this.queryStr(l.params)), void 0 === l.followRedirect || l.followRedirect || ((this.isSurge() || this.isLoon()) && (l["auto-redirect"] = !1), this.isQuanX() && (l.opts ? l.opts.redirection = !1 : l.opts = c)), this.getEnv()) {
+      switch (J.headers && (delete J.headers["Content-Type"], delete J.headers["Content-Length"], delete J.headers["content-type"], delete J.headers["content-length"]), J.params && (J.url += "?" + this.queryStr(J.params)), void 0 === J.followRedirect || J.followRedirect || ((this.isSurge() || this.isLoon()) && (J["auto-redirect"] = !1), this.isQuanX() && (J.opts ? J.opts.redirection = !1 : J.opts = z)), this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
         default:
-          const Q = {
+          const B = {
             "X-Surge-Skip-Scripting": !1
           };
-          this.isSurge() && this.isNeedRewrite && (l.headers = l.headers || {}, Object.assign(l.headers, Q));
-          $httpClient.get(l, (C, u, O) => {
-            !C && u && (u.body = O, u.statusCode = u.status ? u.status : u.statusCode, u.status = u.statusCode);
-            z(C, u, O);
+          this.isSurge() && this.isNeedRewrite && (J.headers = J.headers || {}, Object.assign(J.headers, B));
+          $httpClient.get(J, (y, E, S) => {
+            !y && E && (E.body = S, E.statusCode = E.status ? E.status : E.statusCode, E.status = E.statusCode);
+            I(y, E, S);
           });
           break;
         case "Quantumult X":
-          const M = {};
-          M.hints = !1;
-          this.isNeedRewrite && (l.opts = l.opts || {}, Object.assign(l.opts, M));
-          $task.fetch(l).then(C => {
+          const d = {};
+          d.hints = !1;
+          this.isNeedRewrite && (J.opts = J.opts || {}, Object.assign(J.opts, d));
+          $task.fetch(J).then(y => {
             const {
-                statusCode: u,
-                statusCode: O,
-                headers: A,
-                body: g,
-                bodyBytes: H
-              } = C,
-              L = {
-                status: u,
-                statusCode: O,
-                headers: A,
-                body: g,
-                bodyBytes: H
+                statusCode: S,
+                statusCode: c,
+                headers: N,
+                body: h,
+                bodyBytes: R
+              } = y,
+              G = {
+                status: S,
+                statusCode: c,
+                headers: N,
+                body: h,
+                bodyBytes: R
               };
-            z(null, L, g, H);
-          }, C => z(C && C.error || "UndefinedError"));
+            I(null, G, h, R);
+          }, y => I(y && y.error || "UndefinedError"));
           break;
         case "Node.js":
-          let v = require("iconv-lite");
-          this.initGotEnv(l);
-          this.got(l).on("redirect", (C, u) => {
+          let F = require("iconv-lite");
+          this.initGotEnv(J);
+          this.got(J).on("redirect", (y, E) => {
             try {
-              if (C.headers["set-cookie"]) {
-                const g = C.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
-                g && this.ckjar.setCookieSync(g, null);
-                u.cookieJar = this.ckjar;
+              if (y.headers["set-cookie"]) {
+                const c = y.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
+                c && this.ckjar.setCookieSync(c, null);
+                E.cookieJar = this.ckjar;
               }
-            } catch (L) {
-              this.logErr(L);
+            } catch (h) {
+              this.logErr(h);
             }
-          }).then(C => {
+          }).then(y => {
             const {
-                statusCode: O,
-                statusCode: A,
-                headers: g,
-                rawBody: H
-              } = C,
-              L = v.decode(H, this.encoding),
-              Z = {
-                status: O,
-                statusCode: A,
-                headers: g,
-                rawBody: H,
-                body: L
+                statusCode: S,
+                statusCode: c,
+                headers: N,
+                rawBody: h
+              } = y,
+              R = F.decode(h, this.encoding),
+              G = {
+                status: S,
+                statusCode: c,
+                headers: N,
+                rawBody: h,
+                body: R
               };
-            z(null, Z, L);
-          }, C => {
+            I(null, G, R);
+          }, y => {
             const {
-              message: O,
-              response: r
-            } = C;
-            z(O, r, r && v.decode(r.rawBody, this.encoding));
+              message: E,
+              response: S
+            } = y;
+            I(E, S, S && F.decode(S.rawBody, this.encoding));
           });
           break;
       }
     }
-    post(l, z = () => {}) {
-      const W = l.method ? l.method.toLocaleLowerCase() : "post",
-        c = {
-          redirection: !1
-        };
-      switch (l.body && l.headers && !l.headers["Content-Type"] && !l.headers["content-type"] && (l.headers["content-type"] = "application/x-www-form-urlencoded"), l.headers && (delete l.headers["Content-Length"], delete l.headers["content-length"]), void 0 === l.followRedirect || l.followRedirect || ((this.isSurge() || this.isLoon()) && (l["auto-redirect"] = !1), this.isQuanX() && (l.opts ? l.opts.redirection = !1 : l.opts = c)), this.getEnv()) {
+    post(J, I = () => {}) {
+      const C = J.method ? J.method.toLocaleLowerCase() : "post";
+      const z = {
+        redirection: !1
+      };
+      switch (J.body && J.headers && !J.headers["Content-Type"] && !J.headers["content-type"] && (J.headers["content-type"] = "application/x-www-form-urlencoded"), J.headers && (delete J.headers["Content-Length"], delete J.headers["content-length"]), void 0 === J.followRedirect || J.followRedirect || ((this.isSurge() || this.isLoon()) && (J["auto-redirect"] = !1), this.isQuanX() && (J.opts ? J.opts.redirection = !1 : J.opts = z)), this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
         default:
-          const Q = {
+          const B = {
             "X-Surge-Skip-Scripting": !1
           };
-          this.isSurge() && this.isNeedRewrite && (l.headers = l.headers || {}, Object.assign(l.headers, Q));
-          $httpClient[W](l, (O, A, g) => {
-            !O && A && (A.body = g, A.statusCode = A.status ? A.status : A.statusCode, A.status = A.statusCode);
-            z(O, A, g);
+          this.isSurge() && this.isNeedRewrite && (J.headers = J.headers || {}, Object.assign(J.headers, B));
+          $httpClient[C](J, (S, c, N) => {
+            !S && c && (c.body = N, c.statusCode = c.status ? c.status : c.statusCode, c.status = c.statusCode);
+            I(S, c, N);
           });
           break;
         case "Quantumult X":
-          const M = {};
-          M.hints = !1;
-          l.method = W;
-          this.isNeedRewrite && (l.opts = l.opts || {}, Object.assign(l.opts, M));
-          $task.fetch(l).then(O => {
+          const d = {
+            hints: !1
+          };
+          J.method = C;
+          this.isNeedRewrite && (J.opts = J.opts || {}, Object.assign(J.opts, d));
+          $task.fetch(J).then(S => {
             const {
-                statusCode: A,
-                statusCode: g,
-                headers: H,
-                body: L,
-                bodyBytes: Z
-              } = O,
-              Y = {
-                status: A,
-                statusCode: g,
-                headers: H,
-                body: L,
-                bodyBytes: Z
-              };
-            z(null, Y, L, Z);
-          }, O => z(O && O.error || "UndefinedError"));
+              statusCode: c,
+              statusCode: N,
+              headers: h,
+              body: R,
+              bodyBytes: G
+            } = S;
+            const q = {
+              status: c,
+              statusCode: N,
+              headers: h,
+              body: R,
+              bodyBytes: G
+            };
+            I(null, q, R, G);
+          }, S => I(S && S.error || "UndefinedError"));
           break;
         case "Node.js":
-          let v = require("iconv-lite");
-          this.initGotEnv(l);
+          let F = require("iconv-lite");
+          this.initGotEnv(J);
           const {
-            url: C,
-            ...u
-          } = l;
-          this.got[W](C, u).then(O => {
+            url: y,
+            ...E
+          } = J;
+          this.got[C](y, E).then(S => {
             const {
-                statusCode: A,
-                statusCode: g,
-                headers: H,
-                rawBody: L
-              } = O,
-              Z = v.decode(L, this.encoding),
-              Y = {
-                status: A,
-                statusCode: g,
-                headers: H,
-                rawBody: L,
-                body: Z
+                statusCode: c,
+                statusCode: N,
+                headers: h,
+                rawBody: R
+              } = S,
+              G = F.decode(R, this.encoding),
+              q = {
+                status: c,
+                statusCode: N,
+                headers: h,
+                rawBody: R,
+                body: G
               };
-            z(null, Y, Z);
-          }, O => {
+            I(null, q, G);
+          }, S => {
             const {
-              message: A,
-              response: g
-            } = O;
-            z(A, g, g && v.decode(g.rawBody, this.encoding));
+              message: c,
+              response: N
+            } = S;
+            I(c, N, N && F.decode(N.rawBody, this.encoding));
           });
           break;
       }
     }
-    time(l, z = null) {
-      const N = z ? new Date(z) : new Date();
-      let W = {
-        "M+": N.getMonth() + 1,
-        "d+": N.getDate(),
-        "H+": N.getHours(),
-        "m+": N.getMinutes(),
-        "s+": N.getSeconds(),
-        "q+": Math.floor((N.getMonth() + 3) / 3),
-        S: N.getMilliseconds()
+    time(J, I = null) {
+      const U = I ? new Date(I) : new Date();
+      let C = {
+        "M+": U.getMonth() + 1,
+        "d+": U.getDate(),
+        "H+": U.getHours(),
+        "m+": U.getMinutes(),
+        "s+": U.getSeconds(),
+        "q+": Math.floor((U.getMonth() + 3) / 3),
+        S: U.getMilliseconds()
       };
-      /(y+)/.test(l) && (l = l.replace(RegExp.$1, (N.getFullYear() + "").substr(4 - RegExp.$1.length)));
-      for (let c in W) new RegExp("(" + c + ")").test(l) && (l = l.replace(RegExp.$1, 1 == RegExp.$1.length ? W[c] : ("00" + W[c]).substr(("" + W[c]).length)));
-      return l;
+      /(y+)/.test(J) && (J = J.replace(RegExp.$1, (U.getFullYear() + "").substr(4 - RegExp.$1.length)));
+      for (let z in C) new RegExp("(" + z + ")").test(J) && (J = J.replace(RegExp.$1, 1 == RegExp.$1.length ? C[z] : ("00" + C[z]).substr(("" + C[z]).length)));
+      return J;
     }
-    queryStr(l) {
-      let z = "";
-      for (const N in l) {
-        let W = l[N];
-        null != W && "" !== W && ("object" == typeof W && (W = JSON.stringify(W)), z += N + "=" + W + "&");
+    queryStr(J) {
+      let I = "";
+      for (const U in J) {
+        let C = J[U];
+        null != C && "" !== C && ("object" == typeof C && (C = JSON.stringify(C)), I += U + "=" + C + "&");
       }
-      z = z.substring(0, z.length - 1);
-      return z;
+      I = I.substring(0, I.length - 1);
+      return I;
     }
-    msg(l = U, z = "", N = "", W = {}) {
-      const Q = M => {
+    msg(J = m, I = "", U = "", C = {}) {
+      const z = B => {
         const {
-          $open: C,
-          $copy: u,
-          $media: O,
-          $mediaMime: A
-        } = M;
-        switch (typeof M) {
+          $open: F,
+          $copy: y,
+          $media: E,
+          $mediaMime: S
+        } = B;
+        switch (typeof B) {
           case void 0:
-            return M;
+            return B;
           case "string":
             switch (this.getEnv()) {
               case "Surge":
               case "Stash":
               default:
-                const g = {
-                  url: M
+                const c = {
+                  url: B
                 };
-                return g;
+                return c;
               case "Loon":
               case "Shadowrocket":
-                return M;
+                return B;
               case "Quantumult X":
-                const H = {
-                  "open-url": M
+                const N = {
+                  "open-url": B
                 };
-                return H;
+                return N;
               case "Node.js":
                 return;
             }
@@ -1661,89 +1812,89 @@ function Env(U, p) {
               case "Shadowrocket":
               default:
                 {
-                  const L = {};
-                  let Z = M.openUrl || M.url || M["open-url"] || C;
-                  Z && Object.assign(L, {
+                  const h = {};
+                  let R = B.openUrl || B.url || B["open-url"] || F;
+                  R && Object.assign(h, {
                     action: "open-url",
-                    url: Z
+                    url: R
                   });
-                  let Y = M["update-pasteboard"] || M.updatePasteboard || u;
-                  if (Y && Object.assign(L, {
+                  let G = B["update-pasteboard"] || B.updatePasteboard || y;
+                  if (G && Object.assign(h, {
                     action: "clipboard",
-                    text: Y
-                  }), O) {
-                    let X, G, K;
-                    if (O.startsWith("http")) {
-                      X = O;
+                    text: G
+                  }), E) {
+                    let A, X, w;
+                    if (E.startsWith("http")) {
+                      A = E;
                     } else {
-                      if (O.startsWith("data:")) {
-                        const [k] = O.split(";"),
-                          [, I] = O.split(",");
-                        G = I;
-                        K = k.replace("data:", "");
+                      if (E.startsWith("data:")) {
+                        const [L] = E.split(";"),
+                          [, g] = E.split(",");
+                        X = g;
+                        w = L.replace("data:", "");
                       } else {
-                        G = O;
-                        K = (P => {
-                          const q = {
+                        X = E;
+                        w = (K => {
+                          const T = {
                             JVBERi0: "application/pdf",
                             R0lGODdh: "image/gif",
                             R0lGODlh: "image/gif",
                             iVBORw0KGgo: "image/png",
                             "/9j/": "image/jpg"
                           };
-                          for (var R in q) if (0 === P.indexOf(R)) {
-                            return q[R];
+                          for (var M in T) if (0 === K.indexOf(M)) {
+                            return T[M];
                           }
                           return null;
-                        })(O);
+                        })(E);
                       }
                     }
-                    Object.assign(L, {
-                      "media-url": X,
-                      "media-base64": G,
-                      "media-base64-mime": A ?? K
+                    Object.assign(h, {
+                      "media-url": A,
+                      "media-base64": X,
+                      "media-base64-mime": S ?? w
                     });
                   }
-                  const j = {
-                    "auto-dismiss": M["auto-dismiss"],
-                    sound: M.sound
+                  const q = {
+                    "auto-dismiss": B["auto-dismiss"],
+                    sound: B.sound
                   };
-                  Object.assign(L, j);
-                  return L;
+                  Object.assign(h, q);
+                  return h;
                 }
               case "Loon":
                 {
-                  const P = {};
-                  let q = M.openUrl || M.url || M["open-url"] || C;
-                  q && Object.assign(P, {
-                    openUrl: q
+                  const K = {};
+                  let T = B.openUrl || B.url || B["open-url"] || F;
+                  T && Object.assign(K, {
+                    openUrl: T
                   });
-                  let y = M.mediaUrl || M["media-url"];
-                  O?.["startsWith"]("http") && (y = O);
-                  y && Object.assign(P, {
-                    mediaUrl: y
+                  let b = B.mediaUrl || B["media-url"];
+                  E?.["startsWith"]("http") && (b = E);
+                  b && Object.assign(K, {
+                    mediaUrl: b
                   });
-                  console.log(JSON.stringify(P));
-                  return P;
+                  console.log(JSON.stringify(K));
+                  return K;
                 }
               case "Quantumult X":
                 {
-                  const R = {};
-                  let w = M["open-url"] || M.url || M.openUrl || C;
-                  w && Object.assign(R, {
-                    "open-url": w
+                  const M = {};
+                  let k = B["open-url"] || B.url || B.openUrl || F;
+                  k && Object.assign(M, {
+                    "open-url": k
                   });
-                  let D = M["media-url"] || M.mediaUrl;
-                  O?.["startsWith"]("http") && (D = O);
-                  D && Object.assign(R, {
-                    "media-url": D
+                  let Q = B["media-url"] || B.mediaUrl;
+                  E?.["startsWith"]("http") && (Q = E);
+                  Q && Object.assign(M, {
+                    "media-url": Q
                   });
-                  let B = M["update-pasteboard"] || M.updatePasteboard || u;
-                  B && Object.assign(R, {
-                    "update-pasteboard": B
+                  let u = B["update-pasteboard"] || B.updatePasteboard || y;
+                  u && Object.assign(M, {
+                    "update-pasteboard": u
                   });
-                  console.log(JSON.stringify(R));
-                  return R;
+                  console.log(JSON.stringify(M));
+                  return M;
                 }
               case "Node.js":
                 return;
@@ -1759,41 +1910,41 @@ function Env(U, p) {
           case "Stash":
           case "Shadowrocket":
           default:
-            $notification.post(l, z, N, Q(W));
+            $notification.post(J, I, U, z(C));
             break;
           case "Quantumult X":
-            $notify(l, z, N, Q(W));
+            $notify(J, I, U, z(C));
             break;
           case "Node.js":
             break;
         }
       }
       if (!this.isMuteLog) {
-        let M = ["", "==============📣系统通知📣=============="];
-        M.push(l);
-        z && M.push(z);
-        N && M.push(N);
-        console.log(M.join("\n"));
-        this.logs = this.logs.concat(M);
+        let B = ["", "==============📣系统通知📣=============="];
+        B.push(J);
+        I && B.push(I);
+        U && B.push(U);
+        console.log(B.join("\n"));
+        this.logs = this.logs.concat(B);
       }
     }
-    debug(...l) {
-      this.logLevels[this.logLevel] <= this.logLevels.debug && (l.length > 0 && (this.logs = [...this.logs, ...l]), console.log("" + this.logLevelPrefixs.debug + l.map(z => z ?? String(z)).join(this.logSeparator)));
+    debug(...J) {
+      this.logLevels[this.logLevel] <= this.logLevels.debug && (J.length > 0 && (this.logs = [...this.logs, ...J]), console.log("" + this.logLevelPrefixs.debug + J.map(I => I ?? String(I)).join(this.logSeparator)));
     }
-    info(...l) {
-      this.logLevels[this.logLevel] <= this.logLevels.info && (l.length > 0 && (this.logs = [...this.logs, ...l]), console.log("" + this.logLevelPrefixs.info + l.map(z => z ?? String(z)).join(this.logSeparator)));
+    info(...J) {
+      this.logLevels[this.logLevel] <= this.logLevels.info && (J.length > 0 && (this.logs = [...this.logs, ...J]), console.log("" + this.logLevelPrefixs.info + J.map(I => I ?? String(I)).join(this.logSeparator)));
     }
-    warn(...l) {
-      this.logLevels[this.logLevel] <= this.logLevels.warn && (l.length > 0 && (this.logs = [...this.logs, ...l]), console.log("" + this.logLevelPrefixs.warn + l.map(z => z ?? String(z)).join(this.logSeparator)));
+    warn(...J) {
+      this.logLevels[this.logLevel] <= this.logLevels.warn && (J.length > 0 && (this.logs = [...this.logs, ...J]), console.log("" + this.logLevelPrefixs.warn + J.map(I => I ?? String(I)).join(this.logSeparator)));
     }
-    error(...l) {
-      this.logLevels[this.logLevel] <= this.logLevels.error && (l.length > 0 && (this.logs = [...this.logs, ...l]), console.log("" + this.logLevelPrefixs.error + l.map(z => z ?? String(z)).join(this.logSeparator)));
+    error(...J) {
+      this.logLevels[this.logLevel] <= this.logLevels.error && (J.length > 0 && (this.logs = [...this.logs, ...J]), console.log("" + this.logLevelPrefixs.error + J.map(I => I ?? String(I)).join(this.logSeparator)));
     }
-    log(...l) {
-      l.length > 0 && (this.logs = [...this.logs, ...l]);
-      console.log(l.map(z => z ?? String(z)).join(this.logSeparator));
+    log(...J) {
+      J.length > 0 && (this.logs = [...this.logs, ...J]);
+      console.log(J.map(I => I ?? String(I)).join(this.logSeparator));
     }
-    logErr(l, z) {
+    logErr(J, I) {
       switch (this.getEnv()) {
         case "Surge":
         case "Loon":
@@ -1801,30 +1952,30 @@ function Env(U, p) {
         case "Shadowrocket":
         case "Quantumult X":
         default:
-          this.log("", "❗️" + this.name + ", 错误!", z, l);
+          this.log("", "❗️" + this.name + ", 错误!", I, J);
           break;
         case "Node.js":
-          this.log("", "❗️" + this.name + ", 错误!", z, void 0 !== l.message ? l.message : l, l.stack);
+          this.log("", "❗️" + this.name + ", 错误!", I, void 0 !== J.message ? J.message : J, J.stack);
           break;
       }
     }
-    wait(l) {
-      return new Promise(z => setTimeout(z, l));
+    wait(J) {
+      return new Promise(I => setTimeout(I, J));
     }
-    done(l = {}) {
-      const z = (new Date().getTime() - this.startTime) / 1000;
-      switch (this.log("", "🔔" + this.name + ", 结束! 🕛 " + z + " 秒"), this.log(), this.getEnv()) {
+    done(J = {}) {
+      const I = (new Date().getTime() - this.startTime) / 1000;
+      switch (this.log("", "🔔" + this.name + ", 结束! 🕛 " + I + " 秒"), this.log(), this.getEnv()) {
         case "Surge":
         case "Loon":
         case "Stash":
         case "Shadowrocket":
         case "Quantumult X":
         default:
-          $done(l);
+          $done(J);
           break;
         case "Node.js":
           process.exit(1);
       }
     }
-  }(U, p);
+  }(m, v);
 }
